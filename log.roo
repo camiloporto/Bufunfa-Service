@@ -1,0 +1,18 @@
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-09-29 21:31:53
+project --topLevelPackage br.com.bufunfa.finance --projectName FinanceService --java 6
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-09-29 21:31:54
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-09-29 21:32:28
+hint
+jpa setup --provider HIBERNATE --database HYPERSONIC_IN_MEMORY --databaseName account --persistenceUnit accountUnit
+hint
+entity --class ~account.modelo.AccountSystem --activeRecord false --serializable --testAutomatically
+repository jpa --interface ~account.repository.AccountServiceRepository --entity ~account.modelo.AccountSystem
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-09-29 21:54:51
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-09-29 22:14:22
+field string --class ~account.modelo.AccountSystem --fieldName name --notNull 
+field number --fieldName rootAccountId --type long --notNull 
+service --interface ~account.service.AccountSystemService --entity ~account.modelo.AccountSystem
+entity --class ~account.modelo.Account --activeRecord false --serializable
+field string --fieldName name --notNull 
+field string --fieldName description
+field number --fieldName fatherId --type long
