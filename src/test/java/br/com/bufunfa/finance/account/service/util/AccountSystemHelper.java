@@ -16,7 +16,6 @@ public class AccountSystemHelper {
 	
 	private AccountSystem accountSystem = new AccountSystem();
 	
-	//FIXME nao esta injetando aqui. corrigir para poder o teste ser verificado
 	@Autowired
 	private AccountRepository accountRepository;
 	
