@@ -17,5 +17,5 @@ public class Account {
 
     private String description;
 
-    private long fatherId;
+    private Long fatherId;
 }

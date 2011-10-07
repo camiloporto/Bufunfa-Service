@@ -16,3 +16,8 @@ entity --class ~account.modelo.Account --activeRecord false --serializable
 field string --fieldName name --notNull 
 field string --fieldName description
 field number --fieldName fatherId --type long
+perform clean 
+perform tests 
+quit
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-10-06 21:24:07
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-10-06 21:24:20

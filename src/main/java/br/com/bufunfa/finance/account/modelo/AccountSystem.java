@@ -17,4 +17,8 @@ public class AccountSystem {
 
     @NotNull
     private long rootAccountId;
+    
+    @NotNull
+    private String userId;
+    
 }

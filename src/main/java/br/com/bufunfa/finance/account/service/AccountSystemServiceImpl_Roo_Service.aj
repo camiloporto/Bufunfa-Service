@@ -40,10 +40,6 @@ privileged aspect AccountSystemServiceImpl_Roo_Service {
         return accountSystemRepository.findAll(new org.springframework.data.domain.PageRequest(firstResult / maxResults, maxResults)).getContent();
     }
     
-    public void AccountSystemServiceImpl.saveAccountSystem(AccountSystem accountSystem) {
-        accountSystemRepository.save(accountSystem);
-    }
-    
     public AccountSystem AccountSystemServiceImpl.updateAccountSystem(AccountSystem accountSystem) {
         return accountSystemRepository.save(accountSystem);
     }
