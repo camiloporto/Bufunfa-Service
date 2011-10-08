@@ -36,12 +36,8 @@ public class AccountSystemServiceImplTest {
 		accountService.saveAccountSystem(sample);
 		AccountSystem saved = accountService.findAccountSystem(sample.getId());
 		
-		
-		
 		Assert.assertNotNull("did not returned valid saved instance", saved);
 		Assert.assertNotNull("did not assigned valid id", saved.getId());
-		
-		
 		serviceTestHelper
 			.verifyInitialAccountSystemState("account system initial state not satisfied", sample);
 	}
@@ -52,16 +48,11 @@ public class AccountSystemServiceImplTest {
 			.createSample(null, "sample")
 			.getAccountSystem();
 		
-		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with null name");
-		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", 
-					e, 
-					expectedTemplateMessage);
-		}
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with null name", 
+				invalid, 
+				expectedTemplateMessage);
 	}
 	
 	@Test
@@ -70,16 +61,11 @@ public class AccountSystemServiceImplTest {
 			.createSample("", "sample")
 			.getAccountSystem();
 		
-		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with empty name");
-		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", 
-					e, 
-					expectedTemplateMessage);
-		}
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with empty name", 
+				invalid, 
+				expectedTemplateMessage);
 	}
 	
 	@Test
@@ -88,16 +74,12 @@ public class AccountSystemServiceImplTest {
 			.createSample("           ", "sample")
 			.getAccountSystem();
 		
-		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with empty name");
-		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", 
-					e, 
-					expectedTemplateMessage);
-		}
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_NAME.required}";
+		
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with empty name", 
+				invalid, 
+				expectedTemplateMessage);
 	}
 	
 	@Test
@@ -105,17 +87,12 @@ public class AccountSystemServiceImplTest {
 		AccountSystem invalid = new AccountSystemHelper()
 			.createSample("AccountSystem Sample", null)
 			.getAccountSystem();
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
 		
-		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with null username");
-		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", 
-					e, 
-					expectedTemplateMessage);
-		}
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with null username", 
+				invalid, 
+				expectedTemplateMessage);
 	}
 	
 	@Test
@@ -123,35 +100,43 @@ public class AccountSystemServiceImplTest {
 		AccountSystem invalid = new AccountSystemHelper()
 			.createSample("AccountSystem Sample", "")
 			.getAccountSystem();
-		
-		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with empty username");
-		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", 
-					e, 
-					expectedTemplateMessage);
-		}
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with empty username", 
+				invalid, 
+				expectedTemplateMessage);
 	}
+	
 	
 	@Test
 	public void testCreateNewAccountSystemWithBlankUserName_shouldThrowsException() {
 		AccountSystem invalid = new AccountSystemHelper()
 			.createSample("AccountSystem Sample", "         ")
 			.getAccountSystem();
+		String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
+		
+		runTestCreateInvalidAccountSystem_shouldThrowsException(
+				"should not save accountSystem with blank username", 
+				invalid, 
+				expectedTemplateMessage);
+		
+	}
+	
+	private void runTestCreateInvalidAccountSystem_shouldThrowsException(
+			String failMessage, AccountSystem invalidAccountSystem, String...expectedTemplateErrorMessages) {
 		
 		try {
-			accountService.saveAccountSystem(invalid);
-			Assert.fail("should not save accountSystem with blank username");
+			accountService.saveAccountSystem(invalidAccountSystem);
+			Assert.fail(failMessage);
 		} catch (ConstraintViolationException e) {
-			String expectedTemplateMessage = "{br.com.bufunfa.finance.service.AccountSystemService.ACCOUNT_SYSTEM_USER.required}";
 			exceptionHelper.verifyTemplateErrorMessagesIn(
 					"did not throws the correct template error message", 
 					e, 
-					expectedTemplateMessage);
+					expectedTemplateErrorMessages);
 		}
+		
 	}
+	
+	//TODO refatorar testes: separar logica comum em metodo: parameterized test
 
 }

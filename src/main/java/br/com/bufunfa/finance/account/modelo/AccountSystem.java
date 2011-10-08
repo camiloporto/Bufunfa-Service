@@ -28,12 +28,12 @@ public class AccountSystem {
     
     @PrePersist
     private void trimStrings() {
-    	if(name != null) {
-    		name = name.trim();
-    	}
-    	if(userId != null) {
-    		userId = userId.trim();
-    	}
+    	name = trimStringIfNotNull(name);
+    	userId = trimStringIfNotNull(userId);
+    }
+    
+    private String trimStringIfNotNull(String s) {
+    	return s != null ? s.trim() : s;
     }
     
 }
