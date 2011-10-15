@@ -11,6 +11,9 @@ import br.com.bufunfa.finance.account.modelo.AccountSystem;
 		})
 public interface AccountSystemService {
 
+	Account findIncomeAccount(AccountSystem sample);
+	
+
 //	void saveAccount(Account newAccount);
 
 //	AccountSystem insert(AccountSystem sample);

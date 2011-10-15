@@ -49,6 +49,26 @@ public class AccountSystemServiceImplTest {
 	}
 	
 	@Test
+//	@Ignore
+	public void testGetIncomeAccount_shouldSuccess() {
+
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+		accountService.saveAccountSystem(sample);
+
+		Account income = accountService.findIncomeAccount(sample);
+
+		Assert.assertNotNull("should not return null income account", income);
+		Assert.assertEquals("income fatherId != accountSystem root account id",
+				sample.getRootAccountId(), income.getFatherId().longValue());
+		Assert.assertEquals("income name != expected",
+				"br.com.bufunfa.finance.modelo.account.INCOME_ACCOUNT_NAME",
+				income.getName());
+
+	}
+
+	
+	@Test
 	public void testCreateNewAccountSystemWithNullName_shouldThrowsException() {
 		AccountSystem invalid = new AccountSystemHelper()
 			.createSample(null, "sample")

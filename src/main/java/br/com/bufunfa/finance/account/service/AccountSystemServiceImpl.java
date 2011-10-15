@@ -57,4 +57,11 @@ public class AccountSystemServiceImpl implements AccountSystemService {
 		
 		return a;
 	}
+	
+	public Account findIncomeAccount(AccountSystem accountSystem) {
+		Account a = accountRepository.findByFatherIdAndName(
+				accountSystem.getRootAccountId(), Account.INCOME_NAME);
+
+		return a;
+	}
 }
