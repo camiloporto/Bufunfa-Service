@@ -5,12 +5,15 @@ import javax.validation.ConstraintViolationException;
 
 import junit.framework.Assert;
 
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 
@@ -23,6 +26,9 @@ public class AccountSystemServiceImplTest {
 	
 	@Resource(name="accountSystemServiceHelper")
 	private AccountSystemHelper serviceTestHelper;
+	
+	@Resource(name="accountHelper")
+    private AccountHelper accountTestHelper;
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
@@ -136,6 +142,26 @@ public class AccountSystemServiceImplTest {
 		}
 		
 	}
+	
+	@Test
+	public void testAddAccount_shouldSuccess() {
+		
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+
+		accountService.saveAccountSystem(sample);
+		AccountSystem saved = accountService.findAccountSystem(sample.getId());
+		Account income = accountTestHelper.findIncomeOf(saved);
+		Account newAccount = accountTestHelper.createSample("Salario",
+				income.getId()).getAccount();
+		
+		accountService.saveAccount(newAccount);
+		
+		Assert.assertNotNull("did not assigned an id", newAccount.getId());
+		Assert.assertEquals("fatherId not verified", income.getId(),
+				newAccount.getFatherId());
+	}
+
 	
 	//TODO refatorar testes: separar logica comum em metodo: parameterized test
 

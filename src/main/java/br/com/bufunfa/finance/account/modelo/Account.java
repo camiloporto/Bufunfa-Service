@@ -12,10 +12,13 @@ import org.springframework.roo.addon.tostring.RooToString;
 @RooSerializable
 public class Account {
 
+	public final static String INCOME_NAME = "br.com.bufunfa.finance.modelo.account.INCOME_ACCOUNT_NAME";
+	
     @NotNull
     private String name;
 
     private String description;
 
+  //TODO deve ser obrigatorio, exceto a root conta que eh transparente para o usuario
     private Long fatherId;
 }

@@ -9,9 +9,7 @@
 	</bean>
 	
 	<!-- Beans Helper dos Testes -->
-	
-	
-	<bean id="accountSystemServiceHelper" class="br.com.bufunfa.finance.account.service.util.AccountSystemHelper">
-	</bean>
+	<bean id="accountSystemServiceHelper" class="br.com.bufunfa.finance.account.service.util.AccountSystemHelper" />
+	<bean id="accountHelper" class="br.com.bufunfa.finance.account.service.util.AccountHelper" />
 
 </beans>

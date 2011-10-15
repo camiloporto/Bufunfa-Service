@@ -3,7 +3,9 @@
 
 package br.com.bufunfa.finance.account.service;
 
+import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.repository.AccountRepository;
 import br.com.bufunfa.finance.account.repository.AccountSystemRepository;
 import java.lang.Long;
 import java.util.List;
@@ -18,7 +20,38 @@ privileged aspect AccountSystemServiceImpl_Roo_Service {
     declare @type: AccountSystemServiceImpl: @Transactional;
     
     @Autowired
+    AccountRepository AccountSystemServiceImpl.accountRepository;
+    
+    @Autowired
     AccountSystemRepository AccountSystemServiceImpl.accountSystemRepository;
+    
+    public long AccountSystemServiceImpl.countAllAccounts() {
+        return accountRepository.count();
+    }
+    
+    public void AccountSystemServiceImpl.deleteAccount(Account account) {
+        accountRepository.delete(account);
+    }
+    
+    public Account AccountSystemServiceImpl.findAccount(Long id) {
+        return accountRepository.findOne(id);
+    }
+    
+    public List<Account> AccountSystemServiceImpl.findAllAccounts() {
+        return accountRepository.findAll();
+    }
+    
+    public List<Account> AccountSystemServiceImpl.findAccountEntries(int firstResult, int maxResults) {
+        return accountRepository.findAll(new org.springframework.data.domain.PageRequest(firstResult / maxResults, maxResults)).getContent();
+    }
+    
+    public void AccountSystemServiceImpl.saveAccount(Account account) {
+        accountRepository.save(account);
+    }
+    
+    public Account AccountSystemServiceImpl.updateAccount(Account account) {
+        return accountRepository.save(account);
+    }
     
     public long AccountSystemServiceImpl.countAllAccountSystems() {
         return accountSystemRepository.count();

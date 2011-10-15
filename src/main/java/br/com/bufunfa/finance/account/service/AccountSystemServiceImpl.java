@@ -11,12 +11,12 @@ import br.com.bufunfa.finance.account.repository.AccountRepository;
 
 public class AccountSystemServiceImpl implements AccountSystemService {
 	
-	@Autowired
-	private AccountRepository accountRepository;
+//	@Autowired
+//	private AccountRepository accountRepository;
 	
-	public void setAccountRepository(AccountRepository accountRepository) {
-		this.accountRepository = accountRepository;
-	}
+//	public void setAccountRepository(AccountRepository accountRepository) {
+//		this.accountRepository = accountRepository;
+//	}
 	
 	public void saveAccountSystem(AccountSystem accountSystem) {
 		accountSystemRepository.save(accountSystem);

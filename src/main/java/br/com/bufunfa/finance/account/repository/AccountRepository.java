@@ -10,5 +10,7 @@ import br.com.bufunfa.finance.account.modelo.Account;
 public interface AccountRepository {
 	
 	List<Account> findByFatherId(Long fatherId);
+	
+	Account findByFatherIdAndName(Long fatherId, String name);
 
 }
