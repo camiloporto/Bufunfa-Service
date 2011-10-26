@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
+import java.lang.Long;
 import java.lang.String;
 
 privileged aspect Account_Roo_JavaBean {
@@ -23,11 +24,11 @@ privileged aspect Account_Roo_JavaBean {
         this.description = description;
     }
     
-    public long Account.getFatherId() {
+    public Long Account.getFatherId() {
         return this.fatherId;
     }
     
-    public void Account.setFatherId(long fatherId) {
+    public void Account.setFatherId(Long fatherId) {
         this.fatherId = fatherId;
     }
     

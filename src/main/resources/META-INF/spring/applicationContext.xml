@@ -66,5 +66,6 @@
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceUnitName" value="accountUnit"/>
         <property name="dataSource" ref="dataSource"/>
+        <property name="persistenceXmlLocation" value="META-INF/persistence-test.xml"/>
     </bean>
 </beans>

@@ -23,4 +23,12 @@ privileged aspect AccountSystem_Roo_JavaBean {
         this.rootAccountId = rootAccountId;
     }
     
+    public String AccountSystem.getUserId() {
+        return this.userId;
+    }
+    
+    public void AccountSystem.setUserId(String userId) {
+        this.userId = userId;
+    }
+    
 }

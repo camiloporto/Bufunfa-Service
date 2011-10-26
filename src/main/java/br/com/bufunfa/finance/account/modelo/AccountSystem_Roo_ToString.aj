@@ -12,6 +12,7 @@ privileged aspect AccountSystem_Roo_ToString {
         sb.append("Id: ").append(getId()).append(", ");
         sb.append("Name: ").append(getName()).append(", ");
         sb.append("RootAccountId: ").append(getRootAccountId()).append(", ");
+        sb.append("UserId: ").append(getUserId()).append(", ");
         sb.append("Version: ").append(getVersion());
         return sb.toString();
     }
