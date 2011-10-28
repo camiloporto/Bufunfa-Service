@@ -83,6 +83,24 @@ public class AccountSystemServiceImplTest {
 				outcome.getName());
 
 	}
+	
+	@Test
+	public void testGetAssetAccount_shouldSuccess() {
+
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+		accountService.saveAccountSystem(sample);
+
+		Account asset = accountService.findAssetAccount(sample);
+
+		Assert.assertNotNull("should not return null asset account", asset);
+		Assert.assertEquals("asset fatherId != accountSystem root account id",
+				sample.getRootAccountId(), asset.getFatherId().longValue());
+		Assert.assertEquals("asset name != expected",
+				"br.com.bufunfa.finance.modelo.account.ASSET_ACCOUNT_NAME",
+				asset.getName());
+
+	}
 
 	
 	@Test
