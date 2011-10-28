@@ -49,7 +49,6 @@ public class AccountSystemServiceImplTest {
 	}
 	
 	@Test
-//	@Ignore
 	public void testGetIncomeAccount_shouldSuccess() {
 
 		AccountSystem sample = serviceTestHelper.createValidSample()
@@ -64,6 +63,24 @@ public class AccountSystemServiceImplTest {
 		Assert.assertEquals("income name != expected",
 				"br.com.bufunfa.finance.modelo.account.INCOME_ACCOUNT_NAME",
 				income.getName());
+
+	}
+	
+	@Test
+	public void testGetOutcomeAccount_shouldSuccess() {
+
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+		accountService.saveAccountSystem(sample);
+
+		Account outcome = accountService.findOutcomeAccount(sample);
+
+		Assert.assertNotNull("should not return null outcome account", outcome);
+		Assert.assertEquals("outcome fatherId != accountSystem root account id",
+				sample.getRootAccountId(), outcome.getFatherId().longValue());
+		Assert.assertEquals("outcome name != expected",
+				"br.com.bufunfa.finance.modelo.account.OUTCOME_ACCOUNT_NAME",
+				outcome.getName());
 
 	}
 
