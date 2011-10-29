@@ -223,7 +223,7 @@ public class AccountSystemServiceImplTest {
 
 		accountService.saveAccountSystem(sample);
 		AccountSystem saved = accountService.findAccountSystem(sample.getId());
-		Account income = accountTestHelper.findIncomeOf(saved);
+		Account income = accountService.findIncomeAccount(saved);
 		Account newAccount = accountTestHelper.createSample("Salario",
 				income.getId()).getAccount();
 		
@@ -232,6 +232,29 @@ public class AccountSystemServiceImplTest {
 		Assert.assertNotNull("did not assigned an id", newAccount.getId());
 		Assert.assertEquals("fatherId not verified", income.getId(),
 				newAccount.getFatherId());
+	}
+	
+	@Test
+	public void testUpdateAccount_shouldSuccess() {
+		
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+
+		accountService.saveAccountSystem(sample);
+		AccountSystem saved = accountService.findAccountSystem(sample.getId());
+		Account income = accountService.findIncomeAccount(saved);
+		Account newAccount = accountTestHelper.createSample("Salario",
+				income.getId()).getAccount();
+		accountService.saveAccount(newAccount);
+		
+		newAccount.setName("NewName");
+		accountService.updateAccount(newAccount);
+		
+		Account updated = accountService.findAccount(newAccount.getId());
+
+		String expectedName = "NewName";
+		Assert.assertEquals("updated name != expected", expectedName,
+				updated.getName());
 	}
 
 	
