@@ -2,6 +2,8 @@ package br.com.bufunfa.finance.account.service.util;
 
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import junit.framework.Assert;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
 
 @Configurable
 public class AccountSystemHelper {
@@ -19,8 +22,18 @@ public class AccountSystemHelper {
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Resource(name="accountService")
+	private AccountSystemService accountService;
+	
 	public void setAccountRepository(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;
+	}
+	
+	public AccountSystem createAndSaveAccountSystemSample() {
+		AccountSystem as = createValidSample()
+			.getAccountSystem();
+		accountService.saveAccountSystem(as);
+		return as;
 	}
 	
 	/**

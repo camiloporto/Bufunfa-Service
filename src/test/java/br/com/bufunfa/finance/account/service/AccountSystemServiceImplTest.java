@@ -235,13 +235,11 @@ public class AccountSystemServiceImplTest {
 	}
 	
 	@Test
-	public void testUpdateAccount_shouldSuccess() {
+	public void testUpdateAccountName_shouldSuccess() {
 		
-		AccountSystem sample = serviceTestHelper.createValidSample()
-				.getAccountSystem();
-
-		accountService.saveAccountSystem(sample);
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
 		AccountSystem saved = accountService.findAccountSystem(sample.getId());
+		
 		Account income = accountService.findIncomeAccount(saved);
 		Account newAccount = accountTestHelper.createSample("Salario",
 				income.getId()).getAccount();
@@ -256,7 +254,8 @@ public class AccountSystemServiceImplTest {
 		Assert.assertEquals("updated name != expected", expectedName,
 				updated.getName());
 	}
-
+	
+	//TODO adicionar teste atualizando conta para nome de uma conta ja existente
 	
 	//TODO refatorar testes: separar logica comum em metodo: parameterized test
 
