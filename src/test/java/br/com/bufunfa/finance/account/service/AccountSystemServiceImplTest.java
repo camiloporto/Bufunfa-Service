@@ -5,7 +5,6 @@ import javax.validation.ConstraintViolationException;
 
 import junit.framework.Assert;
 
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
@@ -99,6 +98,24 @@ public class AccountSystemServiceImplTest {
 		Assert.assertEquals("asset name != expected",
 				"br.com.bufunfa.finance.modelo.account.ASSET_ACCOUNT_NAME",
 				asset.getName());
+
+	}
+	
+	@Test
+	public void testGetLiabilityAccount_shouldSuccess() {
+
+		AccountSystem sample = serviceTestHelper.createValidSample()
+				.getAccountSystem();
+		accountService.saveAccountSystem(sample);
+
+		Account liability = accountService.findLiabilityAccount(sample);
+
+		Assert.assertNotNull("should not return null liability account", liability);
+		Assert.assertEquals("liability fatherId != accountSystem root account id",
+				sample.getRootAccountId(), liability.getFatherId().longValue());
+		Assert.assertEquals("liability name != expected",
+				"br.com.bufunfa.finance.modelo.account.LIABILITY_ACCOUNT_NAME",
+				liability.getName());
 
 	}
 

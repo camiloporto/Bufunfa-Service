@@ -2,11 +2,8 @@ package br.com.bufunfa.finance.account.service;
 
 import java.util.Arrays;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
-import br.com.bufunfa.finance.account.repository.AccountRepository;
 
 
 public class AccountSystemServiceImpl implements AccountSystemService {
@@ -75,6 +72,13 @@ public class AccountSystemServiceImpl implements AccountSystemService {
 	public Account findAssetAccount(AccountSystem accountSystem) {
 		Account a = accountRepository.findByFatherIdAndName(
 				accountSystem.getRootAccountId(), Account.ASSET_NAME);
+
+		return a;
+	}
+	
+	public Account findLiabilityAccount(AccountSystem accountSystem) {
+		Account a = accountRepository.findByFatherIdAndName(
+				accountSystem.getRootAccountId(), Account.LIABILITY_NAME);
 
 		return a;
 	}

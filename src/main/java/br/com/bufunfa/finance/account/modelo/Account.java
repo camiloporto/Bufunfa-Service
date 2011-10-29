@@ -15,6 +15,7 @@ public class Account {
 	public final static String INCOME_NAME = "br.com.bufunfa.finance.modelo.account.INCOME_ACCOUNT_NAME";
 	public final static String OUTCOME_NAME = "br.com.bufunfa.finance.modelo.account.OUTCOME_ACCOUNT_NAME";
 	public final static String ASSET_NAME = "br.com.bufunfa.finance.modelo.account.ASSET_ACCOUNT_NAME";
+	public final static String LIABILITY_NAME = "br.com.bufunfa.finance.modelo.account.LIABILITY_ACCOUNT_NAME";
 	
     @NotNull
     private String name;

@@ -16,6 +16,9 @@ public interface AccountSystemService {
 	Account findOutcomeAccount(AccountSystem sample);
 
 	Account findAssetAccount(AccountSystem sample);
+
+	Account findLiabilityAccount(AccountSystem sample);
+	
 	
 
 //	void saveAccount(Account newAccount);
