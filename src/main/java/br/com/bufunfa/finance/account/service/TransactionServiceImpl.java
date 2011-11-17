@@ -9,6 +9,8 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.service.validation.TransactionParameterValidator;
+import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
 
 
 public class TransactionServiceImpl implements TransactionService {
@@ -22,6 +24,9 @@ public class TransactionServiceImpl implements TransactionService {
 
 	public Transaction saveNewTransaction(Long idOriginAccount,
 			Long idDestAccount, Date date, BigDecimal value, String comment) {
+		
+		validate(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
+		
 		AccountEntry origin = createAccountEntry(idOriginAccount, date, value.negate(), comment);
 		AccountEntry dest = createAccountEntry(idDestAccount, date, value, comment);
 		
@@ -50,6 +55,19 @@ public class TransactionServiceImpl implements TransactionService {
 		ae.setValue(value);
 		
 		return ae;
+	}
+	
+	private TransactionParameters createParametersForSaveTransaction(Long idOriginAccount,
+			Long idDestAccount, Date date, BigDecimal value, String comment) {
+		
+		TransactionParameters t = new TransactionParameters();
+		t.setOriginAccountId(idOriginAccount);
+		
+		return t;
+	}
+	
+	private void validate(TransactionParameters tp) {
+		new TransactionParameterValidator().validateSaveTransaction(tp);
 	}
 	
 }
