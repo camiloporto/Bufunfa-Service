@@ -96,7 +96,7 @@ public class TransactionServiceTest {
 	}
 	
 	@Test
-	public void testSaveTransactionWithNullValueouldThrowsException() {
+	public void testSaveTransactionWithNullValue_shouldThrowsException() {
 		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
 		Account origin = accountService.findIncomeAccount(sample);
 		Account dest = accountService.findOutcomeAccount(sample);
@@ -107,6 +107,27 @@ public class TransactionServiceTest {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.VALUE.required}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with null value", 
+				origin.getId(), 
+				dest.getId(), 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+	}
+	
+	@Test
+	public void testSaveTransactionWithNullDate_shouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account origin = accountService.findIncomeAccount(sample);
+		Account dest = accountService.findOutcomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		
+		String comment = "first year money spent";
+		
+		Date date = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DATE.required}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with null date", 
 				origin.getId(), 
 				dest.getId(), 
 				value, 

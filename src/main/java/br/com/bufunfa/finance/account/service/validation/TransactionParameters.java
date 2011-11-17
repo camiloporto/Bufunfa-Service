@@ -1,6 +1,7 @@
 package br.com.bufunfa.finance.account.service.validation;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.validation.constraints.NotNull;
 
@@ -20,5 +21,9 @@ public class TransactionParameters {
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.VALUE.required}", 
 			groups={SaveTransactionValidationRules.class})
 	private BigDecimal value;
+	
+	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.DATE.required}", 
+			groups={SaveTransactionValidationRules.class})
+	private Date date;
 
 }

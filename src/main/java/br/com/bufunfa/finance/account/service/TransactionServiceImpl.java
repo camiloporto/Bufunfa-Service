@@ -64,6 +64,7 @@ public class TransactionServiceImpl implements TransactionService {
 		t.setOriginAccountId(idOriginAccount);
 		t.setDestAccountId(idDestAccount);
 		t.setValue(value);
+		t.setDate(date);
 		
 		return t;
 	}

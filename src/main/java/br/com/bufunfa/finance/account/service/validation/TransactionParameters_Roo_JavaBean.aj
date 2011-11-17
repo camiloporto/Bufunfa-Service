@@ -5,6 +5,7 @@ package br.com.bufunfa.finance.account.service.validation;
 
 import java.lang.Long;
 import java.math.BigDecimal;
+import java.util.Date;
 
 privileged aspect TransactionParameters_Roo_JavaBean {
     
@@ -30,6 +31,14 @@ privileged aspect TransactionParameters_Roo_JavaBean {
     
     public void TransactionParameters.setValue(BigDecimal value) {
         this.value = value;
+    }
+    
+    public Date TransactionParameters.getDate() {
+        return this.date;
+    }
+    
+    public void TransactionParameters.setDate(Date date) {
+        this.date = date;
     }
     
 }
