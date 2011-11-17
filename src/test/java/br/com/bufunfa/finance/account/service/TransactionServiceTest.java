@@ -75,6 +75,26 @@ public class TransactionServiceTest {
 				expectedTemplateErrorMessage);
 	}
 	
+	@Test
+	public void testSaveTransactionWithNullDestAccount_shouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account origin = accountService.findIncomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Long idDestAccount = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT_ID.required}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with null accountDest Id", 
+				origin.getId(), 
+				idDestAccount, 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+	}
+	
 	private void runTestSaveInvalidTransaction_shouldThrowsException(
 			String failMessage, 
 			Long originAccountId,

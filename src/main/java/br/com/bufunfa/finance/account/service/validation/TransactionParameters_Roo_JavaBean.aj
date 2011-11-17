@@ -15,4 +15,12 @@ privileged aspect TransactionParameters_Roo_JavaBean {
         this.originAccountId = originAccountId;
     }
     
+    public Long TransactionParameters.getDestAccountId() {
+        return this.destAccountId;
+    }
+    
+    public void TransactionParameters.setDestAccountId(Long destAccountId) {
+        this.destAccountId = destAccountId;
+    }
+    
 }
