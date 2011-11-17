@@ -42,13 +42,19 @@ public class TransactionParameters {
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}", 
 			groups={SaveTransactionValidationRules.class})
 	private boolean isOriginAccountPersisted() {
-		return accountRepository.findOne(originAccountId) != null;
+		if(originAccountId != null) {
+			return accountRepository.findOne(originAccountId) != null;
+		}
+		return false;
 	}
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT.notfound}", 
 			groups={SaveTransactionValidationRules.class})
 	private boolean isDestinationAccountPersisted() {
-		return accountRepository.findOne(destAccountId) != null;
+		if(destAccountId != null) {
+			return accountRepository.findOne(destAccountId) != null;
+		}
+		return false;
 	}
 
 }
