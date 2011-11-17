@@ -64,17 +64,36 @@ public class TransactionServiceTest {
 		String comment = "first year money spent";
 		
 		Long idOriginAccount = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT_ID.required}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with null accountOrigin Id", 
+				idOriginAccount, 
+				dest.getId(), 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+	}
+	
+	private void runTestSaveInvalidTransaction_shouldThrowsException(
+			String failMessage, 
+			Long originAccountId,
+			Long destAccountId,
+			BigDecimal value,
+			Date date,
+			String comment,
+			String...expectedTemplateErrorMessages) {
 		try {
 			transactionService.saveNewTransaction(
-					idOriginAccount, 
-					dest.getId(), 
+					originAccountId, 
+					destAccountId, 
 					date, value, comment);
-			Assert.fail("should not save transaction with null origin account id");
+			Assert.fail(failMessage);
 		} catch (ConstraintViolationException e) {
 			exceptionHelper.verifyTemplateErrorMessagesIn(
 					"did not throws the correct template error message", 
 					e, 
-					"{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT_ID.required}");
+					expectedTemplateErrorMessages);
 		}
 	}
 
