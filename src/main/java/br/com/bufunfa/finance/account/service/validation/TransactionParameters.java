@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,8 @@ public class TransactionParameters {
 	private Long destAccountId;
 
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.VALUE.required}", 
+			groups={SaveTransactionValidationRules.class})
+	@Min(value=0, message="{br.com.bufunfa.finance.service.TransactionService.VALUE.negative}", 
 			groups={SaveTransactionValidationRules.class})
 	private BigDecimal value;
 	
