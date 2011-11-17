@@ -3,11 +3,16 @@
 
 package br.com.bufunfa.finance.account.service.validation;
 
+import br.com.bufunfa.finance.account.repository.AccountRepository;
 import java.lang.Long;
 import java.math.BigDecimal;
 import java.util.Date;
 
 privileged aspect TransactionParameters_Roo_JavaBean {
+    
+    public AccountRepository TransactionParameters.getAccountRepository() {
+        return this.accountRepository;
+    }
     
     public Long TransactionParameters.getOriginAccountId() {
         return this.originAccountId;

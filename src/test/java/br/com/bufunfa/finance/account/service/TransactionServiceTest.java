@@ -136,6 +136,46 @@ public class TransactionServiceTest {
 				expectedTemplateErrorMessage);
 	}
 	
+	@Test
+	public void testSaveTransactionWithNonExistentOriginAccount_shouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account dest = accountService.findOutcomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Long nonExistentOriginAccountId = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with nonexistent origin account", 
+				nonExistentOriginAccountId, 
+				dest.getId(), 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+	}
+	
+	@Test
+	public void testSaveTransactionWithNonExistentDestAccount_shouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account origin = accountService.findIncomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Long nonExistentDestAccountId = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT.notfound}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with nonexistent destination account", 
+				origin.getId(),
+				nonExistentDestAccountId,
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+	}
+	
 	private void runTestSaveInvalidTransaction_shouldThrowsException(
 			String failMessage, 
 			Long originAccountId,
