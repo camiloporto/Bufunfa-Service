@@ -4,6 +4,7 @@
 package br.com.bufunfa.finance.account.service.validation;
 
 import java.lang.Long;
+import java.math.BigDecimal;
 
 privileged aspect TransactionParameters_Roo_JavaBean {
     
@@ -21,6 +22,14 @@ privileged aspect TransactionParameters_Roo_JavaBean {
     
     public void TransactionParameters.setDestAccountId(Long destAccountId) {
         this.destAccountId = destAccountId;
+    }
+    
+    public BigDecimal TransactionParameters.getValue() {
+        return this.value;
+    }
+    
+    public void TransactionParameters.setValue(BigDecimal value) {
+        this.value = value;
     }
     
 }

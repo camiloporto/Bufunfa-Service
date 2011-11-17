@@ -63,6 +63,7 @@ public class TransactionServiceImpl implements TransactionService {
 		TransactionParameters t = new TransactionParameters();
 		t.setOriginAccountId(idOriginAccount);
 		t.setDestAccountId(idDestAccount);
+		t.setValue(value);
 		
 		return t;
 	}
