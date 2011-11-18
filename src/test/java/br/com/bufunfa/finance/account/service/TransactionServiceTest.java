@@ -325,6 +325,29 @@ public class TransactionServiceTest {
 		
 	}
 	
+	@Test
+	public void testUpdateTransactionToNonexistentDestAccount_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+			
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		Long newDestAccountId = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT.notfound}";
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction to nonexistent dest account", 
+				saved.getId(),
+				saved.getOriginAccountEntry().getAccount().getId(),
+				newDestAccountId, 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,
