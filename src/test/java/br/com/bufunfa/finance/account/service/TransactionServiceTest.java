@@ -395,6 +395,28 @@ public class TransactionServiceTest {
 		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
 		Transaction saved = saveSampleTransaction(accountSystem);
 		BigDecimal newValue = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}";
+		Long transactionId = null;
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction to with null id", 
+				transactionId,
+				saved.getOriginAccountEntry().getAccount().getId(),
+				saved.getDestAccountEntry().getAccount().getId(),
+				newValue, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
+	@Test
+	public void testUpdateTransactionPassingNullTransactionId_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal newValue = new BigDecimal("100.00");
 		Date newDate = null;
 		String comment = "first year money spent";
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DATE.required}";

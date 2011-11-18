@@ -9,8 +9,10 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.service.validation.SaveTransactionValidationRules;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameterValidator;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
+import br.com.bufunfa.finance.account.service.validation.UpdateTransactionValidationRules;
 
 
 public class TransactionServiceImpl implements TransactionService {
@@ -25,7 +27,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public Transaction saveNewTransaction(Long idOriginAccount,
 			Long idDestAccount, Date date, BigDecimal value, String comment) {
 		
-		validate(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
+		validateSaveTransaction(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
 		
 		AccountEntry origin = createAccountEntry(idOriginAccount, date, value.negate(), comment);
 		AccountEntry dest = createAccountEntry(idDestAccount, date, value, comment);
@@ -40,7 +42,10 @@ public class TransactionServiceImpl implements TransactionService {
 			Long idTransaction, Long idOriginAccount, Long idDestAccount, Date date,
 			BigDecimal value, String comment) {
 		
-		validate(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
+		validateUpdateTransaction(
+				createParametersForUpdateTransaction(
+						idTransaction, idOriginAccount, idDestAccount, date, value, comment
+						));
 		
 		Transaction toUpdate = transactionRepository.findOne(idTransaction);
 		AccountEntry originToUpdate = toUpdate.getOriginAccountEntry();
@@ -57,6 +62,14 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	
+	private TransactionParameters createParametersForUpdateTransaction(
+			Long idTransaction, Long idOriginAccount, Long idDestAccount,
+			Date date, BigDecimal value, String comment) {
+		TransactionParameters t = createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment);
+		t.setTransactionId(idTransaction);
+		return t;
+	}
+
 	private AccountEntry updateAccountEntry(AccountEntry toUpdate,
 			Long idAccount, Date date, BigDecimal value, String comment) {
 		Account account = accountRepository.findOne(idAccount);
@@ -101,8 +114,12 @@ public class TransactionServiceImpl implements TransactionService {
 		return t;
 	}
 	
-	private void validate(TransactionParameters tp) {
-		new TransactionParameterValidator().validateSaveTransaction(tp);
+	private void validateSaveTransaction(TransactionParameters tp) {
+		new TransactionParameterValidator().validate(tp, SaveTransactionValidationRules.class);
+	}
+	
+	private void validateUpdateTransaction(TransactionParameters tp) {
+		new TransactionParameterValidator().validate(tp, SaveTransactionValidationRules.class, UpdateTransactionValidationRules.class);
 	}
 	
 }

@@ -50,3 +50,6 @@ help entity jpa
 help service
 service --entity ~account.modelo.Transaction --interface ~account.service.TransactionService --class ~account.service.TransactionServiceImpl
 service --entity ~account.modelo.Transaction --interface ~account.service.TransactionService2 --class ~account.service.TransactionServiceImpl2
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-18 09:19:43
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-18 10:53:43
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-18 12:04:50

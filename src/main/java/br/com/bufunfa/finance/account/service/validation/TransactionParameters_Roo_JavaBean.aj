@@ -46,4 +46,12 @@ privileged aspect TransactionParameters_Roo_JavaBean {
         this.date = date;
     }
     
+    public Long TransactionParameters.getTransactionId() {
+        return this.transactionId;
+    }
+    
+    public void TransactionParameters.setTransactionId(Long transactionId) {
+        this.transactionId = transactionId;
+    }
+    
 }

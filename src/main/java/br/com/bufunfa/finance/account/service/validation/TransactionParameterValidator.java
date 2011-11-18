@@ -17,12 +17,14 @@ public class TransactionParameterValidator {
 		ValidatorFactory f = Validation.buildDefaultValidatorFactory();
 		this.validator = f.getValidator();
 	}
-	
-	public void validateSaveTransaction(TransactionParameters tp) {
-		Set<ConstraintViolation<TransactionParameters>> violations = validator.validate(tp, SaveTransactionValidationRules.class);
+
+	public void validate(TransactionParameters tp,
+			Class<?>... class1) {
+		Set<ConstraintViolation<TransactionParameters>> violations = validator.validate(tp, class1);
 		if(!violations.isEmpty()) {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
+		
 	}
 	
 }
