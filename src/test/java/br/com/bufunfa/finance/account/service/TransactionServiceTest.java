@@ -12,12 +12,15 @@ import javax.validation.ConstraintViolationException;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.modelo.Transaction;
+import br.com.bufunfa.finance.account.repository.AccountEntryRepository;
 import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
@@ -37,6 +40,9 @@ public class TransactionServiceTest {
 	
 	@Resource(name="accountService")
 	private AccountSystemService accountService;
+	
+	@Autowired
+	private AccountEntryRepository accountEntryRepository;
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
@@ -457,6 +463,32 @@ public class TransactionServiceTest {
 				comment, 
 				expectedTemplateErrorMessage);
 		
+	}
+	
+	@Test
+	public void testDeleteTransaction_shouldSuccess() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Transaction saved = saveSampleTransaction(accountSystem);
+		Long id = saved.getId();
+		Long idOriginAccountEntry = saved.getOriginAccountEntry().getId();
+		Long idDestAccountEntry = saved.getDestAccountEntry().getId();
+		Long idOriginAccount = saved.getOriginAccountEntry().getAccount().getId();
+		Long idDestAccount = saved.getDestAccountEntry().getAccount().getId();
+		
+		transactionService.deleteTransaction(id);
+		
+		Transaction deleted = transactionService.findTransaction(id);
+		AccountEntry originAccountEntry = accountEntryRepository.findOne(idOriginAccountEntry);
+		AccountEntry destAccountEntry = accountEntryRepository.findOne(idDestAccountEntry);
+		
+		Assert.assertNull("should delete transaction", deleted);
+		Assert.assertNull("should delete origin accountEntry", originAccountEntry);
+		Assert.assertNull("should delete dest accountEntry", destAccountEntry);
+		
+		Assert.assertNotNull("should NOT delete orign account", 
+				accountService.findAccount(idOriginAccount));
+		Assert.assertNotNull("should NOT delete dest account", 
+				accountService.findAccount(idDestAccount));
 		
 	}
 	

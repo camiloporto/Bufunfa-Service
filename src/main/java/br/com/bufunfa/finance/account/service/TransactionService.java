@@ -16,4 +16,7 @@ public interface TransactionService {
 	Transaction updateTransaction(
 			Long idTransaction, Long idOriginAccount, Long idDestAccount, Date date,
 			BigDecimal value, String comment);
+
+	void deleteTransaction(Long id);
+
 }

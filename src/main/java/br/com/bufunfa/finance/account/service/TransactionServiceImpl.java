@@ -61,6 +61,10 @@ public class TransactionServiceImpl implements TransactionService {
 		
 	}
 	
+	public void deleteTransaction(Long id) {
+		transactionRepository.delete(id);
+	}
+	
 	
 	private TransactionParameters createParametersForUpdateTransaction(
 			Long idTransaction, Long idOriginAccount, Long idDestAccount,
