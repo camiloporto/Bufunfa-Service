@@ -348,6 +348,27 @@ public class TransactionServiceTest {
 		
 	}
 	
+	@Test
+	public void testUpdateTransactionToNullValue_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal newValue = null;
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.VALUE.required}";
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction to null value", 
+				saved.getId(),
+				saved.getOriginAccountEntry().getAccount().getId(),
+				saved.getDestAccountEntry().getAccount().getId(),
+				newValue, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,
