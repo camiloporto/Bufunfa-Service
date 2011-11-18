@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.repository.TransactionRepository;
 
 @RooJavaBean
 @Configurable
@@ -19,6 +20,9 @@ public class TransactionParameters {
 	
 	@Autowired
 	private AccountRepository accountRepository;
+	
+	@Autowired
+	private TransactionRepository transactionRepository;
 	
 	public void setAccountRepository(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;
@@ -60,6 +64,15 @@ public class TransactionParameters {
 	private boolean isDestinationAccountPersisted() {
 		if(destAccountId != null) {
 			return accountRepository.findOne(destAccountId) != null;
+		}
+		return false;
+	}
+	
+	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION.notfound}", 
+			groups={UpdateTransactionValidationRules.class})
+	private boolean isTransactionPersisted() {
+		if(transactionId != null) {
+			return transactionRepository.findOne(transactionId) != null;
 		}
 		return false;
 	}

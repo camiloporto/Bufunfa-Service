@@ -394,19 +394,19 @@ public class TransactionServiceTest {
 	public void testUpdateTransactionToNullDate_shouldThrowsException() {
 		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
 		Transaction saved = saveSampleTransaction(accountSystem);
-		BigDecimal newValue = new BigDecimal("100.00");
-		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		BigDecimal value = new BigDecimal("100.00");
+		Date newDate = null;
 		String comment = "first year money spent";
-		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}";
-		Long transactionId = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DATE.required}";
+		
 		
 		runTestUpdateInvalidTransaction_shouldThrowsException(
-				"should not update transaction to with null id", 
-				transactionId,
+				"should not update transaction to null date", 
+				saved.getId(),
 				saved.getOriginAccountEntry().getAccount().getId(),
 				saved.getDestAccountEntry().getAccount().getId(),
-				newValue, 
-				date, 
+				value, 
+				newDate, 
 				comment, 
 				expectedTemplateErrorMessage);
 		
@@ -416,22 +416,50 @@ public class TransactionServiceTest {
 	public void testUpdateTransactionPassingNullTransactionId_shouldThrowsException() {
 		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
 		Transaction saved = saveSampleTransaction(accountSystem);
-		BigDecimal newValue = new BigDecimal("100.00");
-		Date newDate = null;
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
 		String comment = "first year money spent";
-		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DATE.required}";
+		Long transactionId = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}";
+		
 		
 		runTestUpdateInvalidTransaction_shouldThrowsException(
-				"should not update transaction to null date", 
-				saved.getId(),
+				"should not update transaction to with null id", 
+				transactionId,
 				saved.getOriginAccountEntry().getAccount().getId(),
 				saved.getDestAccountEntry().getAccount().getId(),
-				newValue, 
-				newDate, 
+				value, 
+				date, 
 				comment, 
 				expectedTemplateErrorMessage);
 		
+		
 	}
+	
+	@Test
+	public void testUpdateNonexistentTransaction_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		Long transactionId = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION.notfound}";
+		
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update nonexistent transaction", 
+				transactionId,
+				saved.getOriginAccountEntry().getAccount().getId(),
+				saved.getDestAccountEntry().getAccount().getId(),
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+		
+	}
+	
 	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
