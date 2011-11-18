@@ -40,6 +40,8 @@ public class TransactionServiceImpl implements TransactionService {
 			Long idTransaction, Long idOriginAccount, Long idDestAccount, Date date,
 			BigDecimal value, String comment) {
 		
+		validate(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
+		
 		Transaction toUpdate = transactionRepository.findOne(idTransaction);
 		AccountEntry originToUpdate = toUpdate.getOriginAccountEntry();
 		AccountEntry destToUpdate = toUpdate.getDestAccountEntry();

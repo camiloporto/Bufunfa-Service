@@ -224,7 +224,7 @@ public class TransactionServiceTest {
 	}
 	
 	@Test
-	public void testUpdateTransactionWithNewOriginAccount_shouldSuccess() {
+	public void testUpdateTransactionToNewOriginAccount_shouldSuccess() {
 		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
 		Account origin = accountService.findIncomeAccount(sample);
 		Account dest = accountService.findOutcomeAccount(sample);
@@ -240,6 +240,7 @@ public class TransactionServiceTest {
 		Account newAccount = accountTestHelper.createSample("Salario",
 				origin.getId()).getAccount();
 		accountService.saveAccount(newAccount);
+		
 		Transaction updated = transactionService.updateTransaction(
 				saved.getId(),
 				newAccount.getId(), 
@@ -253,6 +254,66 @@ public class TransactionServiceTest {
 				"transaction origin account should have changed", 
 				saved.getOriginAccountEntry().getAccount().getId(), 
 				updated.getOriginAccountEntry().getAccount().getId());
+	}
+	
+	@Test
+	public void testUpdateTransactionToNullOriginAccount_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+			
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		Long newOriginAccountId = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT_ID.required}";
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction with null origin account id", 
+				saved.getId(), 
+				newOriginAccountId, 
+				saved.getDestAccountEntry().getAccount().getId(), 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
+	private void runTestUpdateInvalidTransaction_shouldThrowsException(
+			String failMessage,
+			Long idTransaction,
+			Long originAccountId,
+			Long destAccountId,
+			BigDecimal value,
+			Date date,
+			String comment,
+			String...expectedTemplateErrorMessages) {
+		try {
+			transactionService.updateTransaction(
+					idTransaction,
+					originAccountId, 
+					destAccountId, 
+					date, value, comment);
+			Assert.fail(failMessage);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
+	
+	private Transaction saveSampleTransaction(AccountSystem as) {
+		Account origin = accountService.findIncomeAccount(as);
+		Account dest = accountService.findOutcomeAccount(as);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		return transactionService.saveNewTransaction(
+				origin.getId(), 
+				dest.getId(), 
+				date, value, comment);
 	}
 
 }
