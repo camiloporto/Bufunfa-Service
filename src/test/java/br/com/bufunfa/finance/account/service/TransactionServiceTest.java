@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.regex.Matcher;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
@@ -17,6 +18,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.modelo.Transaction;
+import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 
@@ -29,6 +31,9 @@ public class TransactionServiceTest {
 	
 	@Resource(name="accountSystemServiceHelper")
 	private AccountSystemHelper serviceTestHelper;
+	
+	@Resource(name="accountHelper")
+    private AccountHelper accountTestHelper;
 	
 	@Resource(name="accountService")
 	private AccountSystemService accountService;
@@ -216,6 +221,38 @@ public class TransactionServiceTest {
 					e, 
 					expectedTemplateErrorMessages);
 		}
+	}
+	
+	@Test
+	public void testUpdateTransactionWithNewOriginAccount_shouldSuccess() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account origin = accountService.findIncomeAccount(sample);
+		Account dest = accountService.findOutcomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Transaction saved = transactionService.saveNewTransaction(
+				origin.getId(), 
+				dest.getId(), 
+				date, value, comment);
+		
+		Account newAccount = accountTestHelper.createSample("Salario",
+				origin.getId()).getAccount();
+		accountService.saveAccount(newAccount);
+		Transaction updated = transactionService.updateTransaction(
+				saved.getId(),
+				newAccount.getId(), 
+				dest.getId(), 
+				date, value, comment);
+		
+		Assert.assertEquals(
+				"transaction should preserved id", 
+				saved.getId(), updated.getId());
+		Assert.assertNotSame(
+				"transaction origin account should have changed", 
+				saved.getOriginAccountEntry().getAccount().getId(), 
+				updated.getOriginAccountEntry().getAccount().getId());
 	}
 
 }

@@ -36,6 +36,36 @@ public class TransactionServiceImpl implements TransactionService {
 		return t;
 	}
 	
+	public Transaction updateTransaction(
+			Long idTransaction, Long idOriginAccount, Long idDestAccount, Date date,
+			BigDecimal value, String comment) {
+		
+		Transaction toUpdate = transactionRepository.findOne(idTransaction);
+		AccountEntry originToUpdate = toUpdate.getOriginAccountEntry();
+		AccountEntry destToUpdate = toUpdate.getDestAccountEntry();
+		
+		originToUpdate = updateAccountEntry(originToUpdate, idOriginAccount, date, value.negate(), comment);
+		destToUpdate = updateAccountEntry(destToUpdate, idDestAccount, date, value, comment);
+		
+		toUpdate.setOriginAccountEntry(originToUpdate);
+		toUpdate.setDestAccountEntry(destToUpdate);
+		
+		return transactionRepository.save(toUpdate);
+		
+	}
+	
+	
+	private AccountEntry updateAccountEntry(AccountEntry toUpdate,
+			Long idAccount, Date date, BigDecimal value, String comment) {
+		Account account = accountRepository.findOne(idAccount);
+		toUpdate.setAccount(account);
+		toUpdate.setComment(comment);
+		toUpdate.setDate(date);
+		toUpdate.setValue(value);
+		
+		return toUpdate;
+	}
+
 	private Transaction createTransaction(AccountEntry origin, AccountEntry dest) {
 		Transaction t = new Transaction();
 		t.setOriginAccountEntry(origin);
@@ -44,9 +74,9 @@ public class TransactionServiceImpl implements TransactionService {
 		return t;
 	}
 
-	private AccountEntry createAccountEntry(Long idOriginAccount,
+	private AccountEntry createAccountEntry(Long idAccount,
 			Date date, BigDecimal value, String comment) {
-		Account account = accountRepository.findOne(idOriginAccount);
+		Account account = accountRepository.findOne(idAccount);
 		
 		AccountEntry ae = new AccountEntry();
 		ae.setAccount(account);

@@ -12,4 +12,8 @@ public interface TransactionService {
 
 	Transaction saveNewTransaction(Long idOriginAccount, Long idDestAccount, Date date,
 			BigDecimal value, String comment);
+
+	Transaction updateTransaction(
+			Long idTransaction, Long idOriginAccount, Long idDestAccount, Date date,
+			BigDecimal value, String comment);
 }
