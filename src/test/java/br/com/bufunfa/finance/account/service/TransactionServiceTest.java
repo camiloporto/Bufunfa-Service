@@ -302,6 +302,29 @@ public class TransactionServiceTest {
 		
 	}
 	
+	@Test
+	public void testUpdateTransactionToNullDestAccount_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+			
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		Long newDestAccountId = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT_ID.required}";
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction with null dest account id", 
+				saved.getId(),
+				saved.getOriginAccountEntry().getAccount().getId(),
+				newDestAccountId, 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,
