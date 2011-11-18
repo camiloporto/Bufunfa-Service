@@ -279,6 +279,29 @@ public class TransactionServiceTest {
 		
 	}
 	
+	@Test
+	public void testUpdateTransactionToNonexistentOriginAccount_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+			
+		Transaction saved = saveSampleTransaction(accountSystem);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		Long newOriginAccountId = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}";
+		
+		runTestUpdateInvalidTransaction_shouldThrowsException(
+				"should not update transaction to nonexistent origin account", 
+				saved.getId(), 
+				newOriginAccountId, 
+				saved.getDestAccountEntry().getAccount().getId(), 
+				value, 
+				date, 
+				comment, 
+				expectedTemplateErrorMessage);
+		
+	}
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,
