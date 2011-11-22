@@ -69,7 +69,7 @@ public class TransactionParameters {
 	}
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION.notfound}", 
-			groups={UpdateTransactionValidationRules.class})
+			groups={UpdateTransactionValidationRules.class, DeleteTransactionValidationRules.class})
 	private boolean isTransactionPersisted() {
 		if(transactionId != null) {
 			return transactionRepository.findOne(transactionId) != null;

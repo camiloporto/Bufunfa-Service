@@ -493,7 +493,7 @@ public class TransactionServiceTest {
 	}
 	
 	@Test
-	public void testDeleteTransactionPassingNullId_shouldSuccess() {
+	public void testDeleteTransactionPassingNullId_shouldThrowsException() {
 		
 		Long id = null;
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}";
@@ -507,7 +507,23 @@ public class TransactionServiceTest {
 					e, 
 					expectedTemplateErrorMessage);
 		}
+	}
+	
+	@Test
+	public void testDeleteNonexistentTransaction_shouldThrowsException() {
 		
+		Long id = -1L;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION.notfound}";
+		
+		try {
+			transactionService.deleteTransaction(id);
+			Assert.fail("did not throws expected exception while deleting nonexistent transaction");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessage);
+		}
 	}
 	
 	
