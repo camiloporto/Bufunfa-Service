@@ -10,14 +10,10 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
-import br.com.bufunfa.finance.account.service.validation.DeleteTransactionValidationRules;
-import br.com.bufunfa.finance.account.service.validation.FindByDateBetweenRules;
-import br.com.bufunfa.finance.account.service.validation.SaveTransactionValidationRules;
-import br.com.bufunfa.finance.account.service.validation.TransactionParameterValidator;
+import br.com.bufunfa.finance.account.service.validation.ServiceValidator;
+import br.com.bufunfa.finance.account.service.validation.TransactionConstraintGroups;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
-import br.com.bufunfa.finance.account.service.validation.TransactionQueryParameterValidator;
 import br.com.bufunfa.finance.account.service.validation.TransactionQueryParameters;
-import br.com.bufunfa.finance.account.service.validation.UpdateTransactionValidationRules;
 
 
 public class TransactionServiceImpl implements TransactionService {
@@ -78,7 +74,7 @@ public class TransactionServiceImpl implements TransactionService {
 		params.setBeginDate(begin);
 		params.setEndDate(end);
 		
-		new TransactionQueryParameterValidator().validate(params, FindByDateBetweenRules.class);
+		new ServiceValidator().validate(params, TransactionConstraintGroups.FindByDateBetweenRules.class);
 		
 		return transactionRepository.findByDateBetween(begin, end);
 	}
@@ -86,7 +82,7 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	private void validateDeleteTransaction(
 			TransactionParameters tp) {
-		new TransactionParameterValidator().validate(tp, DeleteTransactionValidationRules.class);
+		new ServiceValidator().validate(tp, TransactionConstraintGroups.DeleteTransactionValidationRules.class);
 	}
 
 	private TransactionParameters createParametersForDeleteTransaction(Long id) {
@@ -148,11 +144,13 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	private void validateSaveTransaction(TransactionParameters tp) {
-		new TransactionParameterValidator().validate(tp, SaveTransactionValidationRules.class);
+		new ServiceValidator().validate(tp, TransactionConstraintGroups.SaveTransactionValidationRules.class);
 	}
 	
 	private void validateUpdateTransaction(TransactionParameters tp) {
-		new TransactionParameterValidator().validate(tp, SaveTransactionValidationRules.class, UpdateTransactionValidationRules.class);
+		new ServiceValidator().validate(tp, 
+				TransactionConstraintGroups.SaveTransactionValidationRules.class, 
+				TransactionConstraintGroups.UpdateTransactionValidationRules.class);
 	}
 	
 }

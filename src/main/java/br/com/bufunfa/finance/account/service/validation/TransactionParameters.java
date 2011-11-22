@@ -29,29 +29,31 @@ public class TransactionParameters {
 	}
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT_ID.required}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private Long originAccountId;
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT_ID.required}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private Long destAccountId;
 
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.VALUE.required}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	@Min(value=0, message="{br.com.bufunfa.finance.service.TransactionService.VALUE.negative}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private BigDecimal value;
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.DATE.required}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private Date date;
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}", 
-			groups={UpdateTransactionValidationRules.class, DeleteTransactionValidationRules.class})
+			groups={
+				TransactionConstraintGroups.UpdateTransactionValidationRules.class, 
+				TransactionConstraintGroups.DeleteTransactionValidationRules.class})
 	private Long transactionId;
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private boolean isOriginAccountPersisted() {
 		if(originAccountId != null) {
 			return accountRepository.findOne(originAccountId) != null;
@@ -60,7 +62,7 @@ public class TransactionParameters {
 	}
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT.notfound}", 
-			groups={SaveTransactionValidationRules.class})
+			groups={TransactionConstraintGroups.SaveTransactionValidationRules.class})
 	private boolean isDestinationAccountPersisted() {
 		if(destAccountId != null) {
 			return accountRepository.findOne(destAccountId) != null;
@@ -69,7 +71,9 @@ public class TransactionParameters {
 	}
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION.notfound}", 
-			groups={UpdateTransactionValidationRules.class, DeleteTransactionValidationRules.class})
+			groups={
+				TransactionConstraintGroups.UpdateTransactionValidationRules.class, 
+				TransactionConstraintGroups.DeleteTransactionValidationRules.class})
 	private boolean isTransactionPersisted() {
 		if(transactionId != null) {
 			return transactionRepository.findOne(transactionId) != null;

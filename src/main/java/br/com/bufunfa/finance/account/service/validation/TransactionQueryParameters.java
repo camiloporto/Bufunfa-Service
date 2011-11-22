@@ -10,7 +10,7 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 public class TransactionQueryParameters {
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_QUERY_BEGIN_DATE.required}",
-			groups={FindByDateBetweenRules.class})
+			groups={TransactionConstraintGroups.FindByDateBetweenRules.class})
 	private Date beginDate;
 	
 	private Date endDate;

@@ -9,11 +9,12 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-public class TransactionQueryParameterValidator {
+public class ServiceValidator {
 	
 	private Validator validator;
 	
-	public TransactionQueryParameterValidator() {
+	//FIXME mudar para injecao de dependencia com Spring.
+	public ServiceValidator() {
 		ValidatorFactory f = Validation.buildDefaultValidatorFactory();
 		this.validator = f.getValidator();
 	}
@@ -21,6 +22,14 @@ public class TransactionQueryParameterValidator {
 	public void validate(TransactionQueryParameters tp,
 			Class<?>... class1) {
 		Set<ConstraintViolation<TransactionQueryParameters>> violations = validator.validate(tp, class1);
+		if(!violations.isEmpty()) {
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+	}
+	
+	public void validate(TransactionParameters tp,
+			Class<?>... class1) {
+		Set<ConstraintViolation<TransactionParameters>> violations = validator.validate(tp, class1);
 		if(!violations.isEmpty()) {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
