@@ -13,6 +13,8 @@ public class TransactionQueryParameters {
 			groups={TransactionConstraintGroups.FindByDateBetweenRules.class})
 	private Date beginDate;
 	
+	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_QUERY_END_DATE.required}",
+			groups={TransactionConstraintGroups.FindByDateBetweenRules.class})
 	private Date endDate;
 
 }

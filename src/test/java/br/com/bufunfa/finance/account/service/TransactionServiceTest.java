@@ -569,7 +569,23 @@ public class TransactionServiceTest {
 					e, 
 					expectedTemplateErrorMessage);
 		}
+	}
+	
+	@Test
+	public void testQueryTransactionBetweenDatesWithNullEnd_shouldThrowsException() {
+		Date nullEnd = null;
+		Date begin = new GregorianCalendar(2011, Calendar.FEBRUARY, 1).getTime();
 		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_QUERY_END_DATE.required}";
+		try {
+			transactionService.findByDateBetween(begin, nullEnd);
+			Assert.fail("did not throws expected exception while querying with null end date");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessage);
+		}
 	}
 	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
