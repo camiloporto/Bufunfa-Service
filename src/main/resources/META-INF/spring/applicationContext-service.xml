@@ -11,5 +11,6 @@
 	<!-- Beans Helper dos Testes -->
 	<bean id="accountSystemServiceHelper" class="br.com.bufunfa.finance.account.service.util.AccountSystemHelper" />
 	<bean id="accountHelper" class="br.com.bufunfa.finance.account.service.util.AccountHelper" />
+	<bean id="transactionHelper" class="br.com.bufunfa.finance.account.service.util.TransactionHelper" />
 
 </beans>

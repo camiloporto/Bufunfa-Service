@@ -5,13 +5,11 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.regex.Matcher;
 
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +24,7 @@ import br.com.bufunfa.finance.account.repository.AccountEntryRepository;
 import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
+import br.com.bufunfa.finance.account.service.util.TransactionHelper;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext*.xml")
@@ -40,6 +39,9 @@ public class TransactionServiceTest {
 	@Resource(name="accountHelper")
     private AccountHelper accountTestHelper;
 	
+	@Resource(name="transactionHelper")
+	private TransactionHelper transactionHelper;
+	
 	@Resource(name="accountService")
 	private AccountSystemService accountService;
 	
@@ -47,14 +49,6 @@ public class TransactionServiceTest {
 	private AccountEntryRepository accountEntryRepository;
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
-	
-	@Before
-	public void cleanDatabase() {
-		List<Transaction> result = transactionService.findAllTransactions();
-		for (Transaction transaction : result) {
-			transactionService.deleteTransaction(transaction);
-		}
-	}
 	
 	@Test
 	public void testSaveNewTransaction_shouldSuccess() {
@@ -539,32 +533,21 @@ public class TransactionServiceTest {
 	@Test
 	public void testQueryTransactionBetweenDates_shouldSuccess() {
 		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
-		Account origin = accountService.findIncomeAccount(sample);
-		Account dest = accountService.findOutcomeAccount(sample);
-		BigDecimal value = new BigDecimal("100.00");
 		String comment1 = "t1";
 		String comment2 = "t2";
 		String comment3 = "t3";
-		Date date1 = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
-		Date date2 = new GregorianCalendar(2011, Calendar.JANUARY, 2).getTime();
-		Date date3 = new GregorianCalendar(2011, Calendar.JANUARY, 3).getTime();
+		Date date1 = new GregorianCalendar(2011, Calendar.FEBRUARY, 1).getTime();
+		Date date2 = new GregorianCalendar(2011, Calendar.FEBRUARY, 2).getTime();
+		Date date3 = new GregorianCalendar(2011, Calendar.FEBRUARY, 3).getTime();
 		
-		transactionService.saveNewTransaction(
-				origin.getId(), 
-				dest.getId(), 
-				date1, value, comment1);
-		transactionService.saveNewTransaction(
-				origin.getId(), 
-				dest.getId(), 
-				date2, value, comment2);
-		transactionService.saveNewTransaction(
-				origin.getId(), 
-				dest.getId(), 
-				date3, value, comment3);
+		transactionHelper.saveSampleTransactionFromIncomeToOutcomeOnDate(sample, date1, comment1);
+		transactionHelper.saveSampleTransactionFromIncomeToOutcomeOnDate(sample, date2, comment2);
+		transactionHelper.saveSampleTransactionFromIncomeToOutcomeOnDate(sample, date3, comment3);
 		
+		int expectedQueryCount = 2;
 		List<Transaction> result = transactionService.findByDateBetween(date1, date2);
 		
-		Assert.assertEquals("wrong number of expected transaction retrieved", 2, result.size());
+		Assert.assertEquals("wrong number of expected transaction retrieved", expectedQueryCount, result.size());
 		Transaction t1 = result.get(0);
 		Transaction t2 = result.get(1);
 		Assert.assertEquals("expected comment did not match", comment1, t1.getOriginAccountEntry().getComment());
