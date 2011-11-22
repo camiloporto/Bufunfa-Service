@@ -9,6 +9,7 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.service.validation.DeleteTransactionValidationRules;
 import br.com.bufunfa.finance.account.service.validation.SaveTransactionValidationRules;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameterValidator;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
@@ -62,10 +63,24 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	public void deleteTransaction(Long id) {
+		validateDeleteTransaction(
+				createParametersForDeleteTransaction(
+						id));
 		transactionRepository.delete(id);
 	}
 	
 	
+	private void validateDeleteTransaction(
+			TransactionParameters tp) {
+		new TransactionParameterValidator().validate(tp, DeleteTransactionValidationRules.class);
+	}
+
+	private TransactionParameters createParametersForDeleteTransaction(Long id) {
+		TransactionParameters t = new TransactionParameters();
+		t.setTransactionId(id);
+		return t;
+	}
+
 	private TransactionParameters createParametersForUpdateTransaction(
 			Long idTransaction, Long idOriginAccount, Long idDestAccount,
 			Date date, BigDecimal value, String comment) {

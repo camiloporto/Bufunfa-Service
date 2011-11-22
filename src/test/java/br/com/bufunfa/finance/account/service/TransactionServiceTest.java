@@ -492,6 +492,24 @@ public class TransactionServiceTest {
 		
 	}
 	
+	@Test
+	public void testDeleteTransactionPassingNullId_shouldSuccess() {
+		
+		Long id = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}";
+		
+		try {
+			transactionService.deleteTransaction(id);
+			Assert.fail("did not throws expected exception while deleting transaction with null id");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessage);
+		}
+		
+	}
+	
 	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,

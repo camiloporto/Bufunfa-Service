@@ -47,7 +47,7 @@ public class TransactionParameters {
 	private Date date;
 	
 	@NotNull(message="{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_ID.required}", 
-			groups={UpdateTransactionValidationRules.class})
+			groups={UpdateTransactionValidationRules.class, DeleteTransactionValidationRules.class})
 	private Long transactionId;
 	
 	@AssertTrue(message="{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}", 
