@@ -9,21 +9,21 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
-public class TransactionParameterValidator {
-
+public class TransactionQueryParameterValidator {
+	
 	private Validator validator;
 	
-	public TransactionParameterValidator() {
+	public TransactionQueryParameterValidator() {
 		ValidatorFactory f = Validation.buildDefaultValidatorFactory();
 		this.validator = f.getValidator();
 	}
-
-	public void validate(TransactionParameters tp,
+	
+	public void validate(TransactionQueryParameters tp,
 			Class<?>... class1) {
-		Set<ConstraintViolation<TransactionParameters>> violations = validator.validate(tp, class1);
+		Set<ConstraintViolation<TransactionQueryParameters>> violations = validator.validate(tp, class1);
 		if(!violations.isEmpty()) {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
 	}
-	
+
 }

@@ -554,6 +554,24 @@ public class TransactionServiceTest {
 		Assert.assertEquals("expected comment did not match", comment2, t2.getOriginAccountEntry().getComment());
 	}
 	
+	@Test
+	public void testQueryTransactionBetweenDatesWithNullBegin_shouldThrowsException() {
+		Date nullBegin = null;
+		Date end = new GregorianCalendar(2011, Calendar.FEBRUARY, 3).getTime();
+		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.TRANSACTION_QUERY_BEGIN_DATE.required}";
+		try {
+			transactionService.findByDateBetween(nullBegin, end);
+			Assert.fail("did not throws expected exception while querying with null begin date");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessage);
+		}
+		
+	}
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,

@@ -11,9 +11,12 @@ import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
 import br.com.bufunfa.finance.account.service.validation.DeleteTransactionValidationRules;
+import br.com.bufunfa.finance.account.service.validation.FindByDateBetweenRules;
 import br.com.bufunfa.finance.account.service.validation.SaveTransactionValidationRules;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameterValidator;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
+import br.com.bufunfa.finance.account.service.validation.TransactionQueryParameterValidator;
+import br.com.bufunfa.finance.account.service.validation.TransactionQueryParameters;
 import br.com.bufunfa.finance.account.service.validation.UpdateTransactionValidationRules;
 
 
@@ -71,6 +74,12 @@ public class TransactionServiceImpl implements TransactionService {
 	}
 	
 	public List<Transaction> findByDateBetween(Date begin, Date end) {
+		TransactionQueryParameters params = new TransactionQueryParameters();
+		params.setBeginDate(begin);
+		params.setEndDate(end);
+		
+		new TransactionQueryParameterValidator().validate(params, FindByDateBetweenRules.class);
+		
 		return transactionRepository.findByDateBetween(begin, end);
 	}
 	
