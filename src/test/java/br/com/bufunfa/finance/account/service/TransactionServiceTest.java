@@ -11,10 +11,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
@@ -24,11 +21,10 @@ import br.com.bufunfa.finance.account.repository.AccountEntryRepository;
 import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
+import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.account.service.util.TransactionHelper;
 
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext*.xml")
-public class TransactionServiceTest {
+public class TransactionServiceTest extends SpringRootTestsConfiguration {
 	
 	@Resource(name="transactionService")
 	private TransactionService transactionService;
