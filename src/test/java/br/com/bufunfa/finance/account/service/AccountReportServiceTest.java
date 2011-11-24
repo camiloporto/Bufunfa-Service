@@ -259,8 +259,6 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 				expectedTemplateErrorMessage);
 	}
 	
-	//FIXME adicionar teste quando a conta nao existe. deve vir extrato vazio. isso tb serve para ac.id = null;
-	
 	@Test
 	public void testGetAccountExtractWithNullBeginDate_shouldThrowsException() {
 
