@@ -178,4 +178,26 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 					expectedTemplateErrorMessage);
 		}
 	}
+	//FIXME adicionar teste quando a conta nao existe. deve vir extrato vazio. isso tb serve para ac.id = null;
+	
+	@Test
+	public void testGetAccountExtractWithNullBeginDate_shouldThrowsException() {
+
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		
+		Date nullDate = null;
+		Date endDate = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
+
+		Account account = accountService.findIncomeAccount(sample);
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_BEGIN_DATE.required}";
+
+		try {
+			reportService.getAccountExtract(account, nullDate, endDate);
+			Assert.fail("should throws expected exception: begin date is null");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", e,
+					expectedTemplateErrorMessage);
+		}
+	}
 }
