@@ -34,5 +34,13 @@ public class ServiceValidator {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}
 	}
+	
+	public void validate(AccountReportParameters p,
+			Class<?>... class1) {
+		Set<ConstraintViolation<AccountReportParameters>> violations = validator.validate(p, class1);
+		if(!violations.isEmpty()) {
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+	}
 
 }

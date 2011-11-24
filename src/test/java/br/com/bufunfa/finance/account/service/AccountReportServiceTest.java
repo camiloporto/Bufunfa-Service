@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.validation.ConstraintViolationException;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -17,6 +18,7 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
+import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.account.service.util.TransactionHelper;
 
@@ -32,7 +34,9 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	private AccountSystemService accountService;
 	
 	@Autowired
-	private AccountReportService reportService; 
+	private AccountReportService reportService;
+	
+	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
 	@Test
 	public void testGetAccountExtract_shouldSuccess() {
@@ -154,5 +158,24 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Assert.assertEquals(
 				"current balance dit not match", 
 				expectedCurrentBalance, currentBalance);
+	}
+	
+	@Test
+	public void testGetAccountExtractWithNullAccount_shouldThrowsException() {
+
+		Date date1 = new GregorianCalendar(2011, Calendar.MARCH, 1).getTime();
+		Date date2 = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
+
+		Account nullAccount = null;
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_ACCOUNT.required}";
+
+		try {
+			reportService.getAccountExtract(nullAccount, date1, date2);
+			Assert.fail("should throws expected exception: null account given");
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", e,
+					expectedTemplateErrorMessage);
+		}
 	}
 }
