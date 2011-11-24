@@ -27,9 +27,15 @@ public class TransactionHelper {
 	
 	public Transaction saveSampleTransactionFromIncomeToOutcomeOnDate(
 			AccountSystem as, Date transactionDate, String comment) {
+		BigDecimal value = new BigDecimal("100.00");
+		return saveSampleTransactionFromIncomeToOutcomeOnDate(as, transactionDate, comment, value);
+		
+	}
+
+	public Transaction saveSampleTransactionFromIncomeToOutcomeOnDate(
+			AccountSystem as, Date transactionDate, String comment, BigDecimal value) {
 		Account origin = accountService.findIncomeAccount(as);
 		Account dest = accountService.findOutcomeAccount(as);
-		BigDecimal value = new BigDecimal("100.00");
 		
 		Transaction t = transactionService.saveNewTransaction(
 				origin.getId(), 
