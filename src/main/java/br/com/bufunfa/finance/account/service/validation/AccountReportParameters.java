@@ -16,6 +16,8 @@ public class AccountReportParameters {
 			groups={AccountReportConstraintGroups.ExtractRules.class})
 	private Date begin;
 	
+	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_END_DATE.required}",
+			groups={AccountReportConstraintGroups.ExtractRules.class})
 	private Date end;
 	
 	public AccountReportParameters(Account account, Date begin, Date end) {

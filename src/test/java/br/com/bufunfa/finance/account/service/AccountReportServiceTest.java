@@ -169,15 +169,14 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Account nullAccount = null;
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_ACCOUNT.required}";
 
-		try {
-			reportService.getAccountExtract(nullAccount, date1, date2);
-			Assert.fail("should throws expected exception: null account given");
-		} catch (ConstraintViolationException e) {
-			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", e,
-					expectedTemplateErrorMessage);
-		}
+		runTestGetInvalidAccountExtract_shouldThrowsException(
+				"should throws expected exception: null account given", 
+				nullAccount, 
+				date1, 
+				date2, 
+				expectedTemplateErrorMessage);
 	}
+	
 	//FIXME adicionar teste quando a conta nao existe. deve vir extrato vazio. isso tb serve para ac.id = null;
 	
 	@Test
@@ -191,13 +190,46 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Account account = accountService.findIncomeAccount(sample);
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_BEGIN_DATE.required}";
 
+		runTestGetInvalidAccountExtract_shouldThrowsException(
+				"should throws expected exception: begin date is null", 
+				account, 
+				nullDate, 
+				endDate, 
+				expectedTemplateErrorMessage);
+	}
+	
+	@Test
+	public void testGetAccountExtractWithNullEndDate_shouldThrowsException() {
+
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		
+		
+		Date beginDate = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
+		Date nullDate = null;
+
+		Account account = accountService.findIncomeAccount(sample);
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_END_DATE.required}";
+
+		runTestGetInvalidAccountExtract_shouldThrowsException(
+				"should throws expected exception: end date is null", 
+				account, 
+				beginDate, 
+				nullDate, 
+				expectedTemplateErrorMessage);
+	}
+	
+	private void runTestGetInvalidAccountExtract_shouldThrowsException(
+			String failMessage, Account account, Date beginDate, Date endDate, String...expectedTemplateErrorMessages) {
+		
 		try {
-			reportService.getAccountExtract(account, nullDate, endDate);
-			Assert.fail("should throws expected exception: begin date is null");
+			reportService.getAccountExtract(account, beginDate, endDate);
+			Assert.fail(failMessage);
 		} catch (ConstraintViolationException e) {
 			exceptionHelper.verifyTemplateErrorMessagesIn(
-					"did not throws the correct template error message", e,
-					expectedTemplateErrorMessage);
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
 		}
+		
 	}
 }
