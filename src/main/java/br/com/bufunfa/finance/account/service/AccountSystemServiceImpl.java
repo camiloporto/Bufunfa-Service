@@ -1,6 +1,7 @@
 package br.com.bufunfa.finance.account.service;
 
 import java.util.Arrays;
+import java.util.List;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
@@ -8,16 +9,13 @@ import br.com.bufunfa.finance.account.modelo.AccountSystem;
 
 public class AccountSystemServiceImpl implements AccountSystemService {
 	
-//	@Autowired
-//	private AccountRepository accountRepository;
-	
-//	public void setAccountRepository(AccountRepository accountRepository) {
-//		this.accountRepository = accountRepository;
-//	}
-	
 	public void saveAccountSystem(AccountSystem accountSystem) {
 		accountSystemRepository.save(accountSystem);
 		createInitialAccountHierarchy(accountSystem);
+	}
+	
+	public List<Account> findAccountByFatherId(Long fatherId) {
+		return accountRepository.findByFatherId(fatherId);
 	}
 	
 	private void createInitialAccountHierarchy(AccountSystem as) {

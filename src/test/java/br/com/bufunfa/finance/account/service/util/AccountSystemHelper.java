@@ -2,8 +2,6 @@ package br.com.bufunfa.finance.account.service.util;
 
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import junit.framework.Assert;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +20,6 @@ public class AccountSystemHelper {
 	@Autowired
 	private AccountRepository accountRepository;
 	
-//	@Resource(name="accountService")
 	@Autowired
 	private AccountSystemService accountService;
 	

@@ -1,5 +1,7 @@
 package br.com.bufunfa.finance.account.service;
 
+import java.util.List;
+
 import org.springframework.roo.addon.layers.service.RooService;
 
 import br.com.bufunfa.finance.account.modelo.Account;
@@ -18,10 +20,8 @@ public interface AccountSystemService {
 	Account findAssetAccount(AccountSystem sample);
 
 	Account findLiabilityAccount(AccountSystem sample);
-	
+
+	List<Account> findAccountByFatherId(Long id);
 	
 
-//	void saveAccount(Account newAccount);
-
-//	AccountSystem insert(AccountSystem sample);
 }

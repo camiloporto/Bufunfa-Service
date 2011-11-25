@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
@@ -29,6 +30,9 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	
 	@Resource(name="transactionHelper")
 	private TransactionHelper transactionHelper;
+	
+	@Resource(name="accountHelper")
+    private AccountHelper accountTestHelper;
 	
 	@Autowired
 	private AccountSystemService accountService;
@@ -342,6 +346,32 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetAccountBalanceWithChildren_shouldSumAccountEntriesIncludingChildren() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account income = accountService.findIncomeAccount(accountSystem);
+		Account outcome = accountService.findOutcomeAccount(accountSystem);
+		Account salary = accountTestHelper.saveAccountSample("Salary", income.getId());
+		Account rent = accountTestHelper.saveAccountSample("Rent", salary.getId());
+		
+		Date date1 = new GregorianCalendar(2011, Calendar.MARCH, 1).getTime();
+		Date date2 = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
+		Date date3 = new GregorianCalendar(2011, Calendar.MARCH, 3).getTime();
+		
+		BigDecimal value1 = new BigDecimal("50.00");
+		BigDecimal value2 = new BigDecimal("25.00");
+		BigDecimal value3 = new BigDecimal("100.00");
+		
+		transactionHelper.saveSampleTransaction(salary, outcome, date1, value1);
+		transactionHelper.saveSampleTransaction(rent, outcome, date2, value2);
+		transactionHelper.saveSampleTransaction(rent, outcome, date3, value3);
+		
+		Account account = accountService.findIncomeAccount(accountSystem);
+		BigDecimal accountBalance = reportService.getAccountBalance(account, date3);
+		
+		BigDecimal expectedBalance = new BigDecimal("-175.00");
+		
+		Assert.assertEquals(
+				"current account balance dit not match", 
+				expectedBalance, accountBalance);
 		
 	}
 	

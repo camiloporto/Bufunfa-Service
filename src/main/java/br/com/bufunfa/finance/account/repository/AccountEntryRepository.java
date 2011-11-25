@@ -1,6 +1,7 @@
 package br.com.bufunfa.finance.account.repository;
 
 import java.math.BigDecimal;
+import java.util.Collection;
 import java.util.Date;
 import java.util.List;
 
@@ -17,5 +18,8 @@ public interface AccountEntryRepository {
 	
 	@Query(value="SELECT sum(ae.value) FROM AccountEntry ae WHERE ae.account.id = ?1 AND ae.date <= ?2")
 	BigDecimal getAccountBalance(Long accountId, Date date);
+	
+	@Query(value="SELECT sum(ae.value) FROM AccountEntry ae WHERE ae.account.id IN ?1 AND ae.date <= ?2")
+	BigDecimal getDeepAccountBalance(Collection<Long> accountIds, Date date);
 
 }

@@ -1,5 +1,7 @@
 package br.com.bufunfa.finance.account.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import javax.validation.ConstraintViolationException;
 
@@ -250,6 +252,26 @@ public class AccountSystemServiceImplTest extends SpringRootTestsConfiguration {
 		String expectedName = "NewName";
 		Assert.assertEquals("updated name != expected", expectedName,
 				updated.getName());
+	}
+	
+	@Test
+	public void testFindAccountChildren_shouldGetAccountChildren() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account income = accountService.findIncomeAccount(accountSystem);
+		String accountName = "Salary";
+		accountTestHelper.saveAccountSample(accountName, income.getId());
+		
+		List<Account> children = accountService.findAccountByFatherId(income.getId());
+		
+		int expectedChildrenCount = 1;
+		Account child = children.get(0);
+		
+		Assert.assertEquals("expected children count did not match", expectedChildrenCount,
+				children.size());
+		
+		Assert.assertEquals("expected account name did not match", accountName,
+			child.getName());
+		
 	}
 	
 	//TODO adicionar teste atualizando conta para nome de uma conta ja existente

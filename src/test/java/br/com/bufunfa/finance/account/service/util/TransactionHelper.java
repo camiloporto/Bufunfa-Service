@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import javax.annotation.Resource;
-
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.modelo.Account;
@@ -20,11 +18,19 @@ public class TransactionHelper {
 	@Autowired
 	private TransactionService transactionService;
 	
-//	@Resource(name="accountService")
 	@Autowired
 	private AccountSystemService accountService;
 	
 	private List<Transaction> inserted = new ArrayList<Transaction>();
+	
+	public void saveSampleTransaction(Account from, Account to, Date date, BigDecimal value) {
+		Transaction t = transactionService.saveNewTransaction(
+				from.getId(), 
+				to.getId(), 
+				date, value, null);
+		
+		inserted.add(t);
+	}
 	
 	public Transaction saveSampleTransactionFromIncomeToOutcomeOnDate(
 			AccountSystem as, Date transactionDate, String comment) {
