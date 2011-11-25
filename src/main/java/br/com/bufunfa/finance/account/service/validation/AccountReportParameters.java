@@ -2,6 +2,7 @@ package br.com.bufunfa.finance.account.service.validation;
 
 import java.util.Date;
 
+import javax.validation.constraints.AssertFalse;
 import javax.validation.constraints.NotNull;
 
 import br.com.bufunfa.finance.account.modelo.Account;
@@ -28,6 +29,16 @@ public class AccountReportParameters {
 		this.account = account;
 		this.begin = begin;
 		this.end = end;
+	}
+	
+	@AssertFalse(message="{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT.required}",
+			groups={
+			AccountReportConstraintGroups.AccountBalanceRules.class})
+	public boolean isAccountTransient() {
+		if(account != null) {
+			return this.account.getId() == null;
+		}
+		return false;
 	}
 
 }

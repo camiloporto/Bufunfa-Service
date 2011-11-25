@@ -388,6 +388,19 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testGetAccountBalanceWithTransientAccount_shouldThrowsException() {
+		Date date = new GregorianCalendar(2011, Calendar.MARCH, 3).getTime();
+		Account account = new Account();
+		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT.required}";
+		runTestGetInvalidAccountBalance_shouldThrowsException(
+				"did not throws expected exception: account informed do not exist in database", 
+				account, 
+				date, 
+				expectedTemplateErrorMessage);
+	}
+	
+	@Test
 	public void testGetAccountBalanceWithNullDate_shouldThrowsException() {
 		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
 		Account account = accountService.findIncomeAccount(accountSystem);
