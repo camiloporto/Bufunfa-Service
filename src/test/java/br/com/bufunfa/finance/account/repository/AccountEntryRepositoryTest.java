@@ -33,7 +33,8 @@ public class AccountEntryRepositoryTest extends SpringRootTestsConfiguration {
 	@Resource(name="transactionHelper")
 	private TransactionHelper transactionHelper;
 	
-	@Resource(name="accountService")
+//	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	@Autowired

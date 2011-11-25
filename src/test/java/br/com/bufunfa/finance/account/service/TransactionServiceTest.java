@@ -26,7 +26,7 @@ import br.com.bufunfa.finance.account.service.util.TransactionHelper;
 
 public class TransactionServiceTest extends SpringRootTestsConfiguration {
 	
-	@Resource(name="transactionService")
+	@Autowired
 	private TransactionService transactionService;
 	
 	@Resource(name="accountSystemServiceHelper")
@@ -38,7 +38,7 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 	@Resource(name="transactionHelper")
 	private TransactionHelper transactionHelper;
 	
-	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	@Autowired

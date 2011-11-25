@@ -6,6 +6,7 @@ import javax.validation.ConstraintViolationException;
 import junit.framework.Assert;
 
 import org.junit.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
@@ -14,11 +15,9 @@ import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 
-//@RunWith(SpringJUnit4ClassRunner.class)
-//@ContextConfiguration(locations = "classpath:/META-INF/spring/applicationContext*.xml")
 public class AccountSystemServiceImplTest extends SpringRootTestsConfiguration {
 	
-	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	@Resource(name="accountSystemServiceHelper")

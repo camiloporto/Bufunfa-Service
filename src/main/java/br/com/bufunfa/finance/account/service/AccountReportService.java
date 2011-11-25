@@ -1,5 +1,6 @@
 package br.com.bufunfa.finance.account.service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import br.com.bufunfa.finance.account.modelo.Account;
@@ -10,5 +11,7 @@ public interface AccountReportService {
 	AccountExtract getAccountExtract(Account account, Date begin, Date end);
 
 	BalanceSheet getBalanceSheet(AccountSystem accountSystem, Date date);
+
+	BigDecimal getAccountBalance(Account account, Date date);
 
 }

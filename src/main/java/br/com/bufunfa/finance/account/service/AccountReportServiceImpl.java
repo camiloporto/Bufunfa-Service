@@ -49,6 +49,11 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return extract;
 	}
 	
+	public BigDecimal getAccountBalance(Account account, Date date) {
+		//ajustar metodo para nao ter limit einferior
+		return accountEntryRepository.getAccountBalance(account.getId(), date);
+	}
+	
 	public BalanceSheet getBalanceSheet(AccountSystem accountSystem, Date date) {
 		
 		Account asset = accountSystemService.findAssetAccount(accountSystem);
@@ -68,12 +73,6 @@ public class AccountReportServiceImpl implements AccountReportService {
 		new ServiceValidator().validate(p, AccountReportConstraintGroups.ExtractRules.class);
 	}
 	
-	private BigDecimal getAccountBalance(Account a, Date date) {
-		//ajustar metodo para nao ter limit einferior
-		List<AccountEntry> entries = accountEntryRepository.findByAccountIdAndDateBetween(a.getId(), MIN_DATE, date);
-		return sumEntries(entries);
-	}
-
 	
 	private BigDecimal sumEntries(List<AccountEntry> entries) {
 		BigDecimal sum = new BigDecimal("0.00");
