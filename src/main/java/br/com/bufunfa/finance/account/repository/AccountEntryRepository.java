@@ -16,9 +16,6 @@ public interface AccountEntryRepository {
 	List<AccountEntry> findByAccountIdAndDateBetween(Long accountId, Date begin,
 			Date end);
 	
-	@Query(value="SELECT sum(ae.value) FROM AccountEntry ae WHERE ae.account.id = ?1 AND ae.date <= ?2")
-	BigDecimal getAccountBalance(Long accountId, Date date);
-	
 	@Query(value="SELECT sum(ae.value) FROM AccountEntry ae WHERE ae.account.id IN ?1 AND ae.date <= ?2")
 	BigDecimal getDeepAccountBalance(Collection<Long> accountIds, Date date);
 

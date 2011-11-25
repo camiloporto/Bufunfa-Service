@@ -8,16 +8,20 @@ import br.com.bufunfa.finance.account.modelo.Account;
 
 public class AccountReportParameters {
 
-	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_ACCOUNT.required}",
-			groups={AccountReportConstraintGroups.ExtractRules.class})
+	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT.required}",
+			groups={
+				AccountReportConstraintGroups.ExtractRules.class,
+				AccountReportConstraintGroups.AccountBalanceRules.class})
 	private Account account;
 	
-	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_BEGIN_DATE.required}",
+	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.BEGIN_DATE.required}",
 			groups={AccountReportConstraintGroups.ExtractRules.class})
 	private Date begin;
 	
-	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_END_DATE.required}",
-			groups={AccountReportConstraintGroups.ExtractRules.class})
+	@NotNull(message="{br.com.bufunfa.finance.service.AccountReportService.END_DATE.required}",
+			groups={
+				AccountReportConstraintGroups.ExtractRules.class,
+				AccountReportConstraintGroups.AccountBalanceRules.class})
 	private Date end;
 	
 	public AccountReportParameters(Account account, Date begin, Date end) {

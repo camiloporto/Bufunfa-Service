@@ -34,7 +34,7 @@ public class AccountReportServiceImpl implements AccountReportService {
 	public AccountExtract getAccountExtract(Account account, Date begin,
 			Date end) {
 		
-		validateExtractParameters(createForExtract(account, begin, end));
+		validateExtractParameters(createReportParameters(account, begin, end));
 		
 		List<AccountEntry> entries = accountEntryRepository.findByAccountIdAndDateBetween(account.getId(), begin, end);
 		AccountExtract extract = new AccountExtract(entries);
@@ -44,6 +44,8 @@ public class AccountReportServiceImpl implements AccountReportService {
 	
 	public BigDecimal getAccountBalance(Account account, Date date) {
 	
+		validateAccountBalanceParameters(createReportParameters(account, date));
+		
 		Set<Long> accountIdsOnTree = findChildrenAccountIdsOf(account);
 		return accountEntryRepository.getDeepAccountBalance(accountIdsOnTree, date);
 	}
@@ -58,13 +60,20 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return bs;
 	}
 	
-	private AccountReportParameters createForExtract(Account account, Date begin,
+	private AccountReportParameters createReportParameters(Account account, Date begin,
 			Date end) {
 		return new AccountReportParameters(account, begin, end);
+	}
+	private AccountReportParameters createReportParameters(Account account, Date date) {
+		return new AccountReportParameters(account, null, date);
 	}
 	
 	private void validateExtractParameters(AccountReportParameters p) {
 		new ServiceValidator().validate(p, AccountReportConstraintGroups.ExtractRules.class);
+	}
+	
+	private void validateAccountBalanceParameters(AccountReportParameters p) {
+		new ServiceValidator().validate(p, AccountReportConstraintGroups.AccountBalanceRules.class);
 	}
 	
 	private Set<Long> findChildrenAccountIdsOf(Account a) {

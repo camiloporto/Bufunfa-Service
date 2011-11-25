@@ -253,7 +253,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Date date2 = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
 
 		Account nullAccount = null;
-		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_ACCOUNT.required}";
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT.required}";
 
 		runTestGetInvalidAccountExtract_shouldThrowsException(
 				"should throws expected exception: null account given", 
@@ -272,7 +272,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Date endDate = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
 
 		Account account = accountService.findIncomeAccount(sample);
-		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_BEGIN_DATE.required}";
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.BEGIN_DATE.required}";
 
 		runTestGetInvalidAccountExtract_shouldThrowsException(
 				"should throws expected exception: begin date is null", 
@@ -292,7 +292,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Date nullDate = null;
 
 		Account account = accountService.findIncomeAccount(sample);
-		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.EXTRACT_END_DATE.required}";
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.END_DATE.required}";
 
 		runTestGetInvalidAccountExtract_shouldThrowsException(
 				"should throws expected exception: end date is null", 
@@ -372,12 +372,52 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		Assert.assertEquals(
 				"current account balance dit not match", 
 				expectedBalance, accountBalance);
+	}
+	
+	@Test
+	public void testGetAccountBalanceWithNullAccount_shouldThrowsException() {
+		Date date = new GregorianCalendar(2011, Calendar.MARCH, 3).getTime();
+		Account account = null;
 		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT.required}";
+		runTestGetInvalidAccountBalance_shouldThrowsException(
+				"did not throws expected exception: null account informed to account balance", 
+				account, 
+				date, 
+				expectedTemplateErrorMessage);
+	}
+	
+	@Test
+	public void testGetAccountBalanceWithNullDate_shouldThrowsException() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account account = accountService.findIncomeAccount(accountSystem);
+		Date date = null;
+		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.AccountReportService.END_DATE.required}";
+		runTestGetInvalidAccountBalance_shouldThrowsException(
+				"did not throws expected exception: null date informed to account balance", 
+				account, 
+				date, 
+				expectedTemplateErrorMessage);
+	}
+	
+	private void runTestGetInvalidAccountBalance_shouldThrowsException(
+			String failMessage, Account account, Date date, String...expectedTemplateErrorMessages) {
+		
+		try {
+			reportService.getAccountBalance(account, date);
+			Assert.fail(failMessage);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
 	}
 	
 	@Test
 	public void testGetBalanceSheet_shouldSuccess() {
-		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
 		String comment1 = "t1";
 		String comment2 = "t2";
 		Date date1 = new GregorianCalendar(2011, Calendar.MARCH, 1).getTime();
@@ -386,11 +426,11 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		BigDecimal value1 = new BigDecimal("50.00");
 		BigDecimal value2 = new BigDecimal("25.00");
 		
-		transactionHelper.saveSampleTransactionFromIncomeToAssetOnDate(sample, date1, comment1, value1);
-		transactionHelper.saveSampleTransactionFromLiabilityToAssetOnDate(sample, date2, comment2, value2);
+		transactionHelper.saveSampleTransactionFromIncomeToAssetOnDate(accountSystem, date1, comment1, value1);
+		transactionHelper.saveSampleTransactionFromLiabilityToAssetOnDate(accountSystem, date2, comment2, value2);
 		
 		BalanceSheet balance = reportService.getBalanceSheet(
-				sample,
+				accountSystem,
 				date2
 				);
 		
@@ -409,4 +449,5 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 				"current liability balance dit not match", 
 				expectedLiabilityBalance, currentLiabilityBalance);
 	}
+	
 }
