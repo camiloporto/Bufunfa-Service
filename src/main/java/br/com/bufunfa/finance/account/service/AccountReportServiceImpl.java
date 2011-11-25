@@ -47,7 +47,11 @@ public class AccountReportServiceImpl implements AccountReportService {
 		validateAccountBalanceParameters(createReportParameters(account, date));
 		
 		Set<Long> accountIdsOnTree = findChildrenAccountIdsOf(account);
-		return accountEntryRepository.getDeepAccountBalance(accountIdsOnTree, date);
+		BigDecimal result = accountEntryRepository.getDeepAccountBalance(accountIdsOnTree, date);
+		if(result == null) {
+			return new BigDecimal("0.00");
+		}
+		return result;
 	}
 	
 	public BalanceSheet getBalanceSheet(AccountSystem accountSystem, Date date) {

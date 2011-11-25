@@ -375,6 +375,26 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testGetAccountBalanceWithNoEntries_shouldReturnZero() {
+		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account income = accountService.findIncomeAccount(accountSystem);
+		Account outcome = accountService.findOutcomeAccount(accountSystem);
+		Account salary = accountTestHelper.saveAccountSample("Salary", income.getId());
+		Account rent = accountTestHelper.saveAccountSample("Rent", salary.getId());
+		
+		Date date = new GregorianCalendar(2011, Calendar.MARCH, 3).getTime();
+		
+		Account account = accountService.findIncomeAccount(accountSystem);
+		BigDecimal accountBalance = reportService.getAccountBalance(account, date);
+		
+		BigDecimal expectedBalance = new BigDecimal("0.00");
+		
+		Assert.assertEquals(
+				"current account balance dit not match", 
+				expectedBalance, accountBalance);
+	}
+	
+	@Test
 	public void testGetAccountBalanceWithNullAccount_shouldThrowsException() {
 		Date date = new GregorianCalendar(2011, Calendar.MARCH, 3).getTime();
 		Account account = null;
