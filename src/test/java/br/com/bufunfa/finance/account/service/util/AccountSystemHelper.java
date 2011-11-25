@@ -22,7 +22,8 @@ public class AccountSystemHelper {
 	@Autowired
 	private AccountRepository accountRepository;
 	
-	@Resource(name="accountService")
+//	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	public void setAccountRepository(AccountRepository accountRepository) {

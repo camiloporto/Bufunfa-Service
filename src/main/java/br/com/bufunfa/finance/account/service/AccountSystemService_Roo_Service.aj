@@ -10,13 +10,6 @@ import java.util.List;
 
 privileged aspect AccountSystemService_Roo_Service {
     
-    public abstract long AccountSystemService.countAllAccountSystems();    
-    public abstract void AccountSystemService.deleteAccountSystem(AccountSystem accountSystem);    
-    public abstract AccountSystem AccountSystemService.findAccountSystem(Long id);    
-    public abstract List<AccountSystem> AccountSystemService.findAllAccountSystems();    
-    public abstract List<AccountSystem> AccountSystemService.findAccountSystemEntries(int firstResult, int maxResults);    
-    public abstract void AccountSystemService.saveAccountSystem(AccountSystem accountSystem);    
-    public abstract AccountSystem AccountSystemService.updateAccountSystem(AccountSystem accountSystem);    
     public abstract long AccountSystemService.countAllAccounts();    
     public abstract void AccountSystemService.deleteAccount(Account account);    
     public abstract Account AccountSystemService.findAccount(Long id);    
@@ -24,4 +17,11 @@ privileged aspect AccountSystemService_Roo_Service {
     public abstract List<Account> AccountSystemService.findAccountEntries(int firstResult, int maxResults);    
     public abstract void AccountSystemService.saveAccount(Account account);    
     public abstract Account AccountSystemService.updateAccount(Account account);    
+    public abstract long AccountSystemService.countAllAccountSystems();    
+    public abstract void AccountSystemService.deleteAccountSystem(AccountSystem accountSystem);    
+    public abstract AccountSystem AccountSystemService.findAccountSystem(Long id);    
+    public abstract List<AccountSystem> AccountSystemService.findAllAccountSystems();    
+    public abstract List<AccountSystem> AccountSystemService.findAccountSystemEntries(int firstResult, int maxResults);    
+    public abstract void AccountSystemService.saveAccountSystem(AccountSystem accountSystem);    
+    public abstract AccountSystem AccountSystemService.updateAccountSystem(AccountSystem accountSystem);    
 }

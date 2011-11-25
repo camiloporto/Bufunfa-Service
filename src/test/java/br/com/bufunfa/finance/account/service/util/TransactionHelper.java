@@ -20,7 +20,8 @@ public class TransactionHelper {
 	@Autowired
 	private TransactionService transactionService;
 	
-	@Resource(name="accountService")
+//	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	private List<Transaction> inserted = new ArrayList<Transaction>();
@@ -45,5 +46,33 @@ public class TransactionHelper {
 		inserted.add(t);
 		return t;
 	}
-
+	
+	public Transaction saveSampleTransactionFromIncomeToAssetOnDate(
+			AccountSystem as, Date transactionDate, String comment, BigDecimal value) {
+		Account origin = accountService.findIncomeAccount(as);
+		Account dest = accountService.findAssetAccount(as);
+		
+		Transaction t = transactionService.saveNewTransaction(
+				origin.getId(), 
+				dest.getId(), 
+				transactionDate, value, comment);
+		
+		inserted.add(t);
+		return t;
+	}
+	
+	public Transaction saveSampleTransactionFromLiabilityToAssetOnDate(
+			AccountSystem as, Date transactionDate, String comment, BigDecimal value) {
+		Account origin = accountService.findLiabilityAccount(as);
+		Account dest = accountService.findAssetAccount(as);
+		
+		Transaction t = transactionService.saveNewTransaction(
+				origin.getId(), 
+				dest.getId(), 
+				transactionDate, value, comment);
+		
+		inserted.add(t);
+		return t;
+	}
+	
 }

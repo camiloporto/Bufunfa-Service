@@ -20,34 +20,10 @@ privileged aspect AccountSystemServiceImpl_Roo_Service {
     declare @type: AccountSystemServiceImpl: @Transactional;
     
     @Autowired
-    AccountSystemRepository AccountSystemServiceImpl.accountSystemRepository;
-    
-    @Autowired
     AccountRepository AccountSystemServiceImpl.accountRepository;
     
-    public long AccountSystemServiceImpl.countAllAccountSystems() {
-        return accountSystemRepository.count();
-    }
-    
-    public void AccountSystemServiceImpl.deleteAccountSystem(AccountSystem accountSystem) {
-        accountSystemRepository.delete(accountSystem);
-    }
-    
-    public AccountSystem AccountSystemServiceImpl.findAccountSystem(Long id) {
-        return accountSystemRepository.findOne(id);
-    }
-    
-    public List<AccountSystem> AccountSystemServiceImpl.findAllAccountSystems() {
-        return accountSystemRepository.findAll();
-    }
-    
-    public List<AccountSystem> AccountSystemServiceImpl.findAccountSystemEntries(int firstResult, int maxResults) {
-        return accountSystemRepository.findAll(new org.springframework.data.domain.PageRequest(firstResult / maxResults, maxResults)).getContent();
-    }
-    
-    public AccountSystem AccountSystemServiceImpl.updateAccountSystem(AccountSystem accountSystem) {
-        return accountSystemRepository.save(accountSystem);
-    }
+    @Autowired
+    AccountSystemRepository AccountSystemServiceImpl.accountSystemRepository;
     
     public long AccountSystemServiceImpl.countAllAccounts() {
         return accountRepository.count();
@@ -75,6 +51,30 @@ privileged aspect AccountSystemServiceImpl_Roo_Service {
     
     public Account AccountSystemServiceImpl.updateAccount(Account account) {
         return accountRepository.save(account);
+    }
+    
+    public long AccountSystemServiceImpl.countAllAccountSystems() {
+        return accountSystemRepository.count();
+    }
+    
+    public void AccountSystemServiceImpl.deleteAccountSystem(AccountSystem accountSystem) {
+        accountSystemRepository.delete(accountSystem);
+    }
+    
+    public AccountSystem AccountSystemServiceImpl.findAccountSystem(Long id) {
+        return accountSystemRepository.findOne(id);
+    }
+    
+    public List<AccountSystem> AccountSystemServiceImpl.findAllAccountSystems() {
+        return accountSystemRepository.findAll();
+    }
+    
+    public List<AccountSystem> AccountSystemServiceImpl.findAccountSystemEntries(int firstResult, int maxResults) {
+        return accountSystemRepository.findAll(new org.springframework.data.domain.PageRequest(firstResult / maxResults, maxResults)).getContent();
+    }
+    
+    public AccountSystem AccountSystemServiceImpl.updateAccountSystem(AccountSystem accountSystem) {
+        return accountSystemRepository.save(accountSystem);
     }
     
 }

@@ -30,7 +30,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	@Resource(name="transactionHelper")
 	private TransactionHelper transactionHelper;
 	
-	@Resource(name="accountService")
+	@Autowired
 	private AccountSystemService accountService;
 	
 	@Autowired
@@ -310,6 +310,40 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 					e, 
 					expectedTemplateErrorMessages);
 		}
+	}
+	
+	@Test
+	public void testGetBalanceSheet_shouldSuccess() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		String comment1 = "t1";
+		String comment2 = "t2";
+		Date date1 = new GregorianCalendar(2011, Calendar.MARCH, 1).getTime();
+		Date date2 = new GregorianCalendar(2011, Calendar.MARCH, 2).getTime();
 		
+		BigDecimal value1 = new BigDecimal("50.00");
+		BigDecimal value2 = new BigDecimal("25.00");
+		
+		transactionHelper.saveSampleTransactionFromIncomeToAssetOnDate(sample, date1, comment1, value1);
+		transactionHelper.saveSampleTransactionFromLiabilityToAssetOnDate(sample, date2, comment2, value2);
+		
+		BalanceSheet balance = reportService.getBalanceSheet(
+				sample,
+				date2
+				);
+		
+		
+		BigDecimal expectedAssetBalance = new BigDecimal("75.00");
+		BigDecimal expectedLiabilityBalance = new BigDecimal("-25.00");
+		BigDecimal currentAssetBalance = balance.getAssetBalance();
+		BigDecimal currentLiabilityBalance = balance.getLiabilityBalance();
+		
+		
+		Assert.assertEquals(
+				"current asset balance dit not match", 
+				expectedAssetBalance, currentAssetBalance);
+		
+		Assert.assertEquals(
+				"current liability balance dit not match", 
+				expectedLiabilityBalance, currentLiabilityBalance);
 	}
 }
