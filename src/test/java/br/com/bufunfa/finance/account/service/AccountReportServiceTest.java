@@ -448,6 +448,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		}
 	}
 	
+	//TODO o balanco deve ser um relatorio fixo? nao eh melhor a WUI fazer um balanco dinamico apenas somando as contas que deseja-se ver?
 	@Test
 	public void testGetBalanceSheet_shouldSuccess() {
 		AccountSystem accountSystem = serviceTestHelper.createAndSaveAccountSystemSample();

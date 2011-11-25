@@ -53,3 +53,9 @@ service --entity ~account.modelo.Transaction --interface ~account.service.Transa
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-18 09:19:43
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-18 10:53:43
 // Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-18 12:04:50
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-24 11:29:34
+quit
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-24 15:13:10
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log opened at 2011-11-25 11:33:14
+quit
+// Spring Roo 1.2.0.M1 [rev 1fa252f] log closed at 2011-11-25 13:31:30
