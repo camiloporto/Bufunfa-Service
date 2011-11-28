@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.service;
 
+import br.com.bufunfa.finance.account.service.BalanceSheetNode;
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -30,6 +31,14 @@ privileged aspect BalanceSheet_Roo_JavaBean {
     
     public void BalanceSheet.setDate(Date date) {
         this.date = date;
+    }
+    
+    public BalanceSheetNode BalanceSheet.getRootNode() {
+        return this.rootNode;
+    }
+    
+    public void BalanceSheet.setRootNode(BalanceSheetNode rootNode) {
+        this.rootNode = rootNode;
     }
     
 }

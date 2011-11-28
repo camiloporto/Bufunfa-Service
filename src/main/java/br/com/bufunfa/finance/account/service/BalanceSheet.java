@@ -5,6 +5,8 @@ import java.util.Date;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+
 @RooJavaBean
 public class BalanceSheet {
 
@@ -12,10 +14,16 @@ public class BalanceSheet {
 	private BigDecimal liabilityBalance;
 	private Date date;
 	
+	private BalanceSheetNode rootNode;
+	
 	public BalanceSheet(BigDecimal assetBalance, BigDecimal liabilityBalance,
 			Date date) {
 		this.assetBalance = assetBalance;
 		this.liabilityBalance = liabilityBalance;
 		this.date = date;
+	}
+	
+	public BalanceSheet(AccountSystem as) {
+		this.rootNode = new BalanceSheetNode(as.getName());
 	}
 }

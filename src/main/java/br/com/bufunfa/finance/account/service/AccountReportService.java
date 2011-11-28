@@ -14,4 +14,6 @@ public interface AccountReportService {
 
 	BigDecimal getAccountBalance(Account account, Date date);
 
+	BalanceSheet getBalanceSheetTree(AccountSystem accountSystem, Date date);
+
 }
