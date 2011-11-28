@@ -6,6 +6,7 @@ package br.com.bufunfa.finance.account.service;
 import br.com.bufunfa.finance.account.service.BalanceSheetNode;
 import java.lang.Long;
 import java.lang.String;
+import java.math.BigDecimal;
 import java.util.Collection;
 
 privileged aspect BalanceSheetNode_Roo_JavaBean {
@@ -32,6 +33,14 @@ privileged aspect BalanceSheetNode_Roo_JavaBean {
     
     public void BalanceSheetNode.setName(String name) {
         this.name = name;
+    }
+    
+    public BigDecimal BalanceSheetNode.getBalance() {
+        return this.balance;
+    }
+    
+    public void BalanceSheetNode.setBalance(BigDecimal balance) {
+        this.balance = balance;
     }
     
     public Collection<BalanceSheetNode> BalanceSheetNode.getChildren() {

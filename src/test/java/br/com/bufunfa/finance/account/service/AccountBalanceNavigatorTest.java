@@ -1,5 +1,6 @@
 package br.com.bufunfa.finance.account.service;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
@@ -80,6 +81,23 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Assert.assertThat("node2 father is rootNode", 
 				node2.getFatherId(), 
 				IsEqual.equalTo(rootNode.getId()));
+	}
+	
+	@Test
+	public void testGetAssetNodeBalance_shouldGetAssetNodeBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		
+		BalanceSheetNode assetNode = rootNode.getChildByName(Account.ASSET_NAME);
+		BigDecimal expectedBalance = new BigDecimal("100.00");
+		
+		Assert.assertThat("assetNode balance is 100.00", 
+				assetNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+		
 	}
 
 }
