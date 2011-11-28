@@ -4,10 +4,27 @@
 package br.com.bufunfa.finance.account.service;
 
 import br.com.bufunfa.finance.account.service.BalanceSheetNode;
+import java.lang.Long;
 import java.lang.String;
 import java.util.Collection;
 
 privileged aspect BalanceSheetNode_Roo_JavaBean {
+    
+    public Long BalanceSheetNode.getId() {
+        return this.id;
+    }
+    
+    public void BalanceSheetNode.setId(Long id) {
+        this.id = id;
+    }
+    
+    public Long BalanceSheetNode.getFatherId() {
+        return this.fatherId;
+    }
+    
+    public void BalanceSheetNode.setFatherId(Long fatherId) {
+        this.fatherId = fatherId;
+    }
     
     public String BalanceSheetNode.getName() {
         return this.name;

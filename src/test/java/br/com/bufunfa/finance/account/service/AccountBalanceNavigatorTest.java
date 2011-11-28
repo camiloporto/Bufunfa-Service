@@ -35,6 +35,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	@Test
 	public void testGetRootNode_shouldSuccess() {
 		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Account root = accountService.findAccount(as.getRootAccountId());
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
@@ -42,6 +43,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		
 		Assert.assertNotNull("rootNode should not be null", rootNode);
 		Assert.assertEquals("rootNode name did not match", as.getName(), rootNode.getName());
+		Assert.assertEquals("rootNode id did not match", root.getId(), rootNode.getId());
 		
 	}
 	
@@ -64,21 +66,20 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		BalanceSheetNode node1 = it.next();
 		BalanceSheetNode node2 = it.next();
 		
-		Assert.assertThat("node1 is not asset or liability", 
+		Assert.assertThat("node1 is asset or liability", 
 				node1.getName(), 
 				AnyOf.anyOf(IsEqual.equalTo(Account.ASSET_NAME), IsEqual.equalTo(Account.LIABILITY_NAME)));
-		Assert.assertThat("node2 is not asset or liability", 
+		Assert.assertThat("node2 is asset or liability", 
 				node2.getName(), 
 				AnyOf.anyOf(IsEqual.equalTo(Account.ASSET_NAME), IsEqual.equalTo(Account.LIABILITY_NAME)));
 		
-	}
-	
-	private boolean isIn(String key, Collection<String> values) {
-		for (String s : values) {
-			if(s.equals(key))
-				return true;
-		}
-		return false;
+		Assert.assertThat("node1 father is rootNode", 
+				node1.getFatherId(), 
+				IsEqual.equalTo(rootNode.getId()));
+		
+		Assert.assertThat("node2 father is rootNode", 
+				node2.getFatherId(), 
+				IsEqual.equalTo(rootNode.getId()));
 	}
 
 }

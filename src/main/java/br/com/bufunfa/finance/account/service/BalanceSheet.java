@@ -5,7 +5,7 @@ import java.util.Date;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
-import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.modelo.Account;
 
 @RooJavaBean
 public class BalanceSheet {
@@ -23,7 +23,7 @@ public class BalanceSheet {
 		this.date = date;
 	}
 	
-	public BalanceSheet(AccountSystem as) {
-		this.rootNode = new BalanceSheetNode(as.getName());
+	public BalanceSheet(Account root) {
+		this.rootNode = new BalanceSheetNode(root);
 	}
 }

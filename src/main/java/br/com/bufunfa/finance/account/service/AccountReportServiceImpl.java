@@ -65,12 +65,13 @@ public class AccountReportServiceImpl implements AccountReportService {
 	}
 	
 	public BalanceSheet getBalanceSheetTree(AccountSystem accountSystem, Date date) {
+		Account root = accountSystemService.findAccount(accountSystem.getRootAccountId());
 		Account asset = accountSystemService.findAssetAccount(accountSystem);
 		Account liability = accountSystemService.findLiabilityAccount(accountSystem);
 		BigDecimal assetBalance = getAccountBalance(asset, date);
 		BigDecimal liabilityBalance = getAccountBalance(liability, date);
 		
-		BalanceSheet bs = new BalanceSheet(accountSystem);
+		BalanceSheet bs = new BalanceSheet(root);
 		bs.getRootNode().addChild(asset);
 		bs.getRootNode().addChild(liability);
 		return bs;
