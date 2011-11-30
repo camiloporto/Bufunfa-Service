@@ -21,13 +21,13 @@ public class AccountBalanceNavigatorHelper {
 	
 	/**
 	 * Prepare an account system with basic accounts
-	 * and adds one transaction from Income to Outcome
+	 * and adds one transaction from Income to Asset
 	 * on 20/jan/2011 with value 100.00
 	 * @return
 	 */
 	public AccountSystem prepareAccountSystemBasicSample() {
 		AccountSystem as = accountSystemHelper.createAndSaveAccountSystemSample();
-		transactionHelper.saveSampleTransactionFromIncomeToAssetOnDate(
+		transactionHelper.saveSampleTransactionFromLiabilityToAssetOnDate(
 				as, 
 				DateUtils.getDate(2011, Calendar.JANUARY, 20).getTime(), 
 				null, 

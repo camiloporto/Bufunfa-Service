@@ -99,5 +99,22 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 				IsEqual.equalTo(expectedBalance));
 		
 	}
+	
+	@Test
+	public void testGetLiabilityNodeBalance_shouldGetLiabilityNodeBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		
+		BalanceSheetNode liabilityNode = rootNode.getChildByName(Account.LIABILITY_NAME);
+		BigDecimal expectedBalance = new BigDecimal("-100.00");
+		
+		Assert.assertThat("liabilityNode balance is -100.00", 
+				liabilityNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+		
+	}
 
 }
