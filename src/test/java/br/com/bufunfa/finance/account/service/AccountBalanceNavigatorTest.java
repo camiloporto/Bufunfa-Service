@@ -170,5 +170,32 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 				IsEqual.equalTo(expectedBalance));
 		
 	}
+	
+	@Test
+	public void testGetAssetBalanceWithChildren_shouldGetAssetBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		Account liabilityAccount = accountService.findLiabilityAccount(as);
+		Account assetAccount = accountService.findAssetAccount(as);
+		String assetChildName = "Cash";
+		Account assetNodeChild = accountBalanceNavigatorHelper.saveAccountSample(assetChildName, assetAccount.getId());
+		
+		BigDecimal transactionValue = new BigDecimal("50.00");
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityAccount, assetNodeChild, date, transactionValue);
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		BalanceSheetNode assetNode = rootNode.getChildByName(Account.ASSET_NAME);
+		
+		//100.00 comes from #prepareAccountSystemBasicSample()
+		BigDecimal expectedBalance = new BigDecimal("150.00");
+		
+		Assert.assertNotNull("assetNode should not be null", assetNode);
+		Assert.assertThat("assetNode balance is 150.00", 
+				assetNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+		
+	}
 
 }
