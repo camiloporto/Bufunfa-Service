@@ -3,11 +3,14 @@ package br.com.bufunfa.finance.account.service;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 
 @RooJavaBean
+@Configurable
 public class BalanceSheet {
 
 	private BigDecimal assetBalance;
@@ -24,6 +27,6 @@ public class BalanceSheet {
 	}
 	
 	public BalanceSheet(Account root) {
-		this.rootNode = new BalanceSheetNode(root, null);
+		this.rootNode = new BalanceSheetNode(root, null, date);
 	}
 }

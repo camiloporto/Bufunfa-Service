@@ -72,8 +72,8 @@ public class AccountReportServiceImpl implements AccountReportService {
 		BigDecimal liabilityBalance = getAccountBalance(liability, date);
 		
 		BalanceSheet bs = new BalanceSheet(root);
-		bs.getRootNode().addChild(asset, assetBalance);
-		bs.getRootNode().addChild(liability, liabilityBalance);
+		bs.getRootNode().addChild(asset, assetBalance, date);
+		bs.getRootNode().addChild(liability, liabilityBalance, date);
 		return bs;
 	}
 	
