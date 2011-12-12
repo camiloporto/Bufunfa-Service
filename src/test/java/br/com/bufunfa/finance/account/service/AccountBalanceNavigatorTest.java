@@ -172,7 +172,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
-	public void testGetAssetBalanceWithChildren_shouldGetAssetBalanceValue() {
+	public void testGetAssetBalanceWithChildren_shouldGetAssetNodeBalanceValue() {
 		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
@@ -194,6 +194,33 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Assert.assertNotNull("assetNode should not be null", assetNode);
 		Assert.assertThat("assetNode balance is 150.00", 
 				assetNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+		
+	}
+	
+	@Test
+	public void testGetLiabilityBalanceWithChildren_shouldGetLiabilityNodeBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		Account liabilityAccount = accountService.findLiabilityAccount(as);
+		Account assetAccount = accountService.findAssetAccount(as);
+		String liabilityChildName = "Dad";
+		Account liabilityNodeChild = accountBalanceNavigatorHelper.saveAccountSample(liabilityChildName, liabilityAccount.getId());
+		
+		BigDecimal transactionValue = new BigDecimal("50.00");
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue);
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		BalanceSheetNode liabilityNode = rootNode.getChildByName(Account.LIABILITY_NAME);
+		
+		//-100.00 comes from #prepareAccountSystemBasicSample()
+		BigDecimal expectedBalance = new BigDecimal("-150.00");
+		
+		Assert.assertNotNull("dadNode should not be null", liabilityNode);
+		Assert.assertThat("dadNode balance is -50.00", 
+				liabilityNode.getBalance(), 
 				IsEqual.equalTo(expectedBalance));
 		
 	}
