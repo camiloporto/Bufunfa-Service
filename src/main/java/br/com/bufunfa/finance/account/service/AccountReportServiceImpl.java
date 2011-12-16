@@ -54,6 +54,10 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return result;
 	}
 	
+	@Deprecated
+	/**
+	 * @deprecated use getBalanceSheetTree()
+	 */
 	public BalanceSheet getBalanceSheet(AccountSystem accountSystem, Date date) {
 		
 		Account asset = accountSystemService.findAssetAccount(accountSystem);
@@ -65,28 +69,26 @@ public class AccountReportServiceImpl implements AccountReportService {
 	}
 	
 	public BalanceSheet getBalanceSheetTree(AccountSystem accountSystem, Date date) {
-		Account root = accountSystemService.findAccount(accountSystem.getRootAccountId());
+		validateBalanceSheetParameters(createReportParameters(accountSystem, date));
 		Account asset = accountSystemService.findAssetAccount(accountSystem);
 		Account liability = accountSystemService.findLiabilityAccount(accountSystem);
-		BigDecimal assetBalance = getAccountBalance(asset, date);
-		BigDecimal liabilityBalance = getAccountBalance(liability, date);
-		
-		BalanceSheet bs = new BalanceSheet(root);
-		bs.getRootNode().addChild(asset, assetBalance, date);
-		bs.getRootNode().addChild(liability, liabilityBalance, date);
-		return bs;
+		return createAccountBalanceTree(accountSystem, date, asset, liability);
 	}
 	
 	public BalanceSheet getOperatingCashBalanceTree(AccountSystem accountSystem, Date date) {
-		Account root = accountSystemService.findAccount(accountSystem.getRootAccountId());
 		Account income = accountSystemService.findIncomeAccount(accountSystem);
 		Account outcome = accountSystemService.findOutcomeAccount(accountSystem);
-		BigDecimal incomeBalance = getAccountBalance(income, date);
-		BigDecimal outcomeBalance = getAccountBalance(outcome, date);
 		
+		return createAccountBalanceTree(accountSystem, date, income, outcome);
+	}
+	
+	private BalanceSheet createAccountBalanceTree(AccountSystem accountSystem, Date date, Account...firstLevelAccounts) {
+		Account root = accountSystemService.findAccount(accountSystem.getRootAccountId());
 		BalanceSheet bs = new BalanceSheet(root);
-		bs.getRootNode().addChild(income, incomeBalance, date);
-		bs.getRootNode().addChild(outcome, outcomeBalance, date);
+		for (Account account : firstLevelAccounts) {
+			BigDecimal balance = getAccountBalance(account, date);
+			bs.getRootNode().addChild(account, balance, date);
+		}
 		return bs;
 	}
 	
@@ -94,8 +96,17 @@ public class AccountReportServiceImpl implements AccountReportService {
 			Date end) {
 		return new AccountReportParameters(account, begin, end);
 	}
+	
 	private AccountReportParameters createReportParameters(Account account, Date date) {
 		return new AccountReportParameters(account, null, date);
+	}
+	
+	private AccountReportParameters createReportParameters(AccountSystem accountSystem, Date date) {
+		return new AccountReportParameters(accountSystem, date);
+	}
+	
+	private void validateBalanceSheetParameters(AccountReportParameters p) {
+		new ServiceValidator().validate(p, AccountReportConstraintGroups.BalanceSheetRules.class);
 	}
 	
 	private void validateExtractParameters(AccountReportParameters p) {

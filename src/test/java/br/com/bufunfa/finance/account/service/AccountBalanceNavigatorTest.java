@@ -1,13 +1,12 @@
 package br.com.bufunfa.finance.account.service;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
+
+import javax.validation.ConstraintViolationException;
 
 import org.hamcrest.core.AnyOf;
 import org.hamcrest.core.IsEqual;
@@ -19,6 +18,7 @@ import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.service.util.AccountBalanceNavigatorHelper;
 import br.com.bufunfa.finance.account.service.util.DateUtils;
+import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 
 
@@ -32,6 +32,8 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Autowired
 	private AccountSystemService accountService;
+	
+	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
 	@Test
 	public void testGetRootNode_shouldSuccess() {
@@ -286,5 +288,20 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Assert.assertThat("outcomeNode balance is 200.00", 
 				outcomeNode.getBalance(), 
 				IsEqual.equalTo(expectedBalance));
+	}
+	
+	@Test
+	public void testGetBalanceSheetPassingNullAccountSystem_shouldThrowsException() {
+		AccountSystem as = null;
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}";
+		try{
+			accountBalanceNavigator.getBalanceSheetTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
 	}
 }
