@@ -16,4 +16,7 @@ public interface AccountReportService {
 
 	BalanceSheet getBalanceSheetTree(AccountSystem accountSystem, Date date);
 
+	//FIXME renomear ess classe de retorno para um nome mais generico do que balanco patrimonial. EH uma arvore de saldos
+	BalanceSheet getOperatingCashBalanceTree(AccountSystem as, Date date);
+
 }

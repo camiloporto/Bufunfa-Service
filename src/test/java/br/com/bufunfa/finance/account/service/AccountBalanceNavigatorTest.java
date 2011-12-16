@@ -35,7 +35,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetRootNode_shouldSuccess() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Account root = accountService.findAccount(as.getRootAccountId());
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
@@ -50,7 +50,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetRootNodeChildren_shouldGet1stLevelAccountNodes() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
@@ -85,7 +85,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetAssetNodeBalance_shouldGetAssetNodeBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
@@ -102,7 +102,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetLiabilityNodeBalance_shouldGetLiabilityNodeBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
@@ -119,7 +119,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetAssetNodeChildBalance_shouldGetAssetNodeChildBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		Account liabilityAccount = accountService.findLiabilityAccount(as);
@@ -146,7 +146,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetLiabilityNodeChildBalance_shouldGetLiabilityNodeChildBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		Account liabilityAccount = accountService.findLiabilityAccount(as);
@@ -173,7 +173,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetAssetBalanceWithChildren_shouldGetAssetNodeBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		Account liabilityAccount = accountService.findLiabilityAccount(as);
@@ -200,7 +200,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testGetLiabilityBalanceWithChildren_shouldGetLiabilityNodeBalanceValue() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		Account liabilityAccount = accountService.findLiabilityAccount(as);
@@ -227,7 +227,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testExpandNodeWithChildren_shouldGetNodeChildrenWithBalances() {
-		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForBalanceSheet();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		
 		Account liabilityAccount = accountService.findLiabilityAccount(as);
@@ -242,12 +242,6 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		BalanceSheetNode rootNode = balanceTree.getRootNode();
 		BalanceSheetNode liabilityNode = rootNode.getChildByName(Account.LIABILITY_NAME);
 		
-//		Assert.assertThat("liability node children did not load yet", 
-//				liabilityNode.getChildren().size(), 
-//				IsEqual.equalTo(0));
-//		
-//		liabilityNode.loadChildren();
-		
 		Assert.assertThat("liability node children have been loaded", 
 				liabilityNode.getChildren().size(),
 				IsEqual.equalTo(1));
@@ -261,4 +255,20 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	}
 	
 	//TODO tentar refatorar balanco: criar um somador generico de lancamentos de contas?
+	
+	@Test
+	public void testGetIncomeNodeBalance_shouldGetIncomeNodeBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForCashflow();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getOperatingCashBalanceTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		
+		BalanceSheetNode incomeNode = rootNode.getChildByName(Account.INCOME_NAME);
+		BigDecimal expectedBalance = new BigDecimal("-200.00");
+		
+		Assert.assertThat("incomeNode balance is -100.00", 
+				incomeNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+	}
 }

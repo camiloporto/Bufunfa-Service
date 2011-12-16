@@ -77,6 +77,19 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return bs;
 	}
 	
+	public BalanceSheet getOperatingCashBalanceTree(AccountSystem accountSystem, Date date) {
+		Account root = accountSystemService.findAccount(accountSystem.getRootAccountId());
+		Account income = accountSystemService.findIncomeAccount(accountSystem);
+		Account outcome = accountSystemService.findOutcomeAccount(accountSystem);
+		BigDecimal incomeBalance = getAccountBalance(income, date);
+		BigDecimal outcomeBalance = getAccountBalance(outcome, date);
+		
+		BalanceSheet bs = new BalanceSheet(root);
+		bs.getRootNode().addChild(income, incomeBalance, date);
+		bs.getRootNode().addChild(outcome, outcomeBalance, date);
+		return bs;
+	}
+	
 	private AccountReportParameters createReportParameters(Account account, Date begin,
 			Date end) {
 		return new AccountReportParameters(account, begin, end);

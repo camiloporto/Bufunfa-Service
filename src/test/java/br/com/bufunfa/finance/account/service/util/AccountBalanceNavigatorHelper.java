@@ -23,17 +23,33 @@ public class AccountBalanceNavigatorHelper {
 	
 	/**
 	 * Prepare an account system with basic accounts
-	 * and adds one transaction from Income to Asset
+	 * and adds one transaction from Liability to Asset
 	 * on 20/jan/2011 with value 100.00
 	 * @return
 	 */
-	public AccountSystem prepareAccountSystemBasicSample() {
+	public AccountSystem prepareAccountSystemBasicSampleForBalanceSheet() {
 		AccountSystem as = accountSystemHelper.createAndSaveAccountSystemSample();
 		transactionHelper.saveSampleTransactionFromLiabilityToAssetOnDate(
 				as, 
 				DateUtils.getDate(2011, Calendar.JANUARY, 20).getTime(), 
 				null, 
 				new BigDecimal("100.00"));
+		return as;
+	}
+	
+	/**
+	 * Prepare an account system with basic accounts
+	 * and adds one transaction from Income to Outcome
+	 * on 20/jan/2011 with value 200.00
+	 * @return
+	 */
+	public AccountSystem prepareAccountSystemBasicSampleForCashflow() {
+		AccountSystem as = accountSystemHelper.createAndSaveAccountSystemSample();
+		transactionHelper.saveSampleTransactionFromIncomeToOutcomeOnDate(
+				as, 
+				DateUtils.getDate(2011, Calendar.JANUARY, 20).getTime(), 
+				null, 
+				new BigDecimal("200.00"));
 		return as;
 	}
 
