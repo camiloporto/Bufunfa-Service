@@ -267,8 +267,24 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		BalanceSheetNode incomeNode = rootNode.getChildByName(Account.INCOME_NAME);
 		BigDecimal expectedBalance = new BigDecimal("-200.00");
 		
-		Assert.assertThat("incomeNode balance is -100.00", 
+		Assert.assertThat("incomeNode balance is -200.00", 
 				incomeNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+	}
+	
+	@Test
+	public void testGetOutcomeNodeBalance_shouldGetOutcomeNodeBalanceValue() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForCashflow();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getOperatingCashBalanceTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		
+		BalanceSheetNode outcomeNode = rootNode.getChildByName(Account.OUTCOME_NAME);
+		BigDecimal expectedBalance = new BigDecimal("200.00");
+		
+		Assert.assertThat("outcomeNode balance is 200.00", 
+				outcomeNode.getBalance(), 
 				IsEqual.equalTo(expectedBalance));
 	}
 }
