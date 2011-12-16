@@ -50,5 +50,14 @@ public class AccountReportParameters {
 		}
 		return false;
 	}
+	
+	@AssertFalse(message="{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}",
+			groups={AccountReportConstraintGroups.BalanceSheetRules.class})
+	public boolean isAccountSystemTransient() {
+		if(accountSystem != null) {
+			return this.accountSystem.getId() == null;
+		}
+		return false;
+	}
 
 }

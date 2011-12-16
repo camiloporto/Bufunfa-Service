@@ -304,4 +304,19 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 					expectedTemplateErrorMessages);
 		}
 	}
+	
+	@Test
+	public void testGetBalanceSheetPassingTransientAccountSystem_shouldThrowsException() {
+		AccountSystem as = new AccountSystem();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}";
+		try{
+			accountBalanceNavigator.getBalanceSheetTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
 }
