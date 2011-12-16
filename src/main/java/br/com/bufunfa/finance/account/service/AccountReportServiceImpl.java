@@ -76,6 +76,7 @@ public class AccountReportServiceImpl implements AccountReportService {
 	}
 	
 	public BalanceSheet getOperatingCashBalanceTree(AccountSystem accountSystem, Date date) {
+		validateOperatingCashBalanceParameters(createReportParameters(accountSystem, date));
 		Account income = accountSystemService.findIncomeAccount(accountSystem);
 		Account outcome = accountSystemService.findOutcomeAccount(accountSystem);
 		
@@ -106,6 +107,10 @@ public class AccountReportServiceImpl implements AccountReportService {
 	}
 	
 	private void validateBalanceSheetParameters(AccountReportParameters p) {
+		new ServiceValidator().validate(p, AccountReportConstraintGroups.BalanceSheetRules.class);
+	}
+	
+	private void validateOperatingCashBalanceParameters(AccountReportParameters p) {
 		new ServiceValidator().validate(p, AccountReportConstraintGroups.BalanceSheetRules.class);
 	}
 	

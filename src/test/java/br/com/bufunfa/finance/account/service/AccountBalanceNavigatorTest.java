@@ -306,12 +306,72 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testGetOperatingCashBalancePassingNullAccountSystem_shouldThrowsException() {
+		AccountSystem as = null;
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}";
+		try{
+			accountBalanceNavigator.getOperatingCashBalanceTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
+	
+	@Test
 	public void testGetBalanceSheetPassingTransientAccountSystem_shouldThrowsException() {
 		AccountSystem as = new AccountSystem();
 		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
 		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}";
 		try{
 			accountBalanceNavigator.getBalanceSheetTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
+	
+	@Test
+	public void testGetOperatingCashBalancePassingTransientAccountSystem_shouldThrowsException() {
+		AccountSystem as = new AccountSystem();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.ACCOUNT_SYSTEM.required}";
+		try{
+			accountBalanceNavigator.getOperatingCashBalanceTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
+	
+	@Test
+	public void testGetBalanceSheetPassingNullDate_shouldThrowsException() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForCashflow();
+		Date date = null;
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.END_DATE.required}";
+		try{
+			accountBalanceNavigator.getBalanceSheetTree(as, date);
+		} catch (ConstraintViolationException e) {
+			exceptionHelper.verifyTemplateErrorMessagesIn(
+					"did not throws the correct template error message", 
+					e, 
+					expectedTemplateErrorMessages);
+		}
+	}
+	
+	@Test
+	public void testGetOperatingCashBalancePassingNullDate_shouldThrowsException() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSampleForCashflow();
+		Date date = null;
+		String expectedTemplateErrorMessages = "{br.com.bufunfa.finance.service.AccountReportService.END_DATE.required}";
+		try{
+			accountBalanceNavigator.getOperatingCashBalanceTree(as, date);
 		} catch (ConstraintViolationException e) {
 			exceptionHelper.verifyTemplateErrorMessagesIn(
 					"did not throws the correct template error message", 
