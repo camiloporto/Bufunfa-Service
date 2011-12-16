@@ -224,5 +224,41 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 				IsEqual.equalTo(expectedBalance));
 		
 	}
-
+	
+	@Test
+	public void testExpandNodeWithChildren_shouldGetNodeChildrenWithBalances() {
+		AccountSystem as = accountBalanceNavigatorHelper.prepareAccountSystemBasicSample();
+		Date date = DateUtils.getDate(2011, Calendar.JANUARY, 30).getTime();
+		
+		Account liabilityAccount = accountService.findLiabilityAccount(as);
+		Account assetAccount = accountService.findAssetAccount(as);
+		String liabilityChildName = "Dad";
+		Account liabilityNodeChild = accountBalanceNavigatorHelper.saveAccountSample(liabilityChildName, liabilityAccount.getId());
+		
+		BigDecimal transactionValue = new BigDecimal("50.00");
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue);
+		
+		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
+		BalanceSheetNode rootNode = balanceTree.getRootNode();
+		BalanceSheetNode liabilityNode = rootNode.getChildByName(Account.LIABILITY_NAME);
+		
+//		Assert.assertThat("liability node children did not load yet", 
+//				liabilityNode.getChildren().size(), 
+//				IsEqual.equalTo(0));
+//		
+//		liabilityNode.loadChildren();
+		
+		Assert.assertThat("liability node children have been loaded", 
+				liabilityNode.getChildren().size(),
+				IsEqual.equalTo(1));
+		
+		BalanceSheetNode liabilityChildNode = liabilityNode.getChildByName(liabilityChildName);
+		BigDecimal expectedBalance = new BigDecimal("-50.00");
+		Assert.assertThat("dadNode balance is -50.00", 
+				liabilityChildNode.getBalance(), 
+				IsEqual.equalTo(expectedBalance));
+		
+	}
+	
+	//TODO tentar refatorar balanco: criar um somador generico de lancamentos de contas?
 }

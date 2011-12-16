@@ -52,6 +52,11 @@ public class BalanceSheetNode {
 		return null;
 	}
 	
+	public Collection<BalanceSheetNode> getChildren() {
+		lazyLoadNodeChildren();
+		return children;
+	}
+	
 	private Collection<BalanceSheetNode> loadNodeChildren() {
 		List<Account> accounts = accountSystemService.findAccountByFatherId(getId());
 		Collection<BalanceSheetNode> nodes = new ArrayList<BalanceSheetNode>();
@@ -70,6 +75,10 @@ public class BalanceSheetNode {
 		if(children.isEmpty()) {
 			children = loadNodeChildren();
 		}
+	}
+
+	public void loadChildren() {
+		lazyLoadNodeChildren();
 	}
 
 }

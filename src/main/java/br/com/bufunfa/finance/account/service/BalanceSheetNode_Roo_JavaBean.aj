@@ -70,10 +70,6 @@ privileged aspect BalanceSheetNode_Roo_JavaBean {
         this.date = date;
     }
     
-    public Collection<BalanceSheetNode> BalanceSheetNode.getChildren() {
-        return this.children;
-    }
-    
     public void BalanceSheetNode.setChildren(Collection<BalanceSheetNode> children) {
         this.children = children;
     }
