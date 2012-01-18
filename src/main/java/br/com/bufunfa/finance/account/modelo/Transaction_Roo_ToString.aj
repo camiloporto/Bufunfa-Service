@@ -3,17 +3,14 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
-import java.lang.String;
+import br.com.bufunfa.finance.account.modelo.Transaction;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect Transaction_Roo_ToString {
     
     public String Transaction.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("DestAccountEntry: ").append(getDestAccountEntry()).append(", ");
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("OriginAccountEntry: ").append(getOriginAccountEntry()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

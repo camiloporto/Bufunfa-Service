@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
+import br.com.bufunfa.finance.account.modelo.Transaction;
 import java.io.Serializable;
 
 privileged aspect Transaction_Roo_Serializable {

@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
+import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import java.io.Serializable;
 
 privileged aspect AccountEntry_Roo_Serializable {

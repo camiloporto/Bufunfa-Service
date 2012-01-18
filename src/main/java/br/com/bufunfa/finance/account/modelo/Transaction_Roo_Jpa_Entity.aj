@@ -3,8 +3,7 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
-import java.lang.Integer;
-import java.lang.Long;
+import br.com.bufunfa.finance.account.modelo.Transaction;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

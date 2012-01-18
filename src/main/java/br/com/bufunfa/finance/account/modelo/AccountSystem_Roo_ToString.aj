@@ -3,18 +3,14 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
-import java.lang.String;
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import org.apache.commons.lang3.builder.ReflectionToStringBuilder;
+import org.apache.commons.lang3.builder.ToStringStyle;
 
 privileged aspect AccountSystem_Roo_ToString {
     
     public String AccountSystem.toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Id: ").append(getId()).append(", ");
-        sb.append("Name: ").append(getName()).append(", ");
-        sb.append("RootAccountId: ").append(getRootAccountId()).append(", ");
-        sb.append("UserId: ").append(getUserId()).append(", ");
-        sb.append("Version: ").append(getVersion());
-        return sb.toString();
+        return ReflectionToStringBuilder.toString(this, ToStringStyle.SHORT_PREFIX_STYLE);
     }
     
 }

@@ -5,7 +5,7 @@ package br.com.bufunfa.finance.account.service.validation;
 
 import br.com.bufunfa.finance.account.repository.AccountRepository;
 import br.com.bufunfa.finance.account.repository.TransactionRepository;
-import java.lang.Long;
+import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
 import java.math.BigDecimal;
 import java.util.Date;
 

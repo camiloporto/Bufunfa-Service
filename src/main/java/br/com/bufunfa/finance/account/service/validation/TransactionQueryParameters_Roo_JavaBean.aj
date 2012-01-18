@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.service.validation;
 
+import br.com.bufunfa.finance.account.service.validation.TransactionQueryParameters;
 import java.util.Date;
 
 privileged aspect TransactionQueryParameters_Roo_JavaBean {

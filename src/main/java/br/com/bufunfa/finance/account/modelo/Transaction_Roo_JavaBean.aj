@@ -4,6 +4,7 @@
 package br.com.bufunfa.finance.account.modelo;
 
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
+import br.com.bufunfa.finance.account.modelo.Transaction;
 
 privileged aspect Transaction_Roo_JavaBean {
     

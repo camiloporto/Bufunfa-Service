@@ -6,8 +6,6 @@ package br.com.bufunfa.finance.account.service;
 import br.com.bufunfa.finance.account.service.AccountReportService;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.BalanceSheetNode;
-import java.lang.Long;
-import java.lang.String;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.Date;

@@ -7,7 +7,7 @@
     <version>0.1.0.BUILD-SNAPSHOT</version>
     <name>FinanceService</name>
     <properties>
-        <roo.version>1.2.0.M1</roo.version>
+        <roo.version>1.2.0.RELEASE</roo.version>
         <spring.version>3.0.6.RELEASE</spring.version>
         <aspectj.version>1.6.12.M2</aspectj.version>
         <slf4j.version>1.6.1</slf4j.version>
@@ -109,6 +109,11 @@
             <scope>provided</scope>
         </dependency>
         <!-- Spring dependencies -->
+        <dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.0.1</version>
+		</dependency>
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>

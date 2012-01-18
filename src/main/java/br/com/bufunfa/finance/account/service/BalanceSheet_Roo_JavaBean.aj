@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.service;
 
+import br.com.bufunfa.finance.account.service.BalanceSheet;
 import br.com.bufunfa.finance.account.service.BalanceSheetNode;
 import java.math.BigDecimal;
 import java.util.Date;
