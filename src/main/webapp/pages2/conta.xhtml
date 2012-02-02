@@ -1,0 +1,122 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+</h:head>
+<h:body>
+	<ui:composition template="_template.xhtml">
+		<ui:param name="pageTitle" value="Contas" />
+		<ui:define name="pageContent">
+
+			<h:form id="contaForm" prependId="false">
+
+				<p:dialog header="Informe os dados da conta:" id="contaDialog"
+					widgetVar="contaDataDialog" minWidth="420">
+
+					<h:panelGroup id="dialogPanel">
+						<div class="formContainer">
+
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{contaView.treeTableWidget.editing}">#{contaView.treeTableWidget.selectedItemParent.nomeConta}</h:panelGroup>
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{not contaView.treeTableWidget.editing}">#{contaView.treeTableWidget.selectedItem.nomeConta}</h:panelGroup>
+
+							<table>
+								<tbody>
+									<tr>
+										<td class="label"><label for="nomeConta">Nome:</label></td>
+										<td><h:inputText
+												value="#{contaView.treeTableWidget.editingItem.nomeConta}"
+												id="nomeConta" /></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="descricaoConta">Descrição:</label></td>
+										<td><h:inputText
+												value="#{contaView.treeTableWidget.editingItem.descricaoConta}"
+												id="descricaoConta" /></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><p:commandButton value="confirma"
+												oncomplete="contaDataDialog.hide()"
+												action="#{contaView.treeTableWidget.saveItem}"
+												update="contaTree statusDialog" /></td>
+
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+
+				<p:treeTable value="#{contaView.treeTableWidget.rootNode}"
+					var="item" id="contaTree">
+					<p:column>
+						<div style="display: inline;">
+
+							<div class="treeLabelConta">
+								<h:outputText value="#{item.nomeConta}" />
+							</div>
+							<div class="treeDescricaoConta">
+								<h:outputText value="#{item.descricaoConta}" />
+							</div>
+							<div style="visibility: hidden;">
+
+								<h:panelGroup>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										styleClass="actionLink" value="add" type="button"
+										update="dialogPanel" title="Nova conta"
+										action="#{contaView.treeTableWidget.showNewItemForm}">
+										<f:setPropertyActionListener
+											target="#{contaView.treeTableWidget.selectedItem}"
+											value="#{item}" />
+										<f:setPropertyActionListener
+											target="#{contaView.treeTableWidget.editing}" value="false" />
+									</p:commandLink>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										rendered="#{not item.firstLevel}" value="edit" type="button"
+										update="dialogPanel" styleClass="actionLink"
+										action="#{contaView.treeTableWidget.showEditItemForm}"
+										title="Editar conta">
+										<f:setPropertyActionListener
+											target="#{contaView.treeTableWidget.selectedItem}"
+											value="#{item}" />
+										<f:setPropertyActionListener
+											target="#{contaView.treeTableWidget.editing}" value="true" />
+									</p:commandLink>
+									<p:commandLink action="#{contaView.treeTableWidget.deleteItem}"
+										styleClass="actionLink" value="remove"
+										update="contaForm statusDialog"
+										rendered="#{(item.leaf) and (not item.firstLevel)}"
+										title="Remover conta">
+										<f:setPropertyActionListener
+											target="#{contaView.treeTableWidget.selectedItem}"
+											value="#{item}" />
+									</p:commandLink>
+
+								</h:panelGroup>
+							</div>
+						</div>
+						<script type="text/javascript">
+							jQuery("#contaTree tbody tr").hover(
+								function(event){
+								  jQuery("div :last-child", this).css('visibility','visible');
+							   	},
+								function(event){
+								  jQuery("div :last-child", this).css('visibility','hidden');
+							   	}
+							  );
+						</script>
+					</p:column>
+				</p:treeTable>
+
+
+			</h:form>
+		</ui:define>
+	</ui:composition>
+</h:body>
+</html>
