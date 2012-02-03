@@ -13,5 +13,6 @@
 	<bean id="accountHelper" class="br.com.bufunfa.finance.account.service.util.AccountHelper" />
 	<bean id="transactionHelper" class="br.com.bufunfa.finance.account.service.util.TransactionHelper" />
 	<bean id="accountBalanceNavigatorHelper" class="br.com.bufunfa.finance.account.service.util.AccountBalanceNavigatorHelper" />
+	<bean id="userControllerHelper" class="br.com.bufunfa.finance.user.controller.util.UserControllerHelper" />
 
 </beans>
