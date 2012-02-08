@@ -14,8 +14,15 @@
         -->
     </h:head>
     <h:body>
-       <h:form prependId="false">
-       		
+       <h:form prependId="false" id="userForm">
+     		<p:messages id="messages" globalOnly="true" autoUpdate="true">
+       		</p:messages>
+       		<p:inputText id="inputUserEmail" value="#{userController.user.email}"/>
+       		<p:password id="inputUserPassword" value="#{userController.user.password}"/>
+       		<p:commandButton id="buttonSaveNewUser" 
+       			action="#{userController.saveNewUser}"
+       			update="userForm">
+       		</p:commandButton>
        </h:form>
     </h:body>
 </f:view>
