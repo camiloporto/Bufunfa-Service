@@ -14,6 +14,7 @@
         -->
     </h:head>
     <h:body>
+    	<h2 id="title">Bufunfa</h2>
        <h:form prependId="false" id="userForm">
      		<p:messages id="messages" globalOnly="true" autoUpdate="true">
        		</p:messages>
@@ -21,6 +22,10 @@
        		<p:password id="inputUserPassword" value="#{userController.user.password}"/>
        		<p:commandButton id="buttonSaveNewUser" 
        			action="#{userController.saveNewUser}"
+       			update="userForm">
+       		</p:commandButton>
+       		<p:commandButton id="buttonLoginUser" 
+       			action="#{userController.loginUser}"
        			update="userForm">
        		</p:commandButton>
        </h:form>

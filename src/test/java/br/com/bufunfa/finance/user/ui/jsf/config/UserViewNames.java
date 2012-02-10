@@ -5,7 +5,9 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 @RooJavaBean
 public class UserViewNames {
 	
-	private String formNewUser;
+	private String title;
+	
+	private String formUser;
 	
 	private String labelUserEmail;
 	private String labelUserPassword;
@@ -15,6 +17,7 @@ public class UserViewNames {
 	
 	private String buttonSaveNewUser;
 	private String buttonCancelNewUser;
+	private String buttonLoginUser;
 	
 	private String userPageTestURL;
 	private String webDriverType;

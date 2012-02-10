@@ -25,9 +25,17 @@ public class UserController {
 		user = new User();
 	}
 	
+	public String loginUser() {
+		System.out.println("UserController.loginUser() " + getUser());
+		return "account";
+	}
+	
 	void addFacesMessage(String msg, Severity severity) {
 		FacesMessage fmsg = new FacesMessage(severity, msg, msg);
-		FacesContext.getCurrentInstance().addMessage(null, fmsg);
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if(ctx != null) {
+			ctx.addMessage(null, fmsg);
+		}
 	}
 
 	public User getUser() {

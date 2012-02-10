@@ -7,12 +7,20 @@ import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
 
 privileged aspect UserViewNames_Roo_JavaBean {
     
-    public String UserViewNames.getFormNewUser() {
-        return this.formNewUser;
+    public String UserViewNames.getTitle() {
+        return this.title;
     }
     
-    public void UserViewNames.setFormNewUser(String formNewUser) {
-        this.formNewUser = formNewUser;
+    public void UserViewNames.setTitle(String title) {
+        this.title = title;
+    }
+    
+    public String UserViewNames.getFormUser() {
+        return this.formUser;
+    }
+    
+    public void UserViewNames.setFormUser(String formUser) {
+        this.formUser = formUser;
     }
     
     public String UserViewNames.getLabelUserEmail() {
@@ -61,6 +69,14 @@ privileged aspect UserViewNames_Roo_JavaBean {
     
     public void UserViewNames.setButtonCancelNewUser(String buttonCancelNewUser) {
         this.buttonCancelNewUser = buttonCancelNewUser;
+    }
+    
+    public String UserViewNames.getButtonLoginUser() {
+        return this.buttonLoginUser;
+    }
+    
+    public void UserViewNames.setButtonLoginUser(String buttonLoginUser) {
+        this.buttonLoginUser = buttonLoginUser;
     }
     
     public String UserViewNames.getUserPageTestURL() {

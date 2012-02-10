@@ -5,10 +5,10 @@ import java.lang.reflect.InvocationTargetException;
 
 import javax.annotation.Resource;
 
-import org.junit.Assert;
+import junit.framework.Assert;
+
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
@@ -34,7 +34,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	@Test
 	public void testSaveNewUser_shouldSuccess() {
 		UserViewPage userPage = getUserViewPage();
-		UserViewPage.NewUserForm userForm = userPage.getNewUserForm();
+		UserViewPage.UserForm userForm = userPage.getUserForm();
 		final String newUserEmail = "newuser@email.com";
 		final String newUserPass = "secret";
 		userForm.setEmail(newUserEmail);
@@ -44,7 +44,28 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		
 		userPage.assertThatAddNewUserSuccessMessageIsPresent();
 		userPage.assertThatNewUserFormIsEmpty();
+		
+		//FIXME limpar os dados do usuario recem criado. REMOVE-lo do banco
 	}
+	
+	@Test
+	public void testLoginUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
+		final String newUserEmail = "newuser@email.com";
+		final String newUserPass = "secret";
+		UserViewPage userPage = getUserViewPage();
+		userPage.addNewUser(newUserEmail, newUserPass);
+		
+		UserViewPage.UserForm loginForm = userPage.getUserForm();
+		
+		loginForm.setEmail(newUserEmail);
+		loginForm.setPassword(newUserPass);
+		
+		AccountViewPage accountPage = userPage.clickButtonLoginUser();
+		accountPage.assertThatIsOnThePage();
+		
+	}
+	
+	
 
 	private UserViewPage getUserViewPage() {
 		WebDriver driver = getWebDriver();

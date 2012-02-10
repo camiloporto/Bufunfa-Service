@@ -19,7 +19,6 @@ public class UserControllerTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testCreateNewUser_shouldSuccess() {
-//		userController = userControllerHelper.createController();
 		String newUserEmail = "new@email.com";
 		String newUserPass = "secret";
 		userControllerHelper.fillBasicUserData(

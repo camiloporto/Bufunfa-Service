@@ -1,5 +1,7 @@
 package br.com.bufunfa.finance.user.ui.jsf;
 
+import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -9,9 +11,30 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import br.com.bufunfa.finance.user.ui.jsf.config.AccountViewNames;
 import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
+import br.com.bufunfa.finance.user.ui.jsf.util.Property2BeanUtil;
 
 public class UserViewPage {
+	
+	class UserForm {
+
+		public void setEmail(String email) {
+			fillInputElement(
+					userViewIds.getInputUserEmail(), 
+					email);
+			
+		}
+
+		public void setPassword(String pass) {
+			fillInputElement(
+					userViewIds.getInputUserPassword(), 
+					pass);
+			
+		}
+
+	}
+
 
 	private UserViewNames userViewIds;
 	private WebDriver driver;
@@ -19,6 +42,10 @@ public class UserViewPage {
 	public UserViewPage(WebDriver driver, UserViewNames userViewNames) {
 		this.userViewIds = userViewNames;
 		this.driver = driver;
+	}
+	
+	WebDriver getDriver() {
+		return driver;
 	}
 	
 	WebElement findWebElementById(String elementId) {
@@ -65,33 +92,32 @@ public class UserViewPage {
 		Assert.assertTrue("userForm::inputPassword is not empty", inputUserPass.getAttribute("value").isEmpty());
 	}
 	
-	class NewUserForm {
-
-		public void setEmail(String email) {
-			fillInputElement(
-					userViewIds.getInputUserEmail(), 
-					email);
-			
-		}
-
-		public void setPassword(String pass) {
-			fillInputElement(
-					userViewIds.getInputUserPassword(), 
-					pass);
-			
-		}
-
+	public void addNewUser(String newUserEmail, String newUserPass) {
+		UserViewPage.UserForm userForm = getUserForm();
+		
+		userForm.setEmail(newUserEmail);
+		userForm.setPassword(newUserPass);
+		
+		clickButtonAddNewUser();
+		
+	}
+	
+	
+	public UserForm getUserForm() {
+		findWebElementById(userViewIds.getFormUser());
+		return new UserViewPage.UserForm();
 	}
 
-	public NewUserForm getNewUserForm() {
-		findWebElementById(userViewIds.getFormNewUser());
-		return new UserViewPage.NewUserForm();
+	public AccountViewPage clickButtonLoginUser() throws IOException, IllegalAccessException, InvocationTargetException {
+		WebElement loginUserButton = findWebElementById(userViewIds.getButtonLoginUser());
+		loginUserButton.click();
+		AccountViewNames viewNames = new AccountViewNames();
+		Property2BeanUtil.fillBeanWithProperties(
+				viewNames, 
+				AccountViewNames.class.getCanonicalName());
+		
+		//FIXME esperar ate a pagina ser redicerionada
+		return new AccountViewPage(driver, viewNames);
 	}
-
-	
-
-	
-
-	
 
 }
