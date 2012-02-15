@@ -15,6 +15,22 @@ privileged aspect UserViewNames_Roo_JavaBean {
         this.title = title;
     }
     
+    public String UserViewNames.getTitlePage() {
+        return this.titlePage;
+    }
+    
+    public void UserViewNames.setTitlePage(String titlePage) {
+        this.titlePage = titlePage;
+    }
+    
+    public String UserViewNames.getTitleId() {
+        return this.titleId;
+    }
+    
+    public void UserViewNames.setTitleId(String titleId) {
+        this.titleId = titleId;
+    }
+    
     public String UserViewNames.getFormUser() {
         return this.formUser;
     }

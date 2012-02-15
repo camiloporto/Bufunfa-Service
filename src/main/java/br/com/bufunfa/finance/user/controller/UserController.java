@@ -20,14 +20,17 @@ public class UserController {
 
 	public void saveNewUser() {
 		userService.saveUser(getUser());
-		System.out.println("UserController.saveNewUser() : " + getUser());
 		addFacesMessage("usuario adicionado com sucesso", FacesMessage.SEVERITY_INFO);
 		user = new User();
 	}
 	
 	public String loginUser() {
-		System.out.println("UserController.loginUser() " + getUser());
-		return "account";
+		User u = userService.findUserByEmailAndPassword(
+				getUser().getEmail(), 
+				getUser().getPassword());
+		if(u != null)
+			return "account";
+		return null;
 	}
 	
 	void addFacesMessage(String msg, Severity severity) {

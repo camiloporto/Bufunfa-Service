@@ -44,6 +44,14 @@ public class UserViewPage {
 		this.driver = driver;
 	}
 	
+	public void assertThatIsOnThePage() {
+		WebElement title = findWebElementById(userViewIds.getTitleId());
+		String expectedPageTitle = userViewIds.getTitlePage();
+		String actualTitle = title.getText();
+		
+		Assert.assertEquals("page title is not equals", expectedPageTitle, actualTitle);
+	}
+	
 	WebDriver getDriver() {
 		return driver;
 	}

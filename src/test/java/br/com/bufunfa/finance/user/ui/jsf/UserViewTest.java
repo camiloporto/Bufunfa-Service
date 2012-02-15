@@ -45,7 +45,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		userPage.assertThatAddNewUserSuccessMessageIsPresent();
 		userPage.assertThatNewUserFormIsEmpty();
 		
-		//FIXME limpar os dados do usuario recem criado. REMOVE-lo do banco
 	}
 	
 	@Test
@@ -62,6 +61,24 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		
 		AccountViewPage accountPage = userPage.clickButtonLoginUser();
 		accountPage.assertThatIsOnThePage();
+		
+	}
+	
+	@Test
+	public void testFailLoginUser_shouldFail() throws IOException, IllegalAccessException, InvocationTargetException {
+		final String newUserEmail = "newuser@email.com";
+		final String newUserPass = "secret";
+		final String inputPass = "wrongpass";
+		UserViewPage userPage = getUserViewPage();
+		userPage.addNewUser(newUserEmail, newUserPass);
+		
+		UserViewPage.UserForm loginForm = userPage.getUserForm();
+		
+		loginForm.setEmail(newUserEmail);
+		loginForm.setPassword(inputPass);
+		
+		userPage.clickButtonLoginUser();
+		userPage.assertThatIsOnThePage();
 		
 	}
 	

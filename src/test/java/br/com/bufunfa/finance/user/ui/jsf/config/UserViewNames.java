@@ -6,6 +6,8 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 public class UserViewNames {
 	
 	private String title;
+	private String titlePage;
+	private String titleId;
 	
 	private String formUser;
 	

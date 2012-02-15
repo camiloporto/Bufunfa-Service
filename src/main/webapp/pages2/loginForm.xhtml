@@ -17,14 +17,12 @@
 			<p:inputText id="inputUserEmail" value="#{userController.user.email}" />
 			<p:password id="inputUserPassword"
 				value="#{userController.user.password}" />
-				 
 			<p:commandButton id="buttonSaveNewUser"
 				action="#{userController.saveNewUser}" update="userForm">
 			</p:commandButton>
 			<p:commandButton id="buttonLoginUser"
 				action="#{userController.loginUser}" update="userForm">
 			</p:commandButton>
-			 
 		</h:form>
 		<!-- All html ignored after here -->
 
