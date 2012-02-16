@@ -48,6 +48,19 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testSaveNewUserRequiredFields_shouldShowErrorMessages() {
+		UserViewPage userPage = getUserViewPage();
+		
+		//click save user without filling required fields
+		userPage.clickButtonAddNewUser();
+		
+		userPage.assertThatErrorMessagesArePresent(
+				userViewNames.getMessageValidEmailRequired(),
+				userViewNames.getMessagePasswordRequired());
+		
+	}
+	
+	@Test
 	public void testLoginUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		final String newUserEmail = "newuser@email.com";
 		final String newUserPass = "secret";

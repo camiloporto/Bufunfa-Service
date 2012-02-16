@@ -119,4 +119,20 @@ privileged aspect UserViewNames_Roo_JavaBean {
         this.panelMessages = panelMessages;
     }
     
+    public String UserViewNames.getMessageValidEmailRequired() {
+        return this.messageValidEmailRequired;
+    }
+    
+    public void UserViewNames.setMessageValidEmailRequired(String messageValidEmailRequired) {
+        this.messageValidEmailRequired = messageValidEmailRequired;
+    }
+    
+    public String UserViewNames.getMessagePasswordRequired() {
+        return this.messagePasswordRequired;
+    }
+    
+    public void UserViewNames.setMessagePasswordRequired(String messagePasswordRequired) {
+        this.messagePasswordRequired = messagePasswordRequired;
+    }
+    
 }

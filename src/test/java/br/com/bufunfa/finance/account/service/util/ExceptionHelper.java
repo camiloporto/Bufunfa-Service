@@ -44,6 +44,27 @@ public class ExceptionHelper {
 		}
 	}
 	
+	public void verifyTemplateErrorMessagesIsPresentAndI18nized(String testMsg, ConstraintViolationException e, String...expectedMessages) {
+		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
+		for (String expected : expectedMessages) {
+			boolean foundExpectedMessage = false;
+			boolean messageIsI18nized = false;
+			for (Iterator iterator = violations.iterator(); iterator.hasNext();) {
+				ConstraintViolation<?> v = (ConstraintViolation<?>) iterator
+						.next();
+				String msgTemplate = v.getMessageTemplate();
+				String msgI18n = v.getMessage();
+				if(msgTemplate.equals(expected)) {
+					foundExpectedMessage = true;
+					messageIsI18nized = !msgI18n.equals(msgTemplate);
+					break;
+				}
+			}
+			Assert.assertTrue(testMsg + " - expected template message not found: " + expected, foundExpectedMessage);
+			Assert.assertTrue(testMsg + " - template message not I18nized: " + expected, messageIsI18nized);
+		}
+	}
+	
 	private String getTemplateErrorMessages(ConstraintViolationException e) {
 		Set<ConstraintViolation<?>> violations = e.getConstraintViolations();
 		String[] msgs = new String[violations.size()];

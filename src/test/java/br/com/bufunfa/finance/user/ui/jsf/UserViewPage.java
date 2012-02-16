@@ -79,11 +79,26 @@ public class UserViewPage {
 		addNewUserButton.click();
 	}
 	
+	public void assertThatErrorMessagesArePresent(String...errorMessages) {
+		WebElement divMessages = driver.findElement(By.id(userViewIds.getPanelMessages()));
+		List<WebElement> spans = divMessages.findElements(By.tagName("span"));
+		
+		for (String msg : errorMessages) {
+			boolean found = false;
+			for (WebElement webElement : spans) {
+				String webElementText = webElement.getText();
+				found |= webElementText.equalsIgnoreCase(msg);
+			}
+			Assert.assertTrue("expected message not found : " + msg, found);
+		}
+	}
+	
 	public void assertThatAddNewUserSuccessMessageIsPresent() {
 		WebElement divMessages = driver.findElement(By.id(userViewIds.getPanelMessages()));
 		List<WebElement> spans = divMessages.findElements(By.tagName("span"));
 		
 		boolean found = false;
+		//FIXME parametrizar essa msg. colocar num .properties?
 		String expectedMessage = "usuario adicionado com sucesso";
 		for (WebElement webElement : spans) {
 			String webElementText = webElement.getText();

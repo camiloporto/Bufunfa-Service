@@ -40,10 +40,6 @@ privileged aspect UserServiceImpl_Roo_Service {
         return userRepository.findAll(new org.springframework.data.domain.PageRequest(firstResult / maxResults, maxResults)).getContent();
     }
     
-    public void UserServiceImpl.saveUser(User user) {
-        userRepository.save(user);
-    }
-    
     public User UserServiceImpl.updateUser(User user) {
         return userRepository.save(user);
     }

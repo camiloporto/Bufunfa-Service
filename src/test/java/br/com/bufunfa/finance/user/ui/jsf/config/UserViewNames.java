@@ -25,5 +25,8 @@ public class UserViewNames {
 	private String webDriverType;
 	
 	private String panelMessages;
+	
+	private String messageValidEmailRequired;
+	private String messagePasswordRequired;
 
 }
