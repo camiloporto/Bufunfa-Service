@@ -3,9 +3,18 @@
 
 package br.com.bufunfa.finance.user.service.validation;
 
+import br.com.bufunfa.finance.user.repository.UserRepository;
 import br.com.bufunfa.finance.user.service.validation.UserParameters;
 
 privileged aspect UserParameters_Roo_JavaBean {
+    
+    public UserRepository UserParameters.getUserRepository() {
+        return this.userRepository;
+    }
+    
+    public void UserParameters.setUserRepository(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
     
     public String UserParameters.getEmail() {
         return this.email;

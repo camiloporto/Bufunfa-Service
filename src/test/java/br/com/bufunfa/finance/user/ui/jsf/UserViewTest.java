@@ -7,20 +7,27 @@ import javax.annotation.Resource;
 
 import junit.framework.Assert;
 
+import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
+import br.com.bufunfa.finance.user.config.UserDataTestCleaner;
 import br.com.bufunfa.finance.user.controller.util.UserControllerHelper;
 import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
 import br.com.bufunfa.finance.user.ui.jsf.util.Property2BeanUtil;
+import br.com.bufunfa.finance.user.ui.jsf.util.TestDataGenerator;
 
 public class UserViewTest extends SpringRootTestsConfiguration {
 	
 	@Resource(name="userControllerHelper")
 	private UserControllerHelper userControllerHelper;
+	
+	@Autowired
+	private UserDataTestCleaner userDataCleaner;
 	
 	private UserViewNames userViewNames;
 	
@@ -31,11 +38,16 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 				UserViewNames.class.getCanonicalName());
 	}
 	
+	@Before
+	public void cleanUserData() {
+		userDataCleaner.clearAllUsers();
+	}
+	
 	@Test
 	public void testSaveNewUser_shouldSuccess() {
 		UserViewPage userPage = getUserViewPage();
 		UserViewPage.UserForm userForm = userPage.getUserForm();
-		final String newUserEmail = "newuser@email.com";
+		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
 		userForm.setEmail(newUserEmail);
 		userForm.setPassword(newUserPass);
@@ -61,8 +73,26 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testSaveNewUserWithExistentEmail_shouldShowErrorMessages() {
+		final String newUserEmail = TestDataGenerator.generateValidEmail();
+		final String newUserPass = "secret";
+		UserViewPage userPage = getUserViewPage();
+		userPage.addNewUser(newUserEmail, newUserPass);
+		
+		UserViewPage.UserForm userForm = userPage.getUserForm();
+		userForm.setEmail(newUserEmail);//email already exists
+		userForm.setPassword("newsecret");
+		
+		userPage.clickButtonAddNewUser();
+		
+		userPage.assertThatErrorMessagesArePresent(
+				userViewNames.getMessageEmailAlreadyExists());
+		
+	}
+	
+	@Test
 	public void testLoginUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
-		final String newUserEmail = "newuser@email.com";
+		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
 		UserViewPage userPage = getUserViewPage();
 		userPage.addNewUser(newUserEmail, newUserPass);
@@ -79,7 +109,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	
 	@Test
 	public void testFailLoginUser_shouldFail() throws IOException, IllegalAccessException, InvocationTargetException {
-		final String newUserEmail = "newuser@email.com";
+		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
 		final String inputPass = "wrongpass";
 		UserViewPage userPage = getUserViewPage();

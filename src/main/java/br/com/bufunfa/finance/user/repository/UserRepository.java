@@ -8,4 +8,6 @@ import br.com.bufunfa.finance.user.modelo.User;
 public interface UserRepository {
 	
 	User findByEmailAndPassword(String email, String password);
+	
+	User findByEmail(String email);
 }

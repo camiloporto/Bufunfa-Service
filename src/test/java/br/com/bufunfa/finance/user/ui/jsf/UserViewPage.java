@@ -32,7 +32,6 @@ public class UserViewPage {
 					pass);
 			
 		}
-
 	}
 
 
@@ -42,6 +41,8 @@ public class UserViewPage {
 	public UserViewPage(WebDriver driver, UserViewNames userViewNames) {
 		this.userViewIds = userViewNames;
 		this.driver = driver;
+		getUserForm().setEmail("");
+		getUserForm().setPassword("");
 	}
 	
 	public void assertThatIsOnThePage() {
@@ -70,7 +71,7 @@ public class UserViewPage {
 		if(inputField == null) {
 			throw new NoSuchElementException(elementId);
 		}
-		
+		inputField.clear();
 		inputField.sendKeys(value);
 	}
 	

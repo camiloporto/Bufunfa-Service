@@ -135,4 +135,12 @@ privileged aspect UserViewNames_Roo_JavaBean {
         this.messagePasswordRequired = messagePasswordRequired;
     }
     
+    public String UserViewNames.getMessageEmailAlreadyExists() {
+        return this.messageEmailAlreadyExists;
+    }
+    
+    public void UserViewNames.setMessageEmailAlreadyExists(String messageEmailAlreadyExists) {
+        this.messageEmailAlreadyExists = messageEmailAlreadyExists;
+    }
+    
 }
