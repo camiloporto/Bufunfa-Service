@@ -143,4 +143,12 @@ privileged aspect UserViewNames_Roo_JavaBean {
         this.messageEmailAlreadyExists = messageEmailAlreadyExists;
     }
     
+    public String UserViewNames.getMessageInvalidUserCredentials() {
+        return this.messageInvalidUserCredentials;
+    }
+    
+    public void UserViewNames.setMessageInvalidUserCredentials(String messageInvalidUserCredentials) {
+        this.messageInvalidUserCredentials = messageInvalidUserCredentials;
+    }
+    
 }

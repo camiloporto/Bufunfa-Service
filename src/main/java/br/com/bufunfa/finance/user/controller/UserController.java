@@ -20,11 +20,9 @@ public class UserController {
 
 	public void saveNewUser() {
 		try {
-			System.out.println("UserController.saveNewUser()");
 			userService.saveUser(getUser());
 			FacesMessageUtil.addFacesMessage("usuario adicionado com sucesso", FacesMessage.SEVERITY_INFO);
 			user = new User();
-			System.out.println("UserController.saveNewUser() saved");
 		} catch (ConstraintViolationException e) {
 			//FIXME Refatorar esse codigo. Enrolar com aspecto para todos os controladores
 			e.printStackTrace();
@@ -36,9 +34,14 @@ public class UserController {
 		User u = userService.findUserByEmailAndPassword(
 				getUser().getEmail(), 
 				getUser().getPassword());
-		if(u != null)
+		if(u != null) {
+			//FIXME colocar dados do usuario na secao... Usar outra forma de seguranca: spring-security?
 			return "account";
-		return null;
+		} else {
+			FacesMessageUtil.addFacesMessage("Usuário e senha inválidos", FacesMessage.SEVERITY_ERROR);
+			return null;
+		}
+		
 	}
 	
 

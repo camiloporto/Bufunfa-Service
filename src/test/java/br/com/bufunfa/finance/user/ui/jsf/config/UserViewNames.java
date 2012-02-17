@@ -29,5 +29,6 @@ public class UserViewNames {
 	private String messageValidEmailRequired;
 	private String messagePasswordRequired;
 	private String messageEmailAlreadyExists;
+	private String messageInvalidUserCredentials;
 
 }

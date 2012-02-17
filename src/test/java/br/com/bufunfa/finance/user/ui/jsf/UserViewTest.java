@@ -123,6 +123,9 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		userPage.clickButtonLoginUser();
 		userPage.assertThatIsOnThePage();
 		
+		userPage.assertThatErrorMessagesArePresent(
+				userViewNames.getMessageInvalidUserCredentials());
+		
 	}
 	
 	
