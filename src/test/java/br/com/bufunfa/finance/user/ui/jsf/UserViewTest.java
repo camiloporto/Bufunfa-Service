@@ -104,6 +104,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		
 		AccountViewPage accountPage = userPage.clickButtonLoginUser();
 		accountPage.assertThatIsOnThePage();
+		accountPage.assertThatUserInfoIsOnThePage(newUserEmail);
 		
 	}
 	

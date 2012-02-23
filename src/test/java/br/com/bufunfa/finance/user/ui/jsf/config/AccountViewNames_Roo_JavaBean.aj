@@ -23,4 +23,12 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.titlePage = titlePage;
     }
     
+    public String AccountViewNames.getPanelUserinfo() {
+        return this.panelUserinfo;
+    }
+    
+    public void AccountViewNames.setPanelUserinfo(String panelUserinfo) {
+        this.panelUserinfo = panelUserinfo;
+    }
+    
 }

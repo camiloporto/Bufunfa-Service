@@ -7,5 +7,7 @@ public class AccountViewNames {
 	
 	private String titleId;
 	private String titlePage;
+	
+	private String panelUserinfo;
 
 }

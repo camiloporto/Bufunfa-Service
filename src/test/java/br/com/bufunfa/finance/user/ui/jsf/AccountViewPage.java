@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+import br.com.bufunfa.finance.user.ui.jsf.UserViewPage.UserForm;
 import br.com.bufunfa.finance.user.ui.jsf.config.AccountViewNames;
 
 public class AccountViewPage {
@@ -28,6 +29,14 @@ public class AccountViewPage {
 		String actualTitle = title.getText();
 		
 		Assert.assertEquals("page title is not equals", expectedPageTitle, actualTitle);
+	}
+
+	public void assertThatUserInfoIsOnThePage(String userId) {
+		WebElement userInfoPanel = findWebElementById(accountViewIds.getPanelUserinfo());
+		String userInfoText = userInfoPanel.getText();
+		
+		Assert.assertTrue("user info " + userId + " not found on page", 
+				userInfoText.contains(userId));
 	}
 
 }
