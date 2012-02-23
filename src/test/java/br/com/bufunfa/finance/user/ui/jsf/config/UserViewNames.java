@@ -30,5 +30,6 @@ public class UserViewNames {
 	private String messagePasswordRequired;
 	private String messageEmailAlreadyExists;
 	private String messageInvalidUserCredentials;
+	private String messageUserAddedSuccess;
 
 }

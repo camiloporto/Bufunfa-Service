@@ -18,6 +18,10 @@ public class AccountSystemServiceImpl implements AccountSystemService {
 		return accountRepository.findByFatherId(fatherId);
 	}
 	
+	public AccountSystem findAccountSystemByUserId(String userId) {
+		return accountSystemRepository.findAccountSystemByUserId(userId);
+	}
+	
 	private void createInitialAccountHierarchy(AccountSystem as) {
 		Account root = new Account();
 		root.setName(as.getName());

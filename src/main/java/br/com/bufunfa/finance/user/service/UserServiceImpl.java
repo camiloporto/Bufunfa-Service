@@ -1,11 +1,18 @@
 package br.com.bufunfa.finance.user.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.validation.ServiceValidator;
 import br.com.bufunfa.finance.user.modelo.User;
 import br.com.bufunfa.finance.user.service.validation.UserConstraintGroups;
 import br.com.bufunfa.finance.user.service.validation.UserParameters;
 
 public class UserServiceImpl implements UserService {
+	
+	@Autowired
+	private AccountSystemService accountSystemService;
 
 	
 	@Override
@@ -16,6 +23,11 @@ public class UserServiceImpl implements UserService {
 	public void saveUser(User u) {
 		validateSaveNewUser(createUserParameters(u));
 		userRepository.save(u);
+		
+		AccountSystem accountSystem = new AccountSystem();
+		accountSystem.setUserId(u.getEmail());
+		accountSystem.setName(u.getEmail());
+		accountSystemService.saveAccountSystem(accountSystem);
 	}
 	
 	private UserParameters createUserParameters(User u) {

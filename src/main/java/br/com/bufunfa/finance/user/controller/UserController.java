@@ -1,5 +1,7 @@
 package br.com.bufunfa.finance.user.controller;
 
+import java.util.Locale;
+
 import javax.faces.application.FacesMessage;
 import javax.validation.ConstraintViolationException;
 
@@ -7,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
+import br.com.bufunfa.finance.user.i18n.UserMessageSource;
 import br.com.bufunfa.finance.user.modelo.User;
 import br.com.bufunfa.finance.user.service.UserService;
 
@@ -17,11 +20,17 @@ public class UserController {
 	
 	@Autowired
 	private UserService userService;
+	
+	@Autowired
+	private UserMessageSource messageSource;
 
 	public void saveNewUser() {
 		try {
 			userService.saveUser(getUser());
-			FacesMessageUtil.addFacesMessage("usuario adicionado com sucesso", FacesMessage.SEVERITY_INFO);
+			String message = messageSource.getMessage(
+					UserMessageSource.USER_ADDED_SUCCESSFULLY, 
+					null, new Locale("pt", "BR"));
+			FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 			user = new User();
 		} catch (ConstraintViolationException e) {
 			//FIXME Refatorar esse codigo. Enrolar com aspecto para todos os controladores

@@ -7,6 +7,9 @@ import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
+import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.user.config.UserDataTestCleaner;
@@ -19,6 +22,9 @@ public class UserServiceImplTest extends SpringRootTestsConfiguration {
 	
 	@Autowired
 	private UserDataTestCleaner dataCleaner;
+	
+	@Autowired
+	private AccountSystemService accountSystemService;
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
@@ -43,6 +49,9 @@ public class UserServiceImplTest extends SpringRootTestsConfiguration {
 		
 		Assert.assertNotNull("did not save the new user", saved);
 		Assert.assertNotNull("did not assigned valid id", saved.getId());
+		
+		AccountSystem as = accountSystemService.findAccountSystemByUserId(saved.getEmail());
+		Assert.assertNotNull("did not create an AccountSystem for the saved user", as);
 	}
 	
 	@Test

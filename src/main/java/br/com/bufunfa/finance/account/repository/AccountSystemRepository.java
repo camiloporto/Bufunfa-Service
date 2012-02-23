@@ -6,4 +6,6 @@ import br.com.bufunfa.finance.account.modelo.AccountSystem;
 
 @RooJpaRepository(domainType = AccountSystem.class)
 public interface AccountSystemRepository {
+	
+	AccountSystem findAccountSystemByUserId(String userId);
 }

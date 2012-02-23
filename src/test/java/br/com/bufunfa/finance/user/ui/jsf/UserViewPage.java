@@ -99,8 +99,7 @@ public class UserViewPage {
 		List<WebElement> spans = divMessages.findElements(By.tagName("span"));
 		
 		boolean found = false;
-		//FIXME parametrizar essa msg. colocar num .properties?
-		String expectedMessage = "usuario adicionado com sucesso";
+		String expectedMessage = userViewIds.getMessageUserAddedSuccess();//"Usuário adicionado com sucesso";
 		for (WebElement webElement : spans) {
 			String webElementText = webElement.getText();
 			found |= expectedMessage.equalsIgnoreCase(webElementText);

@@ -151,4 +151,12 @@ privileged aspect UserViewNames_Roo_JavaBean {
         this.messageInvalidUserCredentials = messageInvalidUserCredentials;
     }
     
+    public String UserViewNames.getMessageUserAddedSuccess() {
+        return this.messageUserAddedSuccess;
+    }
+    
+    public void UserViewNames.setMessageUserAddedSuccess(String messageUserAddedSuccess) {
+        this.messageUserAddedSuccess = messageUserAddedSuccess;
+    }
+    
 }
