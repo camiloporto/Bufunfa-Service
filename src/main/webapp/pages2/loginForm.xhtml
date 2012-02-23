@@ -9,7 +9,7 @@
 </head>
 <body>
 	<ui:composition>
-
+		<f:loadBundle var="userMsgs" basename="br.com.bufunfa.finance.user.i18n.UserMessageSource"/>
 		<!-- All html ignored before here -->
 		<h:form prependId="false" id="userForm">
 			<p:messages id="messages" globalOnly="true" autoUpdate="true">
@@ -18,10 +18,12 @@
 			<p:password id="inputUserPassword"
 				value="#{userController.user.password}" />
 			<p:commandButton id="buttonSaveNewUser"
-				action="#{userController.saveNewUser}" update="userForm">
+				action="#{userController.saveNewUser}" update="userForm"
+				value="#{userMsgs['userView.loginForm.button.addUser']}">
 			</p:commandButton>
 			<p:commandButton id="buttonLoginUser"
-				action="#{userController.loginUser}" update="userForm">
+				action="#{userController.loginUser}"
+				value="#{userMsgs['userView.loginForm.button.loginUser']}">
 			</p:commandButton>
 		</h:form>
 		<!-- All html ignored after here -->

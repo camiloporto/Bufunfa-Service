@@ -43,11 +43,15 @@ public class UserController {
 		User u = userService.findUserByEmailAndPassword(
 				getUser().getEmail(), 
 				getUser().getPassword());
+		System.out.println("UserController.loginUser() " + u);
 		if(u != null) {
 			//FIXME colocar dados do usuario na secao... Usar outra forma de seguranca: spring-security?
-			return "account";
+			return "account?faces-redirect=true";
 		} else {
-			FacesMessageUtil.addFacesMessage("Usuário e senha inválidos", FacesMessage.SEVERITY_ERROR);
+			String message = messageSource.getMessage(
+					UserMessageSource.USER_CREDENTIALS_FAILED, 
+					null, new Locale("pt", "BR"));
+			FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_ERROR);
 			return null;
 		}
 		

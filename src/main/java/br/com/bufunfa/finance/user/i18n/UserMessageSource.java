@@ -17,6 +17,8 @@ public class UserMessageSource {
 	private Locale locale = new Locale("pt", "BR");
 	
 	public static final String USER_ADDED_SUCCESSFULLY = "USER_ADDED_SUCCESSFULLY";
+	public static final String USER_CREDENTIALS_FAILED = "USER_CREDENTIALS_FAILED";
+	
 	
 	public String getMessage(String msgKey, Object[] msgArgs, Locale l) {
 		return messageSource.getMessage(msgKey, msgArgs, l);
