@@ -3,7 +3,6 @@ package br.com.bufunfa.finance.user.ui.jsf;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import junit.framework.Assert;
 
@@ -11,11 +10,13 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-import br.com.bufunfa.finance.user.ui.jsf.config.AccountViewNames;
+import br.com.bufunfa.finance.account.ui.jsf.AccountViewPage;
+import br.com.bufunfa.finance.account.ui.jsf.config.AccountViewNames;
+import br.com.bufunfa.finance.core.ui.jsf.AbstractViewPage;
+import br.com.bufunfa.finance.core.ui.jsf.util.Property2BeanUtil;
 import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
-import br.com.bufunfa.finance.user.ui.jsf.util.Property2BeanUtil;
 
-public class UserViewPage {
+public class UserViewPage extends AbstractViewPage {
 	
 	class UserForm {
 
@@ -36,7 +37,6 @@ public class UserViewPage {
 
 
 	private UserViewNames userViewIds;
-	private WebDriver driver;
 
 	public UserViewPage(WebDriver driver, UserViewNames userViewNames) {
 		this.userViewIds = userViewNames;
@@ -45,54 +45,18 @@ public class UserViewPage {
 		getUserForm().setPassword("");
 	}
 	
-	public void assertThatIsOnThePage() {
-		WebElement title = findWebElementById(userViewIds.getTitleId());
-		String expectedPageTitle = userViewIds.getTitlePage();
-		String actualTitle = title.getText();
-		
-		Assert.assertEquals("page title is not equals", expectedPageTitle, actualTitle);
-	}
-	
-	WebDriver getDriver() {
-		return driver;
-	}
-	
-	WebElement findWebElementById(String elementId) {
-		return driver.findElement(By.id(elementId));
-	}
 	
 	WebElement findWebElementByParentIdAndType(String parentId, String elementType) {
 		WebElement parent = findWebElementById(parentId);
 		return parent.findElement(By.xpath("//" + elementType + ""));
 	}
 	
-	void fillInputElement(String elementId, String value) {
-		WebElement inputField = findWebElementById(elementId);
-		if(inputField == null) {
-			throw new NoSuchElementException(elementId);
-		}
-		inputField.clear();
-		inputField.sendKeys(value);
-	}
 	
 	public void clickButtonAddNewUser() {
 		WebElement addNewUserButton = findWebElementById(userViewIds.getButtonSaveNewUser());
 		addNewUserButton.click();
 	}
 	
-	public void assertThatErrorMessagesArePresent(String...errorMessages) {
-		WebElement divMessages = driver.findElement(By.id(userViewIds.getPanelMessages()));
-		List<WebElement> spans = divMessages.findElements(By.tagName("span"));
-		
-		for (String msg : errorMessages) {
-			boolean found = false;
-			for (WebElement webElement : spans) {
-				String webElementText = webElement.getText();
-				found |= webElementText.equalsIgnoreCase(msg);
-			}
-			Assert.assertTrue("expected message not found : " + msg, found);
-		}
-	}
 	
 	public void assertThatAddNewUserSuccessMessageIsPresent() {
 		WebElement divMessages = driver.findElement(By.id(userViewIds.getPanelMessages()));
@@ -125,6 +89,20 @@ public class UserViewPage {
 		
 	}
 	
+	@Override
+	protected String getPanelMessageId() {
+		return userViewIds.getPanelMessages();
+	}
+	
+	@Override
+	protected String getPageTitle() {
+		return userViewIds.getTitlePage();
+	}
+	
+	@Override
+	protected String getPageTitleElementId() {
+		return userViewIds.getTitleId();
+	}
 	
 	public UserForm getUserForm() {
 		findWebElementById(userViewIds.getFormUser());

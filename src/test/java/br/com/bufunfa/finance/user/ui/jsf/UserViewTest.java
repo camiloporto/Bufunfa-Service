@@ -3,10 +3,6 @@ package br.com.bufunfa.finance.user.ui.jsf;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 
-import javax.annotation.Resource;
-
-import junit.framework.Assert;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -15,16 +11,13 @@ import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
+import br.com.bufunfa.finance.account.ui.jsf.AccountViewPage;
+import br.com.bufunfa.finance.core.ui.jsf.util.Property2BeanUtil;
+import br.com.bufunfa.finance.core.ui.jsf.util.TestDataGenerator;
 import br.com.bufunfa.finance.user.config.UserDataTestCleaner;
-import br.com.bufunfa.finance.user.controller.util.UserControllerHelper;
 import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
-import br.com.bufunfa.finance.user.ui.jsf.util.Property2BeanUtil;
-import br.com.bufunfa.finance.user.ui.jsf.util.TestDataGenerator;
 
 public class UserViewTest extends SpringRootTestsConfiguration {
-	
-	@Resource(name="userControllerHelper")
-	private UserControllerHelper userControllerHelper;
 	
 	@Autowired
 	private UserDataTestCleaner userDataCleaner;

@@ -1,4 +1,4 @@
-package br.com.bufunfa.finance.user.ui.jsf.util;
+package br.com.bufunfa.finance.core.ui.jsf.util;
 
 public class TestDataGenerator {
 	

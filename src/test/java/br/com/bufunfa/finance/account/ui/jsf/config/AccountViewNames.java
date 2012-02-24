@@ -1,4 +1,4 @@
-package br.com.bufunfa.finance.user.ui.jsf.config;
+package br.com.bufunfa.finance.account.ui.jsf.config;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 
@@ -9,5 +9,7 @@ public class AccountViewNames {
 	private String titlePage;
 	
 	private String panelUserinfo;
+	
+	private String panelMessages;
 
 }
