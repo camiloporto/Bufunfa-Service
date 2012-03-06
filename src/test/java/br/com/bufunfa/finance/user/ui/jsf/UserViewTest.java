@@ -2,10 +2,13 @@ package br.com.bufunfa.finance.user.ui.jsf;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
+import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,7 +54,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		userPage.assertThatNewUserFormIsEmpty();
 		
 	}
-	
 	@Test
 	public void testSaveNewUserRequiredFields_shouldShowErrorMessages() {
 		UserViewPage userPage = getUserViewPage();
@@ -64,7 +66,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 				userViewNames.getMessagePasswordRequired());
 		
 	}
-	
 	@Test
 	public void testSaveNewUserWithExistentEmail_shouldShowErrorMessages() {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
@@ -82,7 +83,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 				userViewNames.getMessageEmailAlreadyExists());
 		
 	}
-	
 	@Test
 	public void testLoginUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
@@ -121,6 +121,25 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 				userViewNames.getMessageInvalidUserCredentials());
 		
 	}
+	@Test
+	public void testLogoutUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
+		final String newUserEmail = TestDataGenerator.generateValidEmail();
+		final String newUserPass = "secret";
+		UserViewPage userPage = getUserViewPage();
+		userPage.addNewUser(newUserEmail, newUserPass);
+		
+		UserViewPage.UserForm loginForm = userPage.getUserForm();
+		
+		loginForm.setEmail(newUserEmail);
+		loginForm.setPassword(newUserPass);
+		AccountViewPage accountPage = userPage.clickButtonLoginUser();
+		accountPage.assertThatIsOnThePage();
+		accountPage.assertThatUserInfoIsOnThePage(newUserEmail);
+		accountPage.clickLinkLogoutUser();
+		
+		userPage.assertThatIsOnThePage();
+		
+	}
 	
 	
 
@@ -133,13 +152,20 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	
 	WebDriver getWebDriver() {
 		String driverType = userViewNames.getWebDriverType();
-		if(driverType == null || "".equals(driverType)) {
-			return new HtmlUnitDriver();
-		}
 		if("firefox".equalsIgnoreCase(driverType)) {
 			return new FirefoxDriver();
 		}
-		return new HtmlUnitDriver();
+		if("chrome".equalsIgnoreCase(driverType)) {
+			return new ChromeDriver();
+		}
+		HtmlUnitDriver d = new HtmlUnitDriver();
+		d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
+		return d;
+		
+	}
+	
+	WebDriver createChromeWebDriver() {
+		return new ChromeDriver();
 	}
 	
 

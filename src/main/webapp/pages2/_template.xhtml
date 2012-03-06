@@ -3,7 +3,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
-	xmlns:p="http://primefaces.prime.com.tr/ui">
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<h:outputScript library="primefaces" name="jquery/jquery.js"
 		target="head" />
@@ -158,11 +158,17 @@ body {
 				<div id="topo-logo">
 					<h2>Bufunfa.com</h2>
 				</div>
-				<div id="topo-userInfo">
-					<h:outputText value="#{userController.user.email}" />
-					<h:outputText value=" " />
-					<h:outputText value="perfil | " />
-				</div>
+				<h:form id="formUserInfo" prependId="false">
+					<div id="topo-userInfo">
+							<h:outputText value="#{userController.user.email}" />
+							<h:outputText value=" | " />
+							<h:commandButton id="linkLogout" 
+								value="logout" 
+								action="#{userController.logoutUser}"
+								ajax="false" />
+							<h:outputText value="perfil | " />
+					</div>
+				</h:form>
 			</div>
 		</div>
 		<div id="container">

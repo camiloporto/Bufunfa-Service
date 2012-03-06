@@ -23,6 +23,14 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.titlePage = titlePage;
     }
     
+    public String AccountViewNames.getLinkLogout() {
+        return this.linkLogout;
+    }
+    
+    public void AccountViewNames.setLinkLogout(String linkLogout) {
+        this.linkLogout = linkLogout;
+    }
+    
     public String AccountViewNames.getPanelUserinfo() {
         return this.panelUserinfo;
     }

@@ -57,6 +57,12 @@ public class UserController {
 		
 	}
 	
+	public String logoutUser() {
+		System.out.println("UserController.logoutUser()");
+		//FIXME retirar usuario da sessao.. Usar outra forma de seguranca - spring-security
+		return "main?faces-redirect=true";
+	}
+	
 
 	public User getUser() {
 		return user;

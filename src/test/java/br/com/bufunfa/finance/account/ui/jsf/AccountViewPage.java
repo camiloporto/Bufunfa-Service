@@ -41,4 +41,14 @@ public class AccountViewPage extends AbstractViewPage {
 		return accountViewIds.getTitleId();
 	}
 
+
+	public void clickLinkLogoutUser() {
+		WebElement logoutLink = findWebElementById(accountViewIds.getLinkLogout());
+		
+		//FIXME o click nao esta enviando o formulario e invocando o controller. com botao funciona!
+		System.out.println("AccountViewPage.clickLinkLogoutUser()" + logoutLink.getText());
+		System.out.println("AccountViewPage.clickLinkLogoutUser()" + logoutLink.getTagName());
+		logoutLink.click();
+	}
+
 }
