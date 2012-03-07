@@ -6,6 +6,7 @@ import javax.faces.application.FacesMessage;
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 
 import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
@@ -14,6 +15,7 @@ import br.com.bufunfa.finance.user.modelo.User;
 import br.com.bufunfa.finance.user.service.UserService;
 
 @Controller
+@Scope("session")
 public class UserController {
 	
 	private User user = new User();
@@ -46,7 +48,7 @@ public class UserController {
 		System.out.println("UserController.loginUser() " + u);
 		if(u != null) {
 			//FIXME colocar dados do usuario na secao... Usar outra forma de seguranca: spring-security?
-			return "account?faces-redirect=true";
+			return "accountView?faces-redirect=true";
 		} else {
 			String message = messageSource.getMessage(
 					UserMessageSource.USER_CREDENTIALS_FAILED, 

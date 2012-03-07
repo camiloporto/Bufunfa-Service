@@ -16,19 +16,97 @@
 		<h:form prependId="false" id="accountForm">
 			<p:messages id="messages" globalOnly="true" autoUpdate="true">
 			</p:messages>
-			<!-- 
-			<p:inputText id="inputUserEmail" value="#{userController.user.email}" />
-			<p:password id="inputUserPassword"
-				value="#{userController.user.password}" />
-			<p:commandButton id="buttonSaveNewUser"
-				action="#{userController.saveNewUser}" update="userForm"
-				value="#{userMsgs['userView.loginForm.button.addUser']}">
-			</p:commandButton>
-			<p:commandButton id="buttonLoginUser"
-				action="#{userController.loginUser}"
-				value="#{userMsgs['userView.loginForm.button.loginUser']}">
-			</p:commandButton>
-			 -->
+			<p:dialog header="Informe os dados da conta:" id="contaDialog"
+					widgetVar="contaDataDialog" minWidth="420">
+
+					<h:panelGroup id="dialogPanel">
+						<div class="formContainer">
+
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{accountController.accountTree.editing}">#{accountController.accountTree.selectedItemParent.accountName}</h:panelGroup>
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{not accountController.accountTree.editing}">#{accountController.accountTree.selectedItem.accountName}</h:panelGroup>
+
+							<table>
+								<tbody>
+									<tr>
+										<td class="label"><label for="nomeConta">Nome:</label></td>
+										<td><h:inputText
+												value="#{accountController.accountTree.editingItem.accountName}"
+												id="nomeConta" /></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="descricaoConta">Descrição:</label></td>
+										<td><h:inputText
+												value="#{accountController.accountTree.editingItem.accountDescription}"
+												id="descricaoConta" /></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><p:commandButton value="confirma"
+												oncomplete="contaDataDialog.hide()"
+												action="#{accountController.accountTree.saveItem}"
+												update="accountTree statusDialog" /></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+			<p:treeTable id="accountTree" 
+				value="#{accountController.accountTree.rootNode}"
+				var="accountItem">
+				<p:column>
+					<div class="accountItemClass">
+						<div class="treeLabelConta"><h:outputText value="#{accountItem.accountName}"/></div>
+						<div class="treeDescricaoConta"><h:outputText value="#{accountItem.accountDescription}"/></div>
+						<div style="visibility: hidden;">
+								<h:panelGroup>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										styleClass="actionLink" value="add" type="button"
+										update="dialogPanel" title="Nova conta"
+										action="#{accountController.accountTree.showNewItemForm}">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.editing}" value="false" />
+									</p:commandLink>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										rendered="#{not accountItem.firstLevel}" value="edit" type="button"
+										update="dialogPanel" styleClass="actionLink"
+										action="#{accountController.accountTree.showEditItemForm}"
+										title="Editar conta">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.editing}" value="true" />
+									</p:commandLink>
+									<p:commandLink action="#{accountController.accountTree.deleteItem}"
+										styleClass="actionLink" value="remove"
+										update="contaForm statusDialog"
+										rendered="#{(accountItem.leaf) and (not accountItem.firstLevel)}"
+										title="Remover conta">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+									</p:commandLink>
+								</h:panelGroup>
+						</div>
+					</div>
+					<script type="text/javascript">
+							jQuery("#accountTree tbody tr").hover(
+								function(event){
+								  jQuery(".accountItemClass :last-child", this).css('visibility','visible');
+							   	},
+								function(event){
+								  jQuery(".accountItemClass :last-child", this).css('visibility','hidden');
+							   	}
+							  );
+					</script>
+				</p:column>
+			</p:treeTable>
 		</h:form>
 		<!-- All html ignored after here -->
 

@@ -14,7 +14,7 @@ import org.springframework.roo.addon.serializable.RooSerializable;
 //@RooToString
 @RooJavaBean
 @RooSerializable
-public class TreeTableItem {
+public class AccountTreeItemUI {
 	
 	/**
 	 * 
@@ -23,21 +23,21 @@ public class TreeTableItem {
 	
 	//TODO adicionar Id da conta aqui
 
-	private String nomeConta;
+	private String accountName;
 	
-	private String descricaoConta;
+	private String accountDescription;
 	
 	private TreeNode node;
 	
 	private boolean actionPanelVisible = true;
 
-	public TreeTableItem(String nomeConta, String descricaoConta) {
+	public AccountTreeItemUI(String nomeConta, String descricaoConta) {
 		super();
-		this.nomeConta = nomeConta;
-		this.descricaoConta = descricaoConta;
+		this.accountName = nomeConta;
+		this.accountDescription = descricaoConta;
 	}
 	
-	public TreeTableItem() {
+	public AccountTreeItemUI() {
 		
 	}
 	

@@ -3,11 +3,13 @@
 
 package br.com.bufunfa.finance.ui.account;
 
-import br.com.bufunfa.finance.ui.account.TreeTableItem;
+import br.com.bufunfa.finance.ui.account.AccountTreeUI;
 import java.io.Serializable;
 
-privileged aspect TreeTableItem_Roo_Serializable {
+privileged aspect AccountTreeUI_Roo_Serializable {
     
-    declare parents: TreeTableItem implements Serializable;
+    declare parents: AccountTreeUI implements Serializable;
+    
+    private static final long AccountTreeUI.serialVersionUID = 1L;
     
 }

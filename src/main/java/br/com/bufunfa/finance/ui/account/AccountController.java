@@ -4,60 +4,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.primefaces.model.TreeNode;
+import org.springframework.context.annotation.Scope;
 import org.springframework.roo.addon.serializable.RooSerializable;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Controller;
 
 @RooSerializable
-@Component(value="contaView")
+@Controller
+@Scope("session")
+//@Component(value="contaView")
 public class AccountController {
 	
-	private TreeTableWidget treeTableWidget = new TreeTableWidget();
+	private AccountTreeUI accountTree = new AccountTreeUI();
 
 	public AccountController() {
 	}
 
-	public TreeTableWidget getTreeTableWidget() {
-		return treeTableWidget;
+	public AccountTreeUI getAccountTree() {
+		return accountTree;
 	}
 
 	public void addItem() {
-		treeTableWidget.addItem();
+		accountTree.addItem();
 	}
 
 	public void deleteItem() {
-		treeTableWidget.deleteItem();
+		accountTree.deleteItem();
 	}
 
 	public boolean isEditing() {
-		return treeTableWidget.isEditing();
+		return accountTree.isEditing();
 	}
 
 	public void saveItem() {
-		treeTableWidget.saveItem();
+		accountTree.saveItem();
 	}
 
 	public void showEditItemForm() {
-		treeTableWidget.showEditItemForm();
+		accountTree.showEditItemForm();
 	}
 
 	public void showNewItemForm() {
-		treeTableWidget.showNewItemForm();
+		accountTree.showNewItemForm();
 	}
 
 	public void updateItem() {
-		treeTableWidget.updateItem();
+		accountTree.updateItem();
 	}
 
 	/**
 	 * * Busca o item de conta pelo nome (ignorando case) * @param name nome da
 	 * conta * @return o item. null se nao encontrar
 	 */
-	public TreeTableItem findLeafItemByName(String name) {
+	public AccountTreeItemUI findLeafItemByName(String name) {
 		if (name == null)
 			throw new IllegalArgumentException("param name is required");
-		List<TreeTableItem> singleResult = findLeafItemsByNameLike(name);
-		for (TreeTableItem candidate : singleResult) {
-			if (candidate.getNomeConta().toLowerCase()
+		List<AccountTreeItemUI> singleResult = findLeafItemsByNameLike(name);
+		for (AccountTreeItemUI candidate : singleResult) {
+			if (candidate.getAccountName().toLowerCase()
 					.equals(name.toLowerCase())) {
 				return candidate;
 			}
@@ -69,19 +72,19 @@ public class AccountController {
 	 * * Retorna contas folhas por um nome parcial * @param name parte do nome
 	 * da conta * @return
 	 */
-	public List<TreeTableItem> findLeafItemsByNameLike(String name) {
-		List<TreeTableItem> itemsFound = new ArrayList<TreeTableItem>();
-		return findItemsByNameLike2(name, getTreeTableWidget().getRootNode(),
+	public List<AccountTreeItemUI> findLeafItemsByNameLike(String name) {
+		List<AccountTreeItemUI> itemsFound = new ArrayList<AccountTreeItemUI>();
+		return findItemsByNameLike2(name, getAccountTree().getRootNode(),
 				itemsFound);
 	}
 
-	private List<TreeTableItem> findItemsByNameLike2(String name,
-			TreeNode root, List<TreeTableItem> result) {
+	private List<AccountTreeItemUI> findItemsByNameLike2(String name,
+			TreeNode root, List<AccountTreeItemUI> result) {
 		if (root.isLeaf()) {
-			TreeTableItem item = (TreeTableItem) root.getData();
+			AccountTreeItemUI item = (AccountTreeItemUI) root.getData();
 			if (item == null)
 				return result;
-			if (item.getNomeConta().toLowerCase().contains(name.toLowerCase())) {
+			if (item.getAccountName().toLowerCase().contains(name.toLowerCase())) {
 				result.add(item);
 			}
 		} else {

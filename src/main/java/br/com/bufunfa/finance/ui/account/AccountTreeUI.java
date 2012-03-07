@@ -9,15 +9,15 @@ import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.serializable.RooSerializable;
 
 @RooSerializable
-public class TreeTableWidget {
+public class AccountTreeUI {
 	
-private TreeNode rootNode = new DefaultTreeNode("root", null);
+	private TreeNode rootNode = new DefaultTreeNode("root", null);
 	
-	private TreeTableItem selectedItem = null;
+	private AccountTreeItemUI selectedItem = null;
 	
-	private TreeTableItem editingItem = new TreeTableItem();
+	private AccountTreeItemUI editingItem = new AccountTreeItemUI();
 	
-	private TreeTableItem selectedItemParent = null;
+	private AccountTreeItemUI selectedItemParent = null;
 	
 	/**
 	 * identifica se o item de arvore esta sendo
@@ -25,15 +25,15 @@ private TreeNode rootNode = new DefaultTreeNode("root", null);
 	 */
 	private boolean editing = false;
 	
-	public TreeTableWidget() {
+	public AccountTreeUI() {
 		//FIXME Contruir arvore de acordo com a estrutura de contas vinda do negocio
 		
-		TreeTableItem ativos = new TreeTableItem("Ativos", "conjunto de ativos");
-		TreeTableItem passivos = new TreeTableItem("Passivos", "conjunto de passivos");
-		TreeTableItem receitas = new TreeTableItem("Receitas", "conjunto de receitas");
-		TreeTableItem despesas = new TreeTableItem("Despesas", "conjunto de despesas");
+		AccountTreeItemUI ativos = new AccountTreeItemUI("Ativos", "conjunto de ativos");
+		AccountTreeItemUI passivos = new AccountTreeItemUI("Passivos", "conjunto de passivos");
+		AccountTreeItemUI receitas = new AccountTreeItemUI("Receitas", "conjunto de receitas");
+		AccountTreeItemUI despesas = new AccountTreeItemUI("Despesas", "conjunto de despesas");
 		
-		TreeTableItem salario = new TreeTableItem("Salario Petro", "salario mensal da petrobras");
+		AccountTreeItemUI salario = new AccountTreeItemUI("Salario Petro", "salario mensal da petrobras");
 		
 		TreeNode ativoNode = new DefaultTreeNode(ativos, rootNode);
 		TreeNode passivoNode = new DefaultTreeNode(passivos, rootNode);
@@ -54,23 +54,23 @@ private TreeNode rootNode = new DefaultTreeNode("root", null);
 		return rootNode;
 	}
 	
-	public TreeTableItem getSelectedItem() {
+	public AccountTreeItemUI getSelectedItem() {
 		return selectedItem;
 	}
 	
-	public void setSelectedItem(TreeTableItem selectedNode) {
+	public void setSelectedItem(AccountTreeItemUI selectedNode) {
 		this.selectedItem = selectedNode;
 	}
 	
-	public TreeTableItem getSelectedItemParent() {
+	public AccountTreeItemUI getSelectedItemParent() {
 		return selectedItemParent;
 	}
 	
-	public TreeTableItem getEditingItem() {
+	public AccountTreeItemUI getEditingItem() {
 		return editingItem;
 	}
 	
-	public void setEditingItem(TreeTableItem newItem) {
+	public void setEditingItem(AccountTreeItemUI newItem) {
 		this.editingItem = newItem;
 	}
 	
@@ -112,15 +112,15 @@ private TreeNode rootNode = new DefaultTreeNode("root", null);
 		this.selectedItemParent = getSelectedItem();
 		
 		//FIXME persistir atualizacoes
-		TreeTableItem childItem = new TreeTableItem(
-				getEditingItem().getNomeConta(), 
-				getEditingItem().getDescricaoConta());
+		AccountTreeItemUI childItem = new AccountTreeItemUI(
+				getEditingItem().getAccountName(), 
+				getEditingItem().getAccountDescription());
 		
 		TreeNode child =  new DefaultTreeNode(childItem, getSelectedItemParent().getNode());
 		childItem.setNode(child);
 		
 		//limpa o formulario
-		this.editingItem = new TreeTableItem();
+		this.editingItem = new AccountTreeItemUI();
 	}
 	
 	/**
@@ -129,7 +129,7 @@ private TreeNode rootNode = new DefaultTreeNode("root", null);
 	 */
 	public void showNewItemForm() {
 		//limpa formulario a ser apresentado
-		this.editingItem = new TreeTableItem();
+		this.editingItem = new AccountTreeItemUI();
 	}
 	
 	/**
@@ -138,7 +138,7 @@ private TreeNode rootNode = new DefaultTreeNode("root", null);
 	 */
 	public void showEditItemForm() {
 		
-		this.selectedItemParent = (TreeTableItem) getSelectedItem().getNode().getParent().getData();
+		this.selectedItemParent = (AccountTreeItemUI) getSelectedItem().getNode().getParent().getData();
 		
 		//Preenche o formulario com os dados do item a ser editado
 		this.editingItem = getSelectedItem();
