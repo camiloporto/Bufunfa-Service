@@ -4,9 +4,18 @@
 package br.com.bufunfa.finance.account.controller;
 
 import br.com.bufunfa.finance.account.controller.AccountTreeItemUI;
+import br.com.bufunfa.finance.account.service.AccountTreeNode;
 import org.primefaces.model.TreeNode;
 
 privileged aspect AccountTreeItemUI_Roo_JavaBean {
+    
+    public AccountTreeNode AccountTreeItemUI.getAccountTreeNode() {
+        return this.accountTreeNode;
+    }
+    
+    public void AccountTreeItemUI.setAccountTreeNode(AccountTreeNode accountTreeNode) {
+        this.accountTreeNode = accountTreeNode;
+    }
     
     public Long AccountTreeItemUI.getId() {
         return this.id;

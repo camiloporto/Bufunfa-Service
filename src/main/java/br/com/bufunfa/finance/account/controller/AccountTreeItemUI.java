@@ -7,6 +7,9 @@ import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
 
+import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.service.AccountTreeNode;
+
 /**
  * @author camilo
  *
@@ -21,7 +24,7 @@ public class AccountTreeItemUI {
 	 */
 	private static final long serialVersionUID = -2519805200331802857L;
 	
-	//TODO adicionar Id da conta aqui
+	private AccountTreeNode accountTreeNode;
 
 	private Long id;
 	
@@ -38,6 +41,13 @@ public class AccountTreeItemUI {
 		this.id = accountId;
 		this.accountName = nomeConta;
 		this.accountDescription = descricaoConta;
+	}
+	
+	public AccountTreeItemUI(AccountTreeNode accountTreeNode) {
+		this(accountTreeNode.getAccount().getId(), 
+				accountTreeNode.getAccount().getName(), 
+				accountTreeNode.getAccount().getDescription());
+		this.accountTreeNode = accountTreeNode;
 	}
 	
 	public AccountTreeItemUI() {

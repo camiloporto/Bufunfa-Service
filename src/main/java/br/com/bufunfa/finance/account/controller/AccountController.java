@@ -26,16 +26,15 @@ import br.com.bufunfa.finance.user.modelo.User;
 @Scope("session")
 public class AccountController {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 5521269651219349380L;
+
 	private AccountTreeUI accountTree;
-	
-//	@Autowired
-//	private UserController userController;
 	
 	@Autowired
 	private AccountSystemService accountSystemService;
-	
-	@Autowired
-	private AccountReportService reportService;
 	
 	@Autowired
 	private AccountMessageSource messageSource;
@@ -43,20 +42,6 @@ public class AccountController {
 	public AccountController() {
 	}
 	
-//	public void setUserController(UserController userController) {
-//		this.userController = userController;
-//	}
-	
-//	@PostConstruct
-//	public void init() {
-//		User u = userController.getUser();
-//		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
-//		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
-//		accountTree = new AccountTreeUI(accountSystem, rootAccount);
-//		accountTree.setAccountSystemService(accountSystemService);
-//		accountTree.setMessageSource(messageSource);
-//		accountTree.init();
-//	}
 	
 	public void loadAccountHierarchy(User u) {
 		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());

@@ -10,6 +10,4 @@ privileged aspect AccountController_Roo_Serializable {
     
     declare parents: AccountController implements Serializable;
     
-    private static final long AccountController.serialVersionUID = 1L;
-    
 }

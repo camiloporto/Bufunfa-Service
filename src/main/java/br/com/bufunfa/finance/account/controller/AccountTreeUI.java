@@ -1,6 +1,7 @@
 package br.com.bufunfa.finance.account.controller;
 
 import java.util.Locale;
+import java.util.Set;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -16,7 +17,6 @@ import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.AccountTree;
 import br.com.bufunfa.finance.account.service.AccountTreeNode;
-import br.com.bufunfa.finance.user.i18n.UserMessageSource;
 
 @RooSerializable
 public class AccountTreeUI {
@@ -64,25 +64,20 @@ public class AccountTreeUI {
 		String outcomeName = getRootAccountsName(outcome.getAccount().getName());
 		
 		AccountTreeItemUI assetItem = new AccountTreeItemUI(
-				asset.getAccount().getId(),
-				assetName, 
-				asset.getAccount().getDescription());
-		
+				asset);
+		assetItem.setAccountName(assetName);
 		
 		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
-				liability.getAccount().getId(),
-				liabilityName, 
-				liability.getAccount().getDescription());
+				liability);
+		liabilityItem.setAccountName(liabilityName);
 		
 		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
-				income.getAccount().getId(),
-				incomeName, 
-				income.getAccount().getDescription());
+				income);
+		incomeItem.setAccountName(incomeName);
 		
 		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
-				outcome.getAccount().getId(), 
-				outcomeName, 
-				outcome.getAccount().getDescription());
+				outcome);
+		outcomeItem.setAccountName(outcomeName);
 		
 		TreeNode assetNode = new DefaultTreeNode(assetItem, rootNode);
 		TreeNode liabilityNode = new DefaultTreeNode(liabilityItem, rootNode);
@@ -93,8 +88,31 @@ public class AccountTreeUI {
 		liabilityItem.setNode(liabilityNode);
 		incomeItem.setNode(incomeNode);
 		outcomeItem.setNode(outcomeNode);
+		
+		loadNodeChildren(assetItem);
+		loadNodeChildren(liabilityItem);
+		loadNodeChildren(incomeItem);
+		loadNodeChildren(outcomeItem);
 	}
 	
+	private void loadNodeChildren(AccountTreeItemUI parent) {
+		AccountTreeNode parentAccountNode = parent.getAccountTreeNode();
+		Set<AccountTreeNode> children = parentAccountNode.getChildren();
+		for (AccountTreeNode accountTreeNode : children) {
+			AccountTreeItemUI childItem = addItemToTreeNode(parent.getNode(), accountTreeNode);
+			loadNodeChildren(childItem);
+		}
+	}
+	
+	private AccountTreeItemUI addItemToTreeNode(TreeNode parentNode,
+			AccountTreeNode childAccountTreeNode) {
+		AccountTreeItemUI item = new AccountTreeItemUI(childAccountTreeNode);
+		TreeNode child =  new DefaultTreeNode(item, parentNode);
+		item.setNode(child);
+		return item;
+		
+	}
+
 	String getRootAccountsName(String accountNameKey) {
 		//FIXME colocar o Locale em um LocaleController e pegar o locale selecionado dele...
 		String name = messageSource.getMessage(
@@ -236,7 +254,10 @@ public class AccountTreeUI {
 	 */
 	void addFacesMessage(String msg, Severity severity) {
 		FacesMessage fmsg = new FacesMessage(severity, msg, msg);
-		FacesContext.getCurrentInstance().addMessage(null, fmsg);
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if(ctx != null) {
+			ctx.addMessage(null, fmsg);
+		}
 	}
 
 

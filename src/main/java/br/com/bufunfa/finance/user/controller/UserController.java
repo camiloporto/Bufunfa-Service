@@ -70,7 +70,10 @@ public class UserController {
 	
 	public String logoutUser() {
 		//FIXME retirar usuario da sessao.. Usar outra forma de seguranca - spring-security
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		FacesContext ctx = FacesContext.getCurrentInstance();
+		if(ctx != null) {
+			ctx.getExternalContext().invalidateSession();
+		}
 		return "main?faces-redirect=true";
 	}
 	
