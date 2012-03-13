@@ -1,4 +1,4 @@
-package br.com.bufunfa.finance.ui.account;
+package br.com.bufunfa.finance.account.controller;
 
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
@@ -8,8 +8,18 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.serializable.RooSerializable;
 
+import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
+import br.com.bufunfa.finance.account.service.AccountTree;
+import br.com.bufunfa.finance.account.service.AccountTreeNode;
+
 @RooSerializable
 public class AccountTreeUI {
+	
+	private AccountTree accountTree;
+	
+	private AccountSystemService accountSystemService;
 	
 	private TreeNode rootNode = new DefaultTreeNode("root", null);
 	
@@ -19,37 +29,57 @@ public class AccountTreeUI {
 	
 	private AccountTreeItemUI selectedItemParent = null;
 	
+	
+	
 	/**
 	 * identifica se o item de arvore esta sendo
 	 * adicionado ou atualizado (editado)
 	 */
 	private boolean editing = false;
 	
-	public AccountTreeUI() {
-		//FIXME Contruir arvore de acordo com a estrutura de contas vinda do negocio
-		
-		AccountTreeItemUI ativos = new AccountTreeItemUI("Ativos", "conjunto de ativos");
-		AccountTreeItemUI passivos = new AccountTreeItemUI("Passivos", "conjunto de passivos");
-		AccountTreeItemUI receitas = new AccountTreeItemUI("Receitas", "conjunto de receitas");
-		AccountTreeItemUI despesas = new AccountTreeItemUI("Despesas", "conjunto de despesas");
-		
-		AccountTreeItemUI salario = new AccountTreeItemUI("Salario Petro", "salario mensal da petrobras");
-		
-		TreeNode ativoNode = new DefaultTreeNode(ativos, rootNode);
-		TreeNode passivoNode = new DefaultTreeNode(passivos, rootNode);
-		TreeNode receitaNode = new DefaultTreeNode(receitas, rootNode);
-		TreeNode despesaNode = new DefaultTreeNode(despesas, rootNode);
-		
-		TreeNode salarioNode = new DefaultTreeNode(salario, receitaNode);
-		
-		//associa os items aos nodos da arvore
-		ativos.setNode(ativoNode);
-		passivos.setNode(passivoNode);
-		receitas.setNode(receitaNode);
-		despesas.setNode(despesaNode);
-		salario.setNode(salarioNode);
+	public void setAccountSystemService(
+			AccountSystemService accountSystemService) {
+		this.accountSystemService = accountSystemService;
 	}
 	
+	public AccountTreeUI(AccountSystem accountSystem, Account rootAccount) {
+		accountTree = new AccountTree(accountSystem, rootAccount);
+		AccountTreeNode asset = accountTree.getAssetNode();
+		AccountTreeNode liability = accountTree.getLiabilityNode();
+		AccountTreeNode income = accountTree.getIncomeNode();
+		AccountTreeNode outcome = accountTree.getOutcomeNode();
+		
+		AccountTreeItemUI assetItem = new AccountTreeItemUI(
+				asset.getAccount().getId(),
+				asset.getAccount().getName(), 
+				asset.getAccount().getName());
+		
+		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
+				liability.getAccount().getId(),
+				liability.getAccount().getName(), 
+				liability.getAccount().getName());
+		
+		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
+				income.getAccount().getId(),
+				income.getAccount().getName(), 
+				income.getAccount().getName());
+		
+		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
+				outcome.getAccount().getId(), 
+				outcome.getAccount().getName(), 
+				outcome.getAccount().getName());
+		
+		TreeNode assetNode = new DefaultTreeNode(assetItem, rootNode);
+		TreeNode liabilityNode = new DefaultTreeNode(liabilityItem, rootNode);
+		TreeNode incomeNode = new DefaultTreeNode(incomeItem, rootNode);
+		TreeNode outcomeNode = new DefaultTreeNode(outcomeItem, rootNode);
+		
+		assetItem.setNode(assetNode);
+		liabilityItem.setNode(liabilityNode);
+		incomeItem.setNode(incomeNode);
+		outcomeItem.setNode(outcomeNode);
+	}
+
 	public TreeNode getRootNode() {
 		return rootNode;
 	}
@@ -111,16 +141,29 @@ public class AccountTreeUI {
 		
 		this.selectedItemParent = getSelectedItem();
 		
-		//FIXME persistir atualizacoes
+		Account saved = saveAccount(selectedItemParent.getId());
+		
 		AccountTreeItemUI childItem = new AccountTreeItemUI(
-				getEditingItem().getAccountName(), 
-				getEditingItem().getAccountDescription());
+				saved.getId(),
+				saved.getName(), 
+				saved.getDescription());
 		
 		TreeNode child =  new DefaultTreeNode(childItem, getSelectedItemParent().getNode());
 		childItem.setNode(child);
 		
 		//limpa o formulario
 		this.editingItem = new AccountTreeItemUI();
+	}
+	
+	Account saveAccount(Long fatherId) {
+		Account a = new Account();
+		a.setDescription(getEditingItem().getAccountDescription());
+		a.setName(getEditingItem().getAccountName());
+		a.setFatherId(fatherId);
+		
+		accountSystemService.saveAccount(a);
+		
+		return a;
 	}
 	
 	/**

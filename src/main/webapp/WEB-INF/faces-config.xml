@@ -12,6 +12,10 @@
 			<base-name>br.com.bufunfa.finance.user.i18n.UserMessageSource</base-name>
 			<var>userMsgs</var>
 		</resource-bundle>
+		<resource-bundle>
+			<base-name>br.com.bufunfa.finance.account.i18n.AccountMessageSource</base-name>
+			<var>accountMsgs</var>
+		</resource-bundle>
 		<locale-config>
 			<default-locale>pt_BR</default-locale>
 		</locale-config>

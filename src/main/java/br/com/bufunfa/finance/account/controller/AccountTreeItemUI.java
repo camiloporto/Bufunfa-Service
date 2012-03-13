@@ -1,7 +1,7 @@
 /**
  * 
  */
-package br.com.bufunfa.finance.ui.account;
+package br.com.bufunfa.finance.account.controller;
 
 import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -23,6 +23,8 @@ public class AccountTreeItemUI {
 	
 	//TODO adicionar Id da conta aqui
 
+	private Long id;
+	
 	private String accountName;
 	
 	private String accountDescription;
@@ -31,8 +33,9 @@ public class AccountTreeItemUI {
 	
 	private boolean actionPanelVisible = true;
 
-	public AccountTreeItemUI(String nomeConta, String descricaoConta) {
+	public AccountTreeItemUI(Long accountId, String nomeConta, String descricaoConta) {
 		super();
+		this.id = accountId;
 		this.accountName = nomeConta;
 		this.accountDescription = descricaoConta;
 	}

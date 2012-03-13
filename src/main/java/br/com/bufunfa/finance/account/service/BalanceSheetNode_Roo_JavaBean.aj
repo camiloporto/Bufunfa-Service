@@ -52,6 +52,14 @@ privileged aspect BalanceSheetNode_Roo_JavaBean {
         this.name = name;
     }
     
+    public String BalanceSheetNode.getDescription() {
+        return this.description;
+    }
+    
+    public void BalanceSheetNode.setDescription(String description) {
+        this.description = description;
+    }
+    
     public BigDecimal BalanceSheetNode.getBalance() {
         return this.balance;
     }

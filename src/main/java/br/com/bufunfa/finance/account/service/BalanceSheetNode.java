@@ -25,12 +25,14 @@ public class BalanceSheetNode {
 	private Long id;
 	private Long fatherId;
 	private String name;
+	private String description;
 	private BigDecimal balance;
 	private Date date;
 	private Collection<BalanceSheetNode> children = new ArrayList<BalanceSheetNode>();
 	
 	public BalanceSheetNode(Account a, BigDecimal balance, Date date) {
 		this.name = a.getName();
+		this.description = a.getDescription();
 		this.id = a.getId();
 		this.fatherId = a.getFatherId();
 		this.balance = balance;

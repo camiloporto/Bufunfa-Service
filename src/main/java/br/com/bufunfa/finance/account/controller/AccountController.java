@@ -1,22 +1,50 @@
-package br.com.bufunfa.finance.ui.account;
+package br.com.bufunfa.finance.account.controller;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.primefaces.model.TreeNode;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.stereotype.Controller;
 
+import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.service.AccountReportService;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
+import br.com.bufunfa.finance.user.controller.UserController;
+import br.com.bufunfa.finance.user.modelo.User;
+
 @RooSerializable
 @Controller
 @Scope("session")
-//@Component(value="contaView")
 public class AccountController {
 	
-	private AccountTreeUI accountTree = new AccountTreeUI();
+	private AccountTreeUI accountTree;
+	
+	@Autowired
+	private UserController userController;
+	
+	@Autowired
+	private AccountSystemService accountSystemService;
+	
+	@Autowired
+	private AccountReportService reportService;
 
 	public AccountController() {
+	}
+	
+	@PostConstruct
+	public void init() {
+		User u = userController.getUser();
+		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
+		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
+		accountTree = new AccountTreeUI(accountSystem, rootAccount);
+		accountTree.setAccountSystemService(accountSystemService);
+		
 	}
 
 	public AccountTreeUI getAccountTree() {
