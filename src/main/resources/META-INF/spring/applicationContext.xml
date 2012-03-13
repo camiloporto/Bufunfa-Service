@@ -73,6 +73,7 @@
     	<property name="basenames">
     		<list>
     			<value>br.com.bufunfa.finance.user.i18n.UserMessageSource</value>
+    			<value>br.com.bufunfa.finance.account.i18n.AccountMessageSource</value>
     		</list>
     	</property>
     </bean>

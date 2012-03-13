@@ -1,5 +1,7 @@
 package br.com.bufunfa.finance.account.controller;
 
+import java.util.Locale;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.application.FacesMessage.Severity;
 import javax.faces.context.FacesContext;
@@ -8,11 +10,13 @@ import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.serializable.RooSerializable;
 
+import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.AccountTree;
 import br.com.bufunfa.finance.account.service.AccountTreeNode;
+import br.com.bufunfa.finance.user.i18n.UserMessageSource;
 
 @RooSerializable
 public class AccountTreeUI {
@@ -29,6 +33,8 @@ public class AccountTreeUI {
 	
 	private AccountTreeItemUI selectedItemParent = null;
 	
+	private AccountMessageSource messageSource;
+	
 	
 	
 	/**
@@ -44,30 +50,37 @@ public class AccountTreeUI {
 	
 	public AccountTreeUI(AccountSystem accountSystem, Account rootAccount) {
 		accountTree = new AccountTree(accountSystem, rootAccount);
+		/*
 		AccountTreeNode asset = accountTree.getAssetNode();
 		AccountTreeNode liability = accountTree.getLiabilityNode();
 		AccountTreeNode income = accountTree.getIncomeNode();
 		AccountTreeNode outcome = accountTree.getOutcomeNode();
 		
+		String assetName = getRootAccountsName(asset.getAccount().getName());
+		String liabilityName = getRootAccountsName(liability.getAccount().getName());
+		String incomeName = getRootAccountsName(income.getAccount().getName());
+		String outcomeName = getRootAccountsName(outcome.getAccount().getName());
+		
 		AccountTreeItemUI assetItem = new AccountTreeItemUI(
 				asset.getAccount().getId(),
-				asset.getAccount().getName(), 
-				asset.getAccount().getName());
+				assetName, 
+				asset.getAccount().getDescription());
+		
 		
 		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
 				liability.getAccount().getId(),
-				liability.getAccount().getName(), 
-				liability.getAccount().getName());
+				liabilityName, 
+				liability.getAccount().getDescription());
 		
 		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
 				income.getAccount().getId(),
-				income.getAccount().getName(), 
-				income.getAccount().getName());
+				incomeName, 
+				income.getAccount().getDescription());
 		
 		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
 				outcome.getAccount().getId(), 
-				outcome.getAccount().getName(), 
-				outcome.getAccount().getName());
+				outcomeName, 
+				outcome.getAccount().getDescription());
 		
 		TreeNode assetNode = new DefaultTreeNode(assetItem, rootNode);
 		TreeNode liabilityNode = new DefaultTreeNode(liabilityItem, rootNode);
@@ -78,6 +91,61 @@ public class AccountTreeUI {
 		liabilityItem.setNode(liabilityNode);
 		incomeItem.setNode(incomeNode);
 		outcomeItem.setNode(outcomeNode);
+		*/
+	}
+	
+	public void init() {
+		AccountTreeNode asset = accountTree.getAssetNode();
+		AccountTreeNode liability = accountTree.getLiabilityNode();
+		AccountTreeNode income = accountTree.getIncomeNode();
+		AccountTreeNode outcome = accountTree.getOutcomeNode();
+		
+		String assetName = getRootAccountsName(asset.getAccount().getName());
+		String liabilityName = getRootAccountsName(liability.getAccount().getName());
+		String incomeName = getRootAccountsName(income.getAccount().getName());
+		String outcomeName = getRootAccountsName(outcome.getAccount().getName());
+		
+		AccountTreeItemUI assetItem = new AccountTreeItemUI(
+				asset.getAccount().getId(),
+				assetName, 
+				asset.getAccount().getDescription());
+		
+		
+		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
+				liability.getAccount().getId(),
+				liabilityName, 
+				liability.getAccount().getDescription());
+		
+		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
+				income.getAccount().getId(),
+				incomeName, 
+				income.getAccount().getDescription());
+		
+		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
+				outcome.getAccount().getId(), 
+				outcomeName, 
+				outcome.getAccount().getDescription());
+		
+		TreeNode assetNode = new DefaultTreeNode(assetItem, rootNode);
+		TreeNode liabilityNode = new DefaultTreeNode(liabilityItem, rootNode);
+		TreeNode incomeNode = new DefaultTreeNode(incomeItem, rootNode);
+		TreeNode outcomeNode = new DefaultTreeNode(outcomeItem, rootNode);
+		
+		assetItem.setNode(assetNode);
+		liabilityItem.setNode(liabilityNode);
+		incomeItem.setNode(incomeNode);
+		outcomeItem.setNode(outcomeNode);
+	}
+	
+	String getRootAccountsName(String accountNameKey) {
+		String name = messageSource.getMessage(
+				accountNameKey, 
+				null, new Locale("pt", "BR"));
+		return name;
+	}
+	
+	public void setMessageSource(AccountMessageSource messageSource) {
+		this.messageSource = messageSource;
 	}
 
 	public TreeNode getRootNode() {

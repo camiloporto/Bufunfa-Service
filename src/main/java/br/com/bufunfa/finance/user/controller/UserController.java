@@ -45,7 +45,6 @@ public class UserController {
 		User u = userService.findUserByEmailAndPassword(
 				getUser().getEmail(), 
 				getUser().getPassword());
-		System.out.println("UserController.loginUser() " + u);
 		if(u != null) {
 			//FIXME colocar dados do usuario na secao... Usar outra forma de seguranca: spring-security?
 			return "accountView?faces-redirect=true";
@@ -60,7 +59,6 @@ public class UserController {
 	}
 	
 	public String logoutUser() {
-		System.out.println("UserController.logoutUser()");
 		//FIXME retirar usuario da sessao.. Usar outra forma de seguranca - spring-security
 		return "main?faces-redirect=true";
 	}

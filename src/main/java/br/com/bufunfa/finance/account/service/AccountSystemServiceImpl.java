@@ -3,10 +3,12 @@ package br.com.bufunfa.finance.account.service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.roo.addon.serializable.RooSerializable;
+
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 
-
+@RooSerializable
 public class AccountSystemServiceImpl implements AccountSystemService {
 	
 	public void saveAccountSystem(AccountSystem accountSystem) {
