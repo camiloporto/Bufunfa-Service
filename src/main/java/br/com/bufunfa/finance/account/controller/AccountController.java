@@ -28,8 +28,8 @@ public class AccountController {
 	
 	private AccountTreeUI accountTree;
 	
-	@Autowired
-	private UserController userController;
+//	@Autowired
+//	private UserController userController;
 	
 	@Autowired
 	private AccountSystemService accountSystemService;
@@ -43,9 +43,22 @@ public class AccountController {
 	public AccountController() {
 	}
 	
-	@PostConstruct
-	public void init() {
-		User u = userController.getUser();
+//	public void setUserController(UserController userController) {
+//		this.userController = userController;
+//	}
+	
+//	@PostConstruct
+//	public void init() {
+//		User u = userController.getUser();
+//		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
+//		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
+//		accountTree = new AccountTreeUI(accountSystem, rootAccount);
+//		accountTree.setAccountSystemService(accountSystemService);
+//		accountTree.setMessageSource(messageSource);
+//		accountTree.init();
+//	}
+	
+	public void loadAccountHierarchy(User u) {
 		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
 		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
 		accountTree = new AccountTreeUI(accountSystem, rootAccount);

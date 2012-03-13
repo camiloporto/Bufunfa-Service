@@ -76,4 +76,18 @@
     		</list>
     	</property>
     </bean>
+    
+    
+    <!-- Definicao de Beans da WUI sem escopo de sessao para nao dar pau nos testes -->
+    
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+	    <property name="scopes">
+	        <map>
+	            <entry key="session">
+	                <bean class="org.springframework.context.support.SimpleThreadScope"/>
+	            </entry>
+	        </map>
+	    </property>
+	</bean>
+    
 </beans>
