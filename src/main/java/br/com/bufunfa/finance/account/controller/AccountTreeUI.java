@@ -172,6 +172,7 @@ public class AccountTreeUI {
 			
 			parentNode.getChildren().remove(deleteCandidate);
 			deleteCandidate.setParent(null);
+			//FIXME REMOVER DO BANCO
 			addFacesMessage("Conta removida com sucesso", FacesMessage.SEVERITY_INFO);
 			
 		} else {

@@ -7,4 +7,9 @@ public class TestDataGenerator {
 		return "email" + random + "@bufunfa.com"; 
 	}
 
+	public static String generateRandomString() {
+		Long random = System.currentTimeMillis();
+		return "string" + random;
+	}
+
 }
