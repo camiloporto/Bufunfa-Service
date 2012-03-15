@@ -20,7 +20,6 @@ import br.com.bufunfa.finance.account.service.AccountSystemService;
  * @author camilo
  *
  */
-//@RooToString
 @RooJavaBean
 @RooSerializable
 public class AccountTreeItemUI implements Comparable<AccountTreeItemUI>{
