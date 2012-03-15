@@ -76,7 +76,6 @@ public class AccountTreeItemUI implements Comparable<AccountTreeItemUI>{
 	}
 	
 	public String getAccountName() {
-		System.out.println("AccountTreeItemUI.getAccountName() account: " + account);
 		if(isRootAccount() && this.i18nAccountName != null) {
 			return this.i18nAccountName;
 		}
