@@ -190,11 +190,6 @@ public class AccountTreeUI {
 		this.editing = editing;
 	}
 	
-	//TODO Incrementar interface com recursos de usabilidade (msgs de status, icones para acoes, destaque de linhas, mostrar acoes apenas na linha destacada?? etc..)
-	
-	/**
-	 * FIXME persistir atualizacoes
-	 */
 	public void deleteItem() {
 		if(getSelectedItem() == null)
 			return;
@@ -205,7 +200,11 @@ public class AccountTreeUI {
 			
 			parentNode.getChildren().remove(deleteCandidate);
 			deleteCandidate.setParent(null);
-			//FIXME REMOVER DO BANCO
+			
+			Account toDelete = getSelectedItem().getAccount();
+			accountSystemService.deleteAccount(toDelete);
+			
+			//FIXME internacionalizar mensagens
 			addFacesMessage("Conta removida com sucesso", FacesMessage.SEVERITY_INFO);
 			
 		} else {

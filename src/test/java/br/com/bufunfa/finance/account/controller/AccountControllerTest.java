@@ -162,6 +162,23 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 		
 	}
 	
+	@Test
+	public void testDeleteAccountPersistence_shouldPersistChangesOnNewUserLogin() {
+		String newItemName = TestDataGenerator.generateRandomString();
+		
+		AccountTreeItemUI saved = addNewSampleAccount(ASSET_ACCOUNT_NAME, newItemName);
+		
+		accountController.getAccountTree().setSelectedItem(saved);
+		accountController.deleteItem();
+		
+		logoutLoggedUser();
+		loginSampleUser(this.sampleUser);
+		
+		AccountTreeItemUI deletedItem = accountController.findLeafItemByName(saved.getAccountName());
+		Assert.assertNull("item not deleted", deletedItem);
+		
+	}
+	
 	AccountTreeItemUI addNewSampleAccount(String fatherName, String newItemName) {
 		AccountTreeItemUI selectedItem = accountController.findLeafItemByName(fatherName);
 		accountController.getAccountTree().setSelectedItem(selectedItem);
