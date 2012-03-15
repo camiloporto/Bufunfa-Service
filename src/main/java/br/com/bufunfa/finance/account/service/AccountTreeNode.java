@@ -7,10 +7,12 @@ import java.util.TreeSet;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Configurable;
+import org.springframework.roo.addon.serializable.RooSerializable;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 
 @Configurable
+@RooSerializable
 public class AccountTreeNode implements Comparable<AccountTreeNode> {
 	
 	@Autowired

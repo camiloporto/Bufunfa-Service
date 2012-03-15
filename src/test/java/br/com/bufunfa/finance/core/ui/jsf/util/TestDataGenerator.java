@@ -9,7 +9,8 @@ public class TestDataGenerator {
 
 	public static String generateRandomString() {
 		Long random = System.currentTimeMillis();
-		return "string" + random;
+		double r = Math.random();
+		return "string" + r * random;
 	}
 
 }

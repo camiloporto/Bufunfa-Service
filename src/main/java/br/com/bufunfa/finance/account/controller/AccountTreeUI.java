@@ -21,11 +21,16 @@ import br.com.bufunfa.finance.account.service.AccountTreeNode;
 @RooSerializable
 public class AccountTreeUI {
 	
+	//XXX retirar esse atributo. Redundante
 	private AccountTree accountTree;
 	
 	private AccountSystemService accountSystemService;
 	
-	private TreeNode rootNode = new DefaultTreeNode("root", null);
+	private AccountSystem accountSystem;
+	
+	private AccountTreeItemUI rootItem;
+	
+	private TreeNode rootNode = null;
 	
 	private AccountTreeItemUI selectedItem = null;
 	
@@ -49,35 +54,66 @@ public class AccountTreeUI {
 	}
 	
 	public AccountTreeUI(AccountSystem accountSystem, Account rootAccount) {
+		//XXX retirar isso
 		accountTree = new AccountTree(accountSystem, rootAccount);
+		
+		this.accountSystem = accountSystem;
+		rootNode = new DefaultTreeNode("root", null);
+		this.rootItem = new AccountTreeItemUI(rootAccount);
+		this.rootItem.setNode(rootNode);
 	}
 	
 	public void init() {
-		AccountTreeNode asset = accountTree.getAssetNode();
-		AccountTreeNode liability = accountTree.getLiabilityNode();
-		AccountTreeNode income = accountTree.getIncomeNode();
-		AccountTreeNode outcome = accountTree.getOutcomeNode();
 		
-		String assetName = getRootAccountsName(asset.getAccount().getName());
-		String liabilityName = getRootAccountsName(liability.getAccount().getName());
-		String incomeName = getRootAccountsName(income.getAccount().getName());
-		String outcomeName = getRootAccountsName(outcome.getAccount().getName());
+		AccountTreeItemUI assetItem = getAssetAccountTreeItem();
+		assetItem.setRootAccount(true);
 		
-		AccountTreeItemUI assetItem = new AccountTreeItemUI(
-				asset);
-		assetItem.setAccountName(assetName);
+		AccountTreeItemUI liabilityItem = getLiabilityAccountTreeItem();
+		liabilityItem.setRootAccount(true);
 		
-		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
-				liability);
-		liabilityItem.setAccountName(liabilityName);
+		AccountTreeItemUI incomeItem = getIncomeAccountTreeItem();
+		incomeItem.setRootAccount(true);
 		
-		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
-				income);
-		incomeItem.setAccountName(incomeName);
+		AccountTreeItemUI outcomeItem = getOutcomeAccountTreeItem();
+		outcomeItem.setRootAccount(true);
 		
-		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
-				outcome);
-		outcomeItem.setAccountName(outcomeName);
+		String assetName = getRootAccountsName(assetItem.getAccount().getName());
+		String liabilityName = getRootAccountsName(liabilityItem.getAccount().getName());
+		String incomeName = getRootAccountsName(incomeItem.getAccount().getName());
+		String outcomeName = getRootAccountsName(outcomeItem.getAccount().getName());
+		
+		assetItem.setI18nAccountName(assetName);
+		liabilityItem.setI18nAccountName(liabilityName);
+		incomeItem.setI18nAccountName(incomeName);
+		outcomeItem.setI18nAccountName(outcomeName);
+		
+		//TODO no lugar de pegar treeNode, pegar os treeItems..
+		
+//		AccountTreeNode asset = accountTree.getAssetNode();
+//		AccountTreeNode liability = accountTree.getLiabilityNode();
+//		AccountTreeNode income = accountTree.getIncomeNode();
+//		AccountTreeNode outcome = accountTree.getOutcomeNode();
+//		
+//		String assetName = getRootAccountsName(asset.getAccount().getName());
+//		String liabilityName = getRootAccountsName(liability.getAccount().getName());
+//		String incomeName = getRootAccountsName(income.getAccount().getName());
+//		String outcomeName = getRootAccountsName(outcome.getAccount().getName());
+//		
+//		AccountTreeItemUI assetItem = new AccountTreeItemUI(
+//				asset);
+//		assetItem.setAccountName(assetName);
+//		
+//		AccountTreeItemUI liabilityItem = new AccountTreeItemUI(
+//				liability);
+//		liabilityItem.setAccountName(liabilityName);
+//		
+//		AccountTreeItemUI incomeItem = new AccountTreeItemUI(
+//				income);
+//		incomeItem.setAccountName(incomeName);
+//		
+//		AccountTreeItemUI outcomeItem = new AccountTreeItemUI(
+//				outcome);
+//		outcomeItem.setAccountName(outcomeName);
 		
 		TreeNode assetNode = new DefaultTreeNode(assetItem, rootNode);
 		TreeNode liabilityNode = new DefaultTreeNode(liabilityItem, rootNode);
@@ -96,12 +132,19 @@ public class AccountTreeUI {
 	}
 	
 	private void loadNodeChildren(AccountTreeItemUI parent) {
-		AccountTreeNode parentAccountNode = parent.getAccountTreeNode();
-		Set<AccountTreeNode> children = parentAccountNode.getChildren();
-		for (AccountTreeNode accountTreeNode : children) {
-			AccountTreeItemUI childItem = addItemToTreeNode(parent.getNode(), accountTreeNode);
+		Set<AccountTreeItemUI> children = parent.getChildren();
+		for (AccountTreeItemUI childItem : children) {
+			TreeNode childNode =  new DefaultTreeNode(childItem, parent.getNode());
+			childItem.setNode(childNode);
 			loadNodeChildren(childItem);
 		}
+		
+//		AccountTreeNode parentAccountNode = parent.getAccountTreeNode();
+//		Set<AccountTreeNode> children = parentAccountNode.getChildren();
+//		for (AccountTreeNode accountTreeNode : children) {
+//			AccountTreeItemUI childItem = addItemToTreeNode(parent.getNode(), accountTreeNode);
+//			loadNodeChildren(childItem);
+//		}
 	}
 	
 	private AccountTreeItemUI addItemToTreeNode(TreeNode parentNode,
@@ -120,6 +163,36 @@ public class AccountTreeUI {
 				null, new Locale("pt", "BR"));
 		return name;
 	}
+	
+	AccountTreeItemUI getAssetAccountTreeItem() {
+		Account asset = accountSystemService.findAssetAccount(accountSystem);
+		return createTreeItem(asset);
+	}
+	
+	AccountTreeItemUI getLiabilityAccountTreeItem() {
+		Account liability = accountSystemService.findLiabilityAccount(accountSystem);
+		return createTreeItem(liability);
+	}
+	
+	AccountTreeItemUI getIncomeAccountTreeItem() {
+		Account income = accountSystemService.findIncomeAccount(accountSystem);
+		return createTreeItem(income);
+	}
+	
+	AccountTreeItemUI getOutcomeAccountTreeItem() {
+		Account outcome = accountSystemService.findOutcomeAccount(accountSystem);
+		return createTreeItem(outcome);
+	}
+	
+	//FIXME colocar esse metodo em uma fabrica que tenha todas as dependencias do Item para construi-lo
+	AccountTreeItemUI createTreeItem(Account account) {
+		AccountTreeItemUI item = new AccountTreeItemUI(account);
+		item.setAccountSystemService(accountSystemService);
+		return item;
+	}
+
+	
+	
 	
 	public void setMessageSource(AccountMessageSource messageSource) {
 		this.messageSource = messageSource;
@@ -188,14 +261,18 @@ public class AccountTreeUI {
 		this.selectedItemParent = getSelectedItem();
 		
 		Account saved = saveAccount(selectedItemParent.getId());
-		
-		AccountTreeItemUI childItem = new AccountTreeItemUI(
-				saved.getId(),
-				saved.getName(), 
-				saved.getDescription());
-		
+		AccountTreeItemUI childItem = createTreeItem(saved);
 		TreeNode child =  new DefaultTreeNode(childItem, getSelectedItemParent().getNode());
 		childItem.setNode(child);
+		
+		//XXX tirar isso
+//		AccountTreeItemUI childItem = new AccountTreeItemUI(
+//				saved.getId(),
+//				saved.getName(), 
+//				saved.getDescription());
+		
+		
+		
 		
 		//limpa o formulario
 		this.editingItem = new AccountTreeItemUI();
@@ -235,6 +312,11 @@ public class AccountTreeUI {
 	}
 	
 	public void updateItem() {
+		AccountTreeItemUI item = getSelectedItem();
+//		AccountTreeNode accountNode = item.getAccountTreeNode();
+//		Account toUpdate = accountNode.getAccount();
+		Account toUpdate = item.getAccount();
+		accountSystemService.updateAccount(toUpdate);
 		//FIXME persistir as atualizacoes
 	}
 	

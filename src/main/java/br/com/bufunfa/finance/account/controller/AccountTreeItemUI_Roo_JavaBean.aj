@@ -4,7 +4,10 @@
 package br.com.bufunfa.finance.account.controller;
 
 import br.com.bufunfa.finance.account.controller.AccountTreeItemUI;
+import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.AccountTreeNode;
+import java.util.SortedSet;
 import org.primefaces.model.TreeNode;
 
 privileged aspect AccountTreeItemUI_Roo_JavaBean {
@@ -17,28 +20,44 @@ privileged aspect AccountTreeItemUI_Roo_JavaBean {
         this.accountTreeNode = accountTreeNode;
     }
     
-    public Long AccountTreeItemUI.getId() {
-        return this.id;
+    public AccountSystemService AccountTreeItemUI.getAccountSystemService() {
+        return this.accountSystemService;
+    }
+    
+    public void AccountTreeItemUI.setAccountSystemService(AccountSystemService accountSystemService) {
+        this.accountSystemService = accountSystemService;
+    }
+    
+    public Account AccountTreeItemUI.getAccount() {
+        return this.account;
+    }
+    
+    public void AccountTreeItemUI.setAccount(Account account) {
+        this.account = account;
+    }
+    
+    public void AccountTreeItemUI.setChildren(SortedSet<AccountTreeItemUI> children) {
+        this.children = children;
+    }
+    
+    public boolean AccountTreeItemUI.isRootAccount() {
+        return this.rootAccount;
+    }
+    
+    public void AccountTreeItemUI.setRootAccount(boolean rootAccount) {
+        this.rootAccount = rootAccount;
     }
     
     public void AccountTreeItemUI.setId(Long id) {
         this.id = id;
     }
     
-    public String AccountTreeItemUI.getAccountName() {
-        return this.accountName;
+    public String AccountTreeItemUI.getI18nAccountName() {
+        return this.i18nAccountName;
     }
     
-    public void AccountTreeItemUI.setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-    
-    public String AccountTreeItemUI.getAccountDescription() {
-        return this.accountDescription;
-    }
-    
-    public void AccountTreeItemUI.setAccountDescription(String accountDescription) {
-        this.accountDescription = accountDescription;
+    public void AccountTreeItemUI.setI18nAccountName(String i18nAccountName) {
+        this.i18nAccountName = i18nAccountName;
     }
     
     public TreeNode AccountTreeItemUI.getNode() {

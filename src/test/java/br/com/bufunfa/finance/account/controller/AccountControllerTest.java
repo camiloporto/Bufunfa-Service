@@ -41,7 +41,7 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 		AccountTreeItemUI selectedItem = accountController.findLeafItemByName(ASSET_ACCOUNT_NAME);
 		accountController.getAccountTree().setSelectedItem(selectedItem);
 		accountController.getAccountTree().setEditing(false);
-		String accountName = "NewName";
+		String accountName = TestDataGenerator.generateRandomString();
 		accountController.getAccountTree().getEditingItem().setAccountName(accountName);
 		
 		accountController.saveItem();
@@ -103,6 +103,36 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 		
 		accountController.getAccountTree().getSelectedItem().setAccountName(itemUpdatedName);
 		accountController.updateItem();
+		
+		AccountTreeItemUI updatedItem = accountController.findLeafItemByName(itemUpdatedName);
+		Assert.assertNotNull("updated item not found", updatedItem);
+		Assert.assertEquals(
+				"expected id not equals: " + saved.getId(), 
+				saved.getId(), 
+				updatedItem.getId());
+		
+		Assert.assertEquals(
+				"expected name not equals: " + itemUpdatedName, 
+				itemUpdatedName, 
+				updatedItem.getAccountName());
+		
+	}
+	
+	@Test
+	public void testEditAccountPersistence_shouldPersistChangesOnNewUserLogin() {
+		String newItemName = TestDataGenerator.generateRandomString();
+		
+		AccountTreeItemUI saved = addNewSampleAccount(ASSET_ACCOUNT_NAME, newItemName);
+		
+		String itemUpdatedName = TestDataGenerator.generateRandomString();
+		accountController.getAccountTree().setSelectedItem(saved);
+		accountController.getAccountTree().setEditing(true);
+		
+		accountController.getAccountTree().getSelectedItem().setAccountName(itemUpdatedName);
+		accountController.updateItem();
+		
+		logoutLoggedUser();
+		loginSampleUser(this.sampleUser);
 		
 		AccountTreeItemUI updatedItem = accountController.findLeafItemByName(itemUpdatedName);
 		Assert.assertNotNull("updated item not found", updatedItem);
