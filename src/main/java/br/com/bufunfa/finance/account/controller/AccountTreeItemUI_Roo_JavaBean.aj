@@ -6,19 +6,10 @@ package br.com.bufunfa.finance.account.controller;
 import br.com.bufunfa.finance.account.controller.AccountTreeItemUI;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
-import br.com.bufunfa.finance.account.service.AccountTreeNode;
 import java.util.SortedSet;
 import org.primefaces.model.TreeNode;
 
 privileged aspect AccountTreeItemUI_Roo_JavaBean {
-    
-    public AccountTreeNode AccountTreeItemUI.getAccountTreeNode() {
-        return this.accountTreeNode;
-    }
-    
-    public void AccountTreeItemUI.setAccountTreeNode(AccountTreeNode accountTreeNode) {
-        this.accountTreeNode = accountTreeNode;
-    }
     
     public AccountSystemService AccountTreeItemUI.getAccountSystemService() {
         return this.accountSystemService;
@@ -46,10 +37,6 @@ privileged aspect AccountTreeItemUI_Roo_JavaBean {
     
     public void AccountTreeItemUI.setRootAccount(boolean rootAccount) {
         this.rootAccount = rootAccount;
-    }
-    
-    public void AccountTreeItemUI.setId(Long id) {
-        this.id = id;
     }
     
     public String AccountTreeItemUI.getI18nAccountName() {

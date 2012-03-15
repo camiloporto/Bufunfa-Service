@@ -13,10 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
 
-import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
-import br.com.bufunfa.finance.account.service.AccountTreeNode;
 
 /**
  * @author camilo
@@ -31,11 +29,7 @@ public class AccountTreeItemUI implements Comparable<AccountTreeItemUI>{
 	 * 
 	 */
 	private static final long serialVersionUID = -2519805200331802857L;
-	//XXX é preciso mesmo isso aqui? nao eh melhor colocar soh a account e essa classe fazer o papel do AccTreeNode?
-	private AccountTreeNode accountTreeNode;
 	
-	
-	/////
 	@Autowired
 	private AccountSystemService accountSystemService;
 		
@@ -44,38 +38,15 @@ public class AccountTreeItemUI implements Comparable<AccountTreeItemUI>{
 	private SortedSet<AccountTreeItemUI> children = new TreeSet<AccountTreeItemUI>();
 	
 	private boolean rootAccount = false;//Asset, Liability, Income, Outcome
-	/////
-	
-	private Long id;
-	
-	private String accountName;
 	
 	private String i18nAccountName;
-	
-	private String accountDescription;
 	
 	private TreeNode node;
 	
 	private boolean actionPanelVisible = true;
 
-	@Deprecated
-	public AccountTreeItemUI(Long accountId, String nomeConta, String descricaoConta) {
-		super();
-		this.id = accountId;
-		this.accountName = nomeConta;
-		this.accountDescription = descricaoConta;
-	}
-	
 	public AccountTreeItemUI(Account account) {
 		this.account = account;
-	}
-	
-	@Deprecated
-	public AccountTreeItemUI(AccountTreeNode accountTreeNode) {
-		this(accountTreeNode.getAccount().getId(), 
-				accountTreeNode.getAccount().getName(), 
-				accountTreeNode.getAccount().getDescription());
-		this.accountTreeNode = accountTreeNode;
 	}
 	
 	public AccountTreeItemUI() {

@@ -10,6 +10,4 @@ privileged aspect AccountTreeUI_Roo_Serializable {
     
     declare parents: AccountTreeUI implements Serializable;
     
-    private static final long AccountTreeUI.serialVersionUID = 1L;
-    
 }
