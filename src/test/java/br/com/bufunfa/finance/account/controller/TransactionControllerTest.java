@@ -67,6 +67,26 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testDeleteTransaction_shouldSuccess() {
+		sampleUser = accountControllerHelper.generateAndSaveSampleUser();
+		accountControllerHelper.loginSampleUser(sampleUser);
+		Transaction saved = addSampleTransaction();
+		
+		transactionController.setSelectedTransactionId(saved.getId());
+		transactionController.deleteTransaction();
+		
+		Transaction deleted = findTransactionByComment(saved.getDestAccountEntry().getComment());
+		
+		String msg = "transaction was not deleted";
+		Assert.assertNull(msg, deleted);
+		
+		msg = "selected transaction id was not cleaned";
+		Assert.assertNull(msg, transactionController.getSelectedTransactionId());
+	}
+	
+	
+
+	@Test
 	public void testUpdateTransaction_shouldSuccess() {
 		
 		sampleUser = accountControllerHelper.generateAndSaveSampleUser();
@@ -81,7 +101,7 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		
 		Transaction saved = addSampleTransaction(from, to, date, value, comment);
 		
-		transactionController.setEditTransactionId(saved.getId());
+		transactionController.setSelectedTransactionId(saved.getId());
 		from = accountControllerHelper.findAccountByName(LIABILITY_ACCOUNT_NAME);;
 		to = accountControllerHelper.findAccountByName(ASSET_ACCOUNT_NAME);
 		date = DateUtils.getDate(2012, Calendar.FEBRUARY, 10).getTime();
@@ -110,6 +130,18 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		msg = "transaction form was not cleaned";
 		assertThatFormIsCleaned(msg);
 		
+	}
+	
+
+	private Transaction addSampleTransaction() {
+		Account from = accountControllerHelper.findAccountByName(ASSET_ACCOUNT_NAME);
+		Account to = accountControllerHelper.findAccountByName(LIABILITY_ACCOUNT_NAME);;
+		Date date = DateUtils.getDate(2012, Calendar.JANUARY, 10).getTime();
+		BigDecimal value = new BigDecimal("100.00");
+		String comment = TestDataGenerator.generateRandomString();
+		
+		
+		return addSampleTransaction(from, to, date, value, comment);
 	}
 
 	private Transaction addSampleTransaction(Account from, Account to, Date date, BigDecimal value, String comment) {

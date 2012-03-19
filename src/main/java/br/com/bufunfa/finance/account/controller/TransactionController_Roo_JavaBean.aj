@@ -59,12 +59,12 @@ privileged aspect TransactionController_Roo_JavaBean {
         this.comment = comment;
     }
     
-    public Long TransactionController.getEditTransactionId() {
-        return this.editTransactionId;
+    public Long TransactionController.getSelectedTransactionId() {
+        return this.selectedTransactionId;
     }
     
-    public void TransactionController.setEditTransactionId(Long editTransactionId) {
-        this.editTransactionId = editTransactionId;
+    public void TransactionController.setSelectedTransactionId(Long selectedTransactionId) {
+        this.selectedTransactionId = selectedTransactionId;
     }
     
 }
