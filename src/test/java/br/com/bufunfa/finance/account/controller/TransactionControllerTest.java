@@ -65,8 +65,72 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		assertThatFormIsCleaned(msg);
 		
 	}
+	
+	@Test
+	public void testUpdateTransaction_shouldSuccess() {
+		
+		sampleUser = accountControllerHelper.generateAndSaveSampleUser();
+		accountControllerHelper.loginSampleUser(sampleUser);
+
+		Account from = accountControllerHelper.findAccountByName(ASSET_ACCOUNT_NAME);
+		Account to = accountControllerHelper.findAccountByName(LIABILITY_ACCOUNT_NAME);;
+		Date date = DateUtils.getDate(2012, Calendar.JANUARY, 10).getTime();
+		BigDecimal value = new BigDecimal("100.00");
+		String comment = TestDataGenerator.generateRandomString();
+		
+		transactionController.setFromAccount(from);
+		transactionController.setToAccount(to);
+		transactionController.setDate(date);
+		transactionController.setValue(value);
+		transactionController.setComment(comment);
+		
+		transactionController.saveTransaction();
+		
+		
+		Transaction saved = findTransactionByComment(comment);
+		
+		transactionController.setEditTransactionId(saved.getId());
+		from = accountControllerHelper.findAccountByName(LIABILITY_ACCOUNT_NAME);;
+		to = accountControllerHelper.findAccountByName(ASSET_ACCOUNT_NAME);
+		date = DateUtils.getDate(2012, Calendar.FEBRUARY, 10).getTime();
+		value = new BigDecimal("50.75");
+		comment = TestDataGenerator.generateRandomString();
+		
+		transactionController.setFromAccount(from);
+		transactionController.setToAccount(to);
+		transactionController.setDate(date);
+		transactionController.setValue(value);
+		transactionController.setComment(comment);
+		
+		transactionController.updateTransaction();
+		
+		
+		String msg = "transaction was not updated";
+		assertThatTransactionExist(
+				msg,
+				from,
+				to,
+				date,
+				value,
+				comment
+				);
+		
+		msg = "transaction form was not cleaned";
+		assertThatFormIsCleaned(msg);
+		
+	}
 
 	
+	private Transaction findTransactionByComment(String comment) {
+		List<Transaction> transactions = transactionController.getAllTransaction();
+		for (Transaction t : transactions) {
+			if(comment.equals(t.getOriginAccountEntry().getComment())) {
+				return t;
+			}
+		}
+		return null;
+	}
+
 	private void assertThatFormIsCleaned(String msg) {
 		Account from = transactionController.getFromAccount();
 		Assert.assertTrue(msg + ": fromAccount.id", from.getId() == null);

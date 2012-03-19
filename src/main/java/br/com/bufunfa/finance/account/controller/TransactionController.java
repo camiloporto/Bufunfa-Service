@@ -27,7 +27,7 @@ public class TransactionController {
 	private Date date;
 	private String comment;
 	
-	
+	private Long editTransactionId;
 	
 	public void saveTransaction() {
 		Transaction saved = transactionService.saveNewTransaction(
@@ -37,6 +37,20 @@ public class TransactionController {
 				value, 
 				comment);
 		if(saved != null) {
+			clearForm();
+			//FIXME adicionar mensagem faces i18nzada a WUI
+		}
+	}
+	
+	public void updateTransaction() {
+		Transaction updated = transactionService.updateTransaction(
+				getEditTransactionId(), 
+				fromAccount.getId(), 
+				toAccount.getId(), 
+				date, 
+				value, 
+				comment);
+		if(updated != null) {
 			clearForm();
 			//FIXME adicionar mensagem faces i18nzada a WUI
 		}
@@ -54,5 +68,8 @@ public class TransactionController {
 	public List<Transaction> getAllTransaction() {
 		return transactionService.findAllTransactions();
 	}
+
+
+	
 
 }
