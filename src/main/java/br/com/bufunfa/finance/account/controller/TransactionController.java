@@ -36,9 +36,20 @@ public class TransactionController {
 				date, 
 				value, 
 				comment);
+		if(saved != null) {
+			clearForm();
+			//FIXME adicionar mensagem faces i18nzada a WUI
+		}
 	}
 
 
+	void clearForm() {
+		toAccount = new Account();
+		fromAccount = new Account();
+		value = null;
+		date = null;
+		comment = null;
+	}
 
 	public List<Transaction> getAllTransaction() {
 		return transactionService.findAllTransactions();

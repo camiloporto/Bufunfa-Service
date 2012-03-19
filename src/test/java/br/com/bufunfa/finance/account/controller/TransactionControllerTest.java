@@ -61,9 +61,24 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 				comment
 				);
 		
-		//verificar que o formulario foi limpo
-		//verificar que a transacao foi salva no banco
+		msg = "transaction form was not cleaned";
+		assertThatFormIsCleaned(msg);
 		
+	}
+
+	
+	private void assertThatFormIsCleaned(String msg) {
+		Account from = transactionController.getFromAccount();
+		Assert.assertTrue(msg + ": fromAccount.id", from.getId() == null);
+		Assert.assertTrue(msg + ": fromAccount.name", from.getName() == null);
+		
+		Account to = transactionController.getToAccount();
+		Assert.assertTrue(msg + ": toAccount.id", to.getId() == null);
+		Assert.assertTrue(msg + ": toAccount.name", to.getName() == null);
+		
+		Assert.assertTrue(msg + ": date", transactionController.getDate() == null);
+		Assert.assertTrue(msg + ": value", transactionController.getValue() == null);
+		Assert.assertTrue(msg + ": comment", transactionController.getComment() == null);
 	}
 
 	private void assertThatTransactionExist(String msg, Account from,
