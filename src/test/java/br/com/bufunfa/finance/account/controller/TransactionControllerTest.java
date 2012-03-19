@@ -78,16 +78,8 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		BigDecimal value = new BigDecimal("100.00");
 		String comment = TestDataGenerator.generateRandomString();
 		
-		transactionController.setFromAccount(from);
-		transactionController.setToAccount(to);
-		transactionController.setDate(date);
-		transactionController.setValue(value);
-		transactionController.setComment(comment);
 		
-		transactionController.saveTransaction();
-		
-		
-		Transaction saved = findTransactionByComment(comment);
+		Transaction saved = addSampleTransaction(from, to, date, value, comment);
 		
 		transactionController.setEditTransactionId(saved.getId());
 		from = accountControllerHelper.findAccountByName(LIABILITY_ACCOUNT_NAME);;
@@ -120,6 +112,18 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		
 	}
 
+	private Transaction addSampleTransaction(Account from, Account to, Date date, BigDecimal value, String comment) {
+		transactionController.setFromAccount(from);
+		transactionController.setToAccount(to);
+		transactionController.setDate(date);
+		transactionController.setValue(value);
+		transactionController.setComment(comment);
+		
+		transactionController.saveTransaction();
+		
+		
+		return findTransactionByComment(comment);
+	}
 	
 	private Transaction findTransactionByComment(String comment) {
 		List<Transaction> transactions = transactionController.getAllTransaction();
