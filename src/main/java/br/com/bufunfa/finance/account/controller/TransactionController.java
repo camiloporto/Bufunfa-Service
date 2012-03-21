@@ -1,6 +1,7 @@
 package br.com.bufunfa.finance.account.controller;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -38,6 +39,7 @@ public class TransactionController {
 				comment);
 		if(saved != null) {
 			clearForm();
+			System.out.println("TransactionController.saveTransaction() saved: " + saved.getId());
 			//FIXME adicionar mensagem faces i18nzada a WUI
 		}
 	}
@@ -74,10 +76,5 @@ public class TransactionController {
 	public List<Transaction> getAllTransaction() {
 		return transactionService.findAllTransactions();
 	}
-
-	
-
-
-	
 
 }

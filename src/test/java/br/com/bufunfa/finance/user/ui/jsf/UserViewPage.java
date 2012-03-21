@@ -18,7 +18,7 @@ import br.com.bufunfa.finance.user.ui.jsf.config.UserViewNames;
 
 public class UserViewPage extends AbstractViewPage {
 	
-	class UserForm {
+	public class UserForm {
 
 		public void setEmail(String email) {
 			fillInputElement(

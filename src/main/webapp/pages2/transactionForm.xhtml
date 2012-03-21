@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+</head>
+<body>
+	<ui:composition>
+		<!-- All html ignored before here -->
+		<!-- 
+		<f:loadBundle var="userMsgs" basename="br.com.bufunfa.finance.user.i18n.UserMessageSource"/>
+		 -->
+		<h:form prependId="false" id="transactionForm">
+			<p:messages id="messages" globalOnly="true" autoUpdate="true">
+			</p:messages>
+			<span>De:</span>
+			<p:autoComplete id="fromAccount" 
+				value="#{transactionController.fromAccount.id}"
+				var="accountItem"
+				itemLabel="#{accountItem.accountName}"
+				itemValue="#{accountItem.account.id}"
+				completeMethod="#{accountController.findLeafItemsByNameLike}"
+				minQueryLength="3"
+				forceSelection="true"/>
+			
+			<span>Para:</span>
+			<p:autoComplete id="toAccount"
+				value="#{transactionController.toAccount.id}"
+				var="accountItem"
+				itemLabel="#{accountItem.accountName}"
+				itemValue="#{accountItem.account.id}"
+				completeMethod="#{accountController.findLeafItemsByNameLike}"
+				minQueryLength="3"
+				forceSelection="true"/>
+			<span>Data:</span>	
+			<p:calendar id="date"
+				value="#{transactionController.date}"
+				locale="pt_BR" 
+				pattern="dd/MM/yyyy"/>
+			
+			<span>Valor:</span>
+			<p:inputText id="value"
+				value="#{transactionController.value}" />
+			
+			<span>Comentario:</span>
+			<p:inputText id="comment"
+				value="#{transactionController.comment}" />
+			
+			<p:commandButton id="buttonSaveTransaction"
+				action="#{transactionController.saveTransaction}"
+				update="transactionForm, transactionListForm">
+			</p:commandButton>
+				
+		</h:form>
+
+		<h:form id="transactionListForm" prependId="false">
+			<p:dataTable value="#{transactionController.allTransaction}" var="transaction"
+				id="transactionTable"
+				rowIndexVar="index"
+				emptyMessage="Nenhuma transação encontrada">
+
+				<p:column headerText="Data" width="100">
+					<h:outputText value="#{transaction.originAccountEntry.date}">
+						<f:convertDateTime locale="pt_BR"
+							dateStyle="short" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="De">
+					<h:outputText value="#{transaction.originAccountEntry.account.name}"/>
+				</p:column>
+				<p:column headerText="Para">
+					<h:outputText value="#{transaction.destAccountEntry.account.name}"/>
+				</p:column>
+				<p:column headerText="Comentario">
+					<h:outputText value="#{transaction.originAccountEntry.comment}"/>
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputText value="#{transaction.destAccountEntry.value}">
+						<f:convertNumber locale="pt_BR" type="currency" />
+					</h:outputText>
+				</p:column>
+				<!-- 
+				<p:column style="width: 100px;">
+
+					<div style="width: 100px; display: none;">
+						<p:commandLink value="delete"
+							onclick="confirmDeleteDialogVar.show()" title="Remover transação"
+							type="button" styleClass="actionLink">
+							<f:setPropertyActionListener
+								target="#{transacaoView.transacaoSelected}" value="#{transacao}" />
+						</p:commandLink>
+						<p:commandLink value=" edit " update="@form"
+							rendered="#{!transacao.editMode}" styleClass="actionLink">
+							<f:setPropertyActionListener target="#{transacao.editMode}"
+								value="#{true}" />
+						</p:commandLink>
+						<p:commandLink value=" save " update="@form"
+							rendered="#{transacao.editMode}"
+							action="#{transacaoView.saveRow}" styleClass="actionLink">
+							<f:setPropertyActionListener
+								target="#{transacaoView.transacaoSelected}" value="#{transacao}" />
+						</p:commandLink>
+					</div>
+
+				</p:column>
+				 -->
+			</p:dataTable>
+		</h:form>
+
+		<!-- All html ignored after here -->
+
+	</ui:composition>
+</body>
+</html>

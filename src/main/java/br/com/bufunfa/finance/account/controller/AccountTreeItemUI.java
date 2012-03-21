@@ -36,7 +36,7 @@ public class AccountTreeItemUI implements Comparable<AccountTreeItemUI>{
 	
 	private SortedSet<AccountTreeItemUI> children = new TreeSet<AccountTreeItemUI>();
 	
-	private boolean rootAccount = false;//Asset, Liability, Income, Outcome
+	private boolean rootAccount = false;//Asset, Liability, Income, Outcome = true
 	
 	private String i18nAccountName;
 	

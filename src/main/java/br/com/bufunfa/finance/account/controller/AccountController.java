@@ -101,8 +101,9 @@ public class AccountController {
 	 */
 	public List<AccountTreeItemUI> findLeafItemsByNameLike(String name) {
 		List<AccountTreeItemUI> itemsFound = new ArrayList<AccountTreeItemUI>();
-		return findItemsByNameLike2(name, getAccountTree().getRootNode(),
+		findItemsByNameLike2(name, getAccountTree().getRootNode(),
 				itemsFound);
+		return itemsFound;
 	}
 
 	private List<AccountTreeItemUI> findItemsByNameLike2(String name,

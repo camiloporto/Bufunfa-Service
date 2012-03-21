@@ -39,7 +39,7 @@ public class AccountControllerHelper {
 		userController.logoutUser();
 	}
 	
-	Account findAccountByName(String name) {
+	public Account findAccountByName(String name) {
 		AccountTreeItemUI item = accountController.findLeafItemByName(name);
 		return item.getAccount();
 	}
