@@ -3,11 +3,11 @@
 
 package br.com.bufunfa.finance.account.controller;
 
-import br.com.bufunfa.finance.account.controller.TransactionController;
+import br.com.bufunfa.finance.account.controller.TransactionUI;
 import java.io.Serializable;
 
-privileged aspect TransactionController_Roo_Serializable {
+privileged aspect TransactionUI_Roo_Serializable {
     
-    declare parents: TransactionController implements Serializable;
+    declare parents: TransactionUI implements Serializable;
     
 }

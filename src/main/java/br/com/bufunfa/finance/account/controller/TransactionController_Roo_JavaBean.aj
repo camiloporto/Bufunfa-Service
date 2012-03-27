@@ -4,10 +4,8 @@
 package br.com.bufunfa.finance.account.controller;
 
 import br.com.bufunfa.finance.account.controller.TransactionController;
-import br.com.bufunfa.finance.account.modelo.Account;
+import br.com.bufunfa.finance.account.controller.TransactionUI;
 import br.com.bufunfa.finance.account.service.TransactionService;
-import java.math.BigDecimal;
-import java.util.Date;
 
 privileged aspect TransactionController_Roo_JavaBean {
     
@@ -19,52 +17,12 @@ privileged aspect TransactionController_Roo_JavaBean {
         this.transactionService = transactionService;
     }
     
-    public Account TransactionController.getToAccount() {
-        return this.toAccount;
+    public TransactionUI TransactionController.getCurrentTransaction() {
+        return this.currentTransaction;
     }
     
-    public void TransactionController.setToAccount(Account toAccount) {
-        this.toAccount = toAccount;
-    }
-    
-    public Account TransactionController.getFromAccount() {
-        return this.fromAccount;
-    }
-    
-    public void TransactionController.setFromAccount(Account fromAccount) {
-        this.fromAccount = fromAccount;
-    }
-    
-    public BigDecimal TransactionController.getValue() {
-        return this.value;
-    }
-    
-    public void TransactionController.setValue(BigDecimal value) {
-        this.value = value;
-    }
-    
-    public Date TransactionController.getDate() {
-        return this.date;
-    }
-    
-    public void TransactionController.setDate(Date date) {
-        this.date = date;
-    }
-    
-    public String TransactionController.getComment() {
-        return this.comment;
-    }
-    
-    public void TransactionController.setComment(String comment) {
-        this.comment = comment;
-    }
-    
-    public Long TransactionController.getSelectedTransactionId() {
-        return this.selectedTransactionId;
-    }
-    
-    public void TransactionController.setSelectedTransactionId(Long selectedTransactionId) {
-        this.selectedTransactionId = selectedTransactionId;
+    public void TransactionController.setCurrentTransaction(TransactionUI currentTransaction) {
+        this.currentTransaction = currentTransaction;
     }
     
 }
