@@ -5,12 +5,14 @@ import java.util.Date;
 
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
+import org.springframework.roo.addon.tostring.RooToString;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 
 @RooSerializable
 @RooJavaBean
+@RooToString(excludeFields={"toAccount", "fromAccount"})
 public class TransactionUI {
 	
 	/**

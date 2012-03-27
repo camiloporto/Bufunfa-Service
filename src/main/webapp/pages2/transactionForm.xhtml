@@ -18,7 +18,7 @@
 			</p:messages>
 			<span>De:</span>
 			<p:autoComplete id="fromAccount" 
-				value="#{transactionController.fromAccount.id}"
+				value="#{transactionController.currentTransaction.fromAccount.id}"
 				var="accountItem"
 				itemLabel="#{accountItem.accountName}"
 				itemValue="#{accountItem.account.id}"
@@ -28,7 +28,7 @@
 			
 			<span>Para:</span>
 			<p:autoComplete id="toAccount"
-				value="#{transactionController.toAccount.id}"
+				value="#{transactionController.currentTransaction.toAccount.id}"
 				var="accountItem"
 				itemLabel="#{accountItem.accountName}"
 				itemValue="#{accountItem.account.id}"
@@ -37,17 +37,17 @@
 				forceSelection="true"/>
 			<span>Data:</span>	
 			<p:calendar id="date"
-				value="#{transactionController.date}"
+				value="#{transactionController.currentTransaction.date}"
 				locale="pt_BR" 
 				pattern="dd/MM/yyyy"/>
 			
 			<span>Valor:</span>
 			<p:inputText id="value"
-				value="#{transactionController.value}" />
+				value="#{transactionController.currentTransaction.value}" />
 			
 			<span>Comentario:</span>
 			<p:inputText id="comment"
-				value="#{transactionController.comment}" />
+				value="#{transactionController.currentTransaction.comment}" />
 			
 			<p:commandButton id="buttonSaveTransaction"
 				action="#{transactionController.saveTransaction}"
@@ -57,32 +57,36 @@
 		</h:form>
 
 		<h:form id="transactionListForm" prependId="false">
-			<p:dataTable value="#{transactionController.allTransaction}" var="transaction"
+			<p:dialog header="Confirma exclusão da transação?" widgetVar="confirmDeleteDialogVar" id="confirmDeleteDialog">
+				<p:commandButton value="OK" oncomplete="confirmDeleteDialogVar.hide()" 
+					action="#{transactionController.deleteTransaction}" update="transactionListForm" />
+			</p:dialog>
+			<p:dataTable value="#{transactionController.allTransaction}" var="transactionUI"
 				id="transactionTable"
 				rowIndexVar="index"
 				emptyMessage="Nenhuma transação encontrada">
 
 				<p:column headerText="Data" width="100">
-					<h:outputText value="#{transaction.originAccountEntry.date}">
+					<h:outputText value="#{transactionUI.date}">
 						<f:convertDateTime locale="pt_BR"
 							dateStyle="short" />
 					</h:outputText>
 				</p:column>
 				<p:column headerText="De">
-					<h:outputText value="#{transaction.originAccountEntry.account.name}"/>
+					<h:outputText value="#{transactionUI.fromAccount.name}"/>
 				</p:column>
 				<p:column headerText="Para">
-					<h:outputText value="#{transaction.destAccountEntry.account.name}"/>
+					<h:outputText value="#{transactionUI.toAccount.name}"/>
 				</p:column>
 				<p:column headerText="Comentario">
-					<h:outputText value="#{transaction.originAccountEntry.comment}"/>
+					<h:outputText value="#{transactionUI.comment}"/>
 				</p:column>
 				<p:column headerText="Valor">
-					<h:outputText value="#{transaction.destAccountEntry.value}">
+					<h:outputText value="#{transactionUI.value}">
 						<f:convertNumber locale="pt_BR" type="currency" />
 					</h:outputText>
 				</p:column>
-				<!-- 
+				
 				<p:column style="width: 100px;">
 
 					<div style="width: 100px; display: none;">
@@ -90,8 +94,9 @@
 							onclick="confirmDeleteDialogVar.show()" title="Remover transação"
 							type="button" styleClass="actionLink">
 							<f:setPropertyActionListener
-								target="#{transacaoView.transacaoSelected}" value="#{transacao}" />
+								target="#{transactionController.currentTransaction}" value="#{transactionUI}" />
 						</p:commandLink>
+						<!-- 
 						<p:commandLink value=" edit " update="@form"
 							rendered="#{!transacao.editMode}" styleClass="actionLink">
 							<f:setPropertyActionListener target="#{transacao.editMode}"
@@ -103,11 +108,21 @@
 							<f:setPropertyActionListener
 								target="#{transacaoView.transacaoSelected}" value="#{transacao}" />
 						</p:commandLink>
+						 -->
 					</div>
 
 				</p:column>
-				 -->
 			</p:dataTable>
+			<script type="text/javascript">
+					jQuery("#transactionListForm table tbody tr").hover(
+						function(event){
+						  jQuery(":last-child div", this).show();
+					   	},
+						function(event){
+						  jQuery(":last-child div", this).hide();
+					   	}
+					  );
+			</script>
 		</h:form>
 
 		<!-- All html ignored after here -->
