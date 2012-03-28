@@ -130,7 +130,7 @@ public class TransactionControllerTest extends SpringRootTestsConfiguration {
 		
 		msg = "transaction form was not cleaned";
 		assertThatFormIsCleaned(msg);
-		
+		Assert.assertFalse("edit mode did not turned off", transactionController.getCurrentTransaction().isEditMode());
 	}
 	
 

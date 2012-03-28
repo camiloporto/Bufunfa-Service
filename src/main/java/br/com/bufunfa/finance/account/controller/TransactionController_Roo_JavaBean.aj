@@ -6,6 +6,7 @@ package br.com.bufunfa.finance.account.controller;
 import br.com.bufunfa.finance.account.controller.TransactionController;
 import br.com.bufunfa.finance.account.controller.TransactionUI;
 import br.com.bufunfa.finance.account.service.TransactionService;
+import java.util.List;
 
 privileged aspect TransactionController_Roo_JavaBean {
     
@@ -23,6 +24,14 @@ privileged aspect TransactionController_Roo_JavaBean {
     
     public void TransactionController.setCurrentTransaction(TransactionUI currentTransaction) {
         this.currentTransaction = currentTransaction;
+    }
+    
+    public List<TransactionUI> TransactionController.getTransactionList() {
+        return this.transactionList;
+    }
+    
+    public void TransactionController.setTransactionList(List<TransactionUI> transactionList) {
+        this.transactionList = transactionList;
     }
     
 }
