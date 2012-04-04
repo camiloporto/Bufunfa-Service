@@ -5,6 +5,7 @@ package br.com.bufunfa.finance.account.controller;
 
 import br.com.bufunfa.finance.account.controller.TransactionController;
 import br.com.bufunfa.finance.account.controller.TransactionUI;
+import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.service.TransactionService;
 import java.util.List;
 
@@ -16,6 +17,14 @@ privileged aspect TransactionController_Roo_JavaBean {
     
     public void TransactionController.setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
+    }
+    
+    public AccountMessageSource TransactionController.getMessageSource() {
+        return this.messageSource;
+    }
+    
+    public void TransactionController.setMessageSource(AccountMessageSource messageSource) {
+        this.messageSource = messageSource;
     }
     
     public TransactionUI TransactionController.getCurrentTransaction() {

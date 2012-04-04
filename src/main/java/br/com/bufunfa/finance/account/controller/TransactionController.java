@@ -11,6 +11,7 @@ import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.stereotype.Controller;
 
+import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.service.TransactionService;
 import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
@@ -27,6 +28,9 @@ public class TransactionController {
 
 	@Autowired
 	private TransactionService transactionService;
+	
+	@Autowired
+	private AccountMessageSource messageSource;
 	
 	private TransactionUI currentTransaction = new TransactionUI();
 	
@@ -86,14 +90,6 @@ public class TransactionController {
 	}
 
 	public List<TransactionUI> getAllTransaction() {
-//		if(transactionList.isEmpty()) {
-//			List<Transaction> list = transactionService.findAllTransactions();
-//			List<TransactionUI> result = new ArrayList<TransactionUI>(list.size());
-//			for (Transaction t : list) {
-//				result.add(new TransactionUI(t));
-//			}
-//			return result;
-//		}
 		return transactionList;
 	}
 

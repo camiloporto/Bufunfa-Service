@@ -91,6 +91,28 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	public void testDeleteAccountAfterEdit_shouldNotThrowsOptimisticLockException() {
+		String newItemName = "NewItemName";
+		
+		AccountTreeItemUI saved = addNewSampleAccount(ASSET_ACCOUNT_NAME, newItemName);
+		
+		String itemUpdatedName = "NewName";
+		accountController.getAccountTree().setSelectedItem(saved);
+		accountController.getAccountTree().setEditing(true);
+		
+		accountController.getAccountTree().getSelectedItem().setAccountName(itemUpdatedName);
+		accountController.updateItem();
+		
+		AccountTreeItemUI updatedItem = accountController.findLeafItemByName(itemUpdatedName);
+		
+		accountController.getAccountTree().setSelectedItem(updatedItem);
+		accountController.deleteItem();
+		
+		AccountTreeItemUI deletedItem = accountController.findLeafItemByName(updatedItem.getAccountName());
+		Assert.assertNull("item not deleted", deletedItem);
+	}
+	
+	@Test
 	public void testEditAccount_shouldSuccess() {
 		String newItemName = "NewItemName";
 		

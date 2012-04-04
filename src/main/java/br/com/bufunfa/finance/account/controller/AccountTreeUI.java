@@ -3,10 +3,6 @@ package br.com.bufunfa.finance.account.controller;
 import java.util.Locale;
 import java.util.Set;
 
-import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
-import javax.faces.context.FacesContext;
-
 import org.primefaces.model.DefaultTreeNode;
 import org.primefaces.model.TreeNode;
 import org.springframework.roo.addon.serializable.RooSerializable;
@@ -204,8 +200,7 @@ public class AccountTreeUI {
 			Account toDelete = getSelectedItem().getAccount();
 			accountSystemService.deleteAccount(toDelete);
 			
-			//FIXME internacionalizar mensagens
-			addFacesMessage("Conta removida com sucesso", FacesMessage.SEVERITY_INFO);
+			
 			
 		} else {
 			//nao se pode remover no nao folha
@@ -264,7 +259,8 @@ public class AccountTreeUI {
 	public void updateItem() {
 		AccountTreeItemUI item = getSelectedItem();
 		Account toUpdate = item.getAccount();
-		accountSystemService.updateAccount(toUpdate);
+		toUpdate = accountSystemService.updateAccount(toUpdate);
+		item.setAccount(toUpdate);
 	}
 	
 	public void saveItem() {
@@ -272,23 +268,5 @@ public class AccountTreeUI {
 			updateItem();
 		if(!isEditing())
 			addItem();
-		
-		addFacesMessage("Conta salva com sucesso", FacesMessage.SEVERITY_INFO);
 	}
-	
-	/**
-	 * Adiciona uma msg generica (nao atrelada a um componente)
-	 * ao faces context
-	 * @param msg a msg
-	 * @param severity severidade da msg
-	 */
-	void addFacesMessage(String msg, Severity severity) {
-		FacesMessage fmsg = new FacesMessage(severity, msg, msg);
-		FacesContext ctx = FacesContext.getCurrentInstance();
-		if(ctx != null) {
-			ctx.addMessage(null, fmsg);
-		}
-	}
-
-
 }

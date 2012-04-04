@@ -2,6 +2,9 @@ package br.com.bufunfa.finance.account.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+
+import javax.faces.application.FacesMessage;
 
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +16,7 @@ import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
+import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
 import br.com.bufunfa.finance.user.modelo.User;
 
 @RooSerializable
@@ -52,10 +56,18 @@ public class AccountController {
 
 	public void addItem() {
 		accountTree.addItem();
+		String message = messageSource.getMessage(
+				AccountMessageSource.ACCOUNT_ADDED_SUCCESSFULLY, 
+				null, new Locale("pt", "BR"));
+		FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 	}
 
 	public void deleteItem() {
 		accountTree.deleteItem();
+		String message = messageSource.getMessage(
+				AccountMessageSource.ACCOUNT_REMOVED_SUCCESSFULLY, 
+				null, new Locale("pt", "BR"));
+		FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 	}
 
 	public boolean isEditing() {
@@ -63,7 +75,11 @@ public class AccountController {
 	}
 
 	public void saveItem() {
-		accountTree.saveItem();
+		if(isEditing())
+			updateItem();
+		if(!isEditing())
+			addItem();
+		
 	}
 
 	public void showEditItemForm() {
@@ -76,6 +92,10 @@ public class AccountController {
 
 	public void updateItem() {
 		accountTree.updateItem();
+		String message = messageSource.getMessage(
+				AccountMessageSource.ACCOUNT_UPDATED_SUCCESSFULLY,
+				null, new Locale("pt", "BR"));
+		FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 	}
 
 	/**
