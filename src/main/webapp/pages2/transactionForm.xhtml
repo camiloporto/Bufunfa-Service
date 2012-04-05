@@ -10,15 +10,10 @@
 <body>
 	<ui:composition>
 		<!-- All html ignored before here -->
-		<!-- 
-		<f:loadBundle var="userMsgs" basename="br.com.bufunfa.finance.user.i18n.UserMessageSource"/>
-		 -->
+		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
 		<h:form prependId="false" id="transactionForm">
-		<!-- 
-			<p:messages id="messages" globalOnly="true" autoUpdate="true">
-			</p:messages>
-		 -->
-			<span>De:</span>
+		
+			<span>#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}</span>
 			<p:autoComplete id="fromAccount" 
 				value="#{transactionController.currentTransaction.fromAccount.id}"
 				var="accountItem"
@@ -28,7 +23,7 @@
 				minQueryLength="3"
 				forceSelection="true"/>
 			
-			<span>Para:</span>
+			<span>#{transactionMsgs['transactionView.transactionForm.label.toAccount']}</span>
 			<p:autoComplete id="toAccount"
 				value="#{transactionController.currentTransaction.toAccount.id}"
 				var="accountItem"
@@ -37,21 +32,22 @@
 				completeMethod="#{accountController.findLeafItemsByNameLike}"
 				minQueryLength="3"
 				forceSelection="true"/>
-			<span>Data:</span>	
+			<span>#{transactionMsgs['transactionView.transactionForm.label.date']}</span>
 			<p:calendar id="date"
 				value="#{transactionController.currentTransaction.date}"
 				locale="pt_BR" 
 				pattern="dd/MM/yyyy"/>
 			
-			<span>Valor:</span>
+			<span>#{transactionMsgs['transactionView.transactionForm.label.value']}</span>
 			<p:inputText id="value"
 				value="#{transactionController.currentTransaction.value}" />
 			
-			<span>Comentario:</span>
+			<span>#{transactionMsgs['transactionView.transactionForm.label.comment']}</span>
 			<p:inputText id="comment"
 				value="#{transactionController.currentTransaction.comment}" />
 			
 			<p:commandButton id="buttonSaveTransaction"
+				value="#{transactionMsgs['transactionView.transactionForm.button.addNewTransaction']}"
 				action="#{transactionController.saveTransaction}"
 				update="transactionForm, transactionListForm, growl">
 			</p:commandButton>

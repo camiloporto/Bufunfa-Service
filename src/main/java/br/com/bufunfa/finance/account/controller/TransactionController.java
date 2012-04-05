@@ -2,9 +2,9 @@ package br.com.bufunfa.finance.account.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
-import javax.faces.application.FacesMessage.Severity;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.roo.addon.javabean.RooJavaBean;
@@ -12,6 +12,7 @@ import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.stereotype.Controller;
 
 import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
+import br.com.bufunfa.finance.account.i18n.TransactionMessageSource;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.service.TransactionService;
 import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
@@ -46,8 +47,10 @@ public class TransactionController {
 		if(saved != null) {
 			updateTransactionList();
 			clearForm();
-			FacesMessageUtil.addFacesMessage("Transacao Salva", FacesMessage.SEVERITY_INFO);
-			//FIXME adicionar mensagem faces i18nzada a WUI
+			String message = messageSource.getMessage(
+					TransactionMessageSource.TRANSACTION_ADDED_SUCCESSFULLY, 
+					null, new Locale("pt", "BR"));
+			FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 		}
 	}
 	
@@ -62,8 +65,10 @@ public class TransactionController {
 		if(updated != null) {
 			updateTransactionList();
 			clearForm();
-			FacesMessageUtil.addFacesMessage("Transacao Salva", FacesMessage.SEVERITY_INFO);
-			//FIXME adicionar mensagem faces i18nzada a WUI
+			String message = messageSource.getMessage(
+					TransactionMessageSource.TRANSACTION_UPDATED_SUCCESSFULLY, 
+					null, new Locale("pt", "BR"));
+			FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 		}
 	}
 	
@@ -71,8 +76,10 @@ public class TransactionController {
 		transactionService.deleteTransaction(currentTransaction.getId());
 		updateTransactionList();
 		currentTransaction = new TransactionUI();
-		FacesMessageUtil.addFacesMessage("Transacao Removida", FacesMessage.SEVERITY_INFO);
-		//FIXME adicionar mensagem faces i18nzada a WUI
+		String message = messageSource.getMessage(
+				TransactionMessageSource.TRANSACTION_DELETED_SUCCESSFULLY, 
+				null, new Locale("pt", "BR"));
+		FacesMessageUtil.addFacesMessage(message, FacesMessage.SEVERITY_INFO);
 	}
 
 
