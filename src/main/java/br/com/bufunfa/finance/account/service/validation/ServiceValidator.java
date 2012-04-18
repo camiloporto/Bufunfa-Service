@@ -9,6 +9,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 
+import br.com.bufunfa.finance.user.service.validation.UserParameters;
+
 public class ServiceValidator {
 	
 	private Validator validator;
@@ -38,6 +40,14 @@ public class ServiceValidator {
 	public void validate(AccountReportParameters p,
 			Class<?>... class1) {
 		Set<ConstraintViolation<AccountReportParameters>> violations = validator.validate(p, class1);
+		if(!violations.isEmpty()) {
+			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
+		}
+	}
+	
+	public void validate(UserParameters p,
+			Class<?>... class1) {
+		Set<ConstraintViolation<UserParameters>> violations = validator.validate(p, class1);
 		if(!violations.isEmpty()) {
 			throw new ConstraintViolationException(new HashSet<ConstraintViolation<?>>(violations));
 		}

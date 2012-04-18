@@ -45,7 +45,6 @@
     -->
     <context:component-scan base-package="br.com.bufunfa.finance">
         <context:exclude-filter expression=".*_Roo_.*" type="regex"/>
-        <context:exclude-filter expression="org.springframework.stereotype.Controller" type="annotation"/>
     </context:component-scan>
     <bean class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close" id="dataSource">
         <property name="driverClassName" value="${database.driverClassName}"/>
@@ -68,4 +67,27 @@
         <property name="dataSource" ref="dataSource"/>
         <property name="persistenceXmlLocation" value="META-INF/spring/tests/persistence-test.xml"/>
     </bean>
+    
+    <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+    	<property name="basenames">
+    		<list>
+    			<value>br.com.bufunfa.finance.user.i18n.UserMessageSource</value>
+    			<value>br.com.bufunfa.finance.account.i18n.AccountMessageSource</value>
+    		</list>
+    	</property>
+    </bean>
+    
+    
+    <!-- Definicao de Beans da WUI sem escopo de sessao para nao dar pau nos testes -->
+    
+    <bean class="org.springframework.beans.factory.config.CustomScopeConfigurer">
+	    <property name="scopes">
+	        <map>
+	            <entry key="session">
+	                <bean class="org.springframework.context.support.SimpleThreadScope"/>
+	            </entry>
+	        </map>
+	    </property>
+	</bean>
+    
 </beans>

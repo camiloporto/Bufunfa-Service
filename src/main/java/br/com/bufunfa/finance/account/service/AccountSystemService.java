@@ -23,5 +23,6 @@ public interface AccountSystemService {
 
 	List<Account> findAccountByFatherId(Long id);
 	
+	AccountSystem findAccountSystemByUserId(String userId);
 
 }

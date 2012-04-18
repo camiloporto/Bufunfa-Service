@@ -5,7 +5,7 @@ package br.com.bufunfa.finance.account.service;
 
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.TransactionRepository;
-import java.lang.Long;
+import br.com.bufunfa.finance.account.service.TransactionServiceImpl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

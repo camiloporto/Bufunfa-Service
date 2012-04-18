@@ -1,8 +1,11 @@
 package br.com.bufunfa.finance.account.repository;
 
-import br.com.bufunfa.finance.account.modelo.AccountSystem;
-import org.springframework.roo.addon.layers.repository.jpa.RooRepositoryJpa;
+import org.springframework.roo.addon.layers.repository.jpa.RooJpaRepository;
 
-@RooRepositoryJpa(domainType = AccountSystem.class)
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
+
+@RooJpaRepository(domainType = AccountSystem.class)
 public interface AccountSystemRepository {
+	
+	AccountSystem findAccountSystemByUserId(String userId);
 }

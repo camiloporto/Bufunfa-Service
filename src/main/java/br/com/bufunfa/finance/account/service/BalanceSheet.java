@@ -27,6 +27,6 @@ public class BalanceSheet {
 	}
 	
 	public BalanceSheet(Account root) {
-		this.rootNode = new BalanceSheetNode(root, null, date);
+		this.rootNode = new BalanceSheetNode(root, null, null);
 	}
 }

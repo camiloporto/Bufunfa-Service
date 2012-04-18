@@ -1,0 +1,117 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+</head>
+<body>
+	<ui:composition>
+		<!-- All html ignored before here -->
+		<f:loadBundle var="accountMsgs" basename="br.com.bufunfa.finance.account.i18n.AccountMessageSource"/>
+		<h:form prependId="false" id="accountForm">
+			<p:dialog header="#{accountMsgs['accountView.accountForm.title.AccountDialog']}"
+					widgetVar="contaDataDialog" minWidth="420">
+
+					<h:panelGroup id="dialogPanel">
+						<div class="formContainer">
+
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{accountController.accountTree.editing}">#{accountController.accountTree.selectedItemParent.accountName}</h:panelGroup>
+							<h:panelGroup styleClass="parentLabel"
+								rendered="#{not accountController.accountTree.editing}">#{accountController.accountTree.selectedItem.accountName}</h:panelGroup>
+
+							<table>
+								<tbody>
+									<tr>
+										<td class="label"><label for="nomeConta">#{accountMsgs['accountView.accountForm.label.accountName']}</label></td>
+										<td><h:inputText
+												value="#{accountController.accountTree.editingItem.accountName}"
+												id="nomeConta" /></td>
+									</tr>
+									<tr>
+										<td class="label"><label for="descricaoConta">#{accountMsgs['accountView.accountForm.label.accountDescription']}</label></td>
+										<td><h:inputText
+												value="#{accountController.accountTree.editingItem.accountDescription}"
+												id="descricaoConta" /></td>
+									</tr>
+									<tr>
+										<td></td>
+										<td><p:commandButton value="#{accountMsgs['accountView.accountForm.button.save']}"
+												oncomplete="contaDataDialog.hide()"
+												action="#{accountController.accountTree.saveItem}"
+												update="accountTree statusDialog" /></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</h:panelGroup>
+				</p:dialog>
+			<p:treeTable id="accountTree" 
+				value="#{accountController.accountTree.rootNode}"
+				var="accountItem">
+				<p:column>
+					<div class="accountItemClass">
+						<div class="treeLabelConta"><h:outputText value="#{accountItem.accountName}"/></div>
+						<div class="treeDescricaoConta"><h:outputText value="#{accountItem.accountDescription}"/></div>
+						<div style="visibility: hidden;">
+								<h:panelGroup>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										styleClass="actionLink" 
+										value="#{accountMsgs['accountView.accountForm.link.addAccount']}" 
+										type="button"
+										update="dialogPanel" 
+										title="#{accountMsgs['accountView.accountForm.tip.addAccount']}"
+										action="#{accountController.accountTree.showNewItemForm}">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.editing}" value="false" />
+									</p:commandLink>
+									<p:commandLink oncomplete="contaDataDialog.show()"
+										rendered="#{not accountItem.firstLevel}" 
+										value="#{accountMsgs['accountView.accountForm.link.editAccount']}" 
+										type="button"
+										update="dialogPanel" styleClass="actionLink"
+										action="#{accountController.accountTree.showEditItemForm}"
+										title="#{accountMsgs['accountView.accountForm.tip.editAccount']}">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.editing}" value="true" />
+									</p:commandLink>
+									<p:commandLink action="#{accountController.accountTree.deleteItem}"
+										styleClass="actionLink" 
+										value="#{accountMsgs['accountView.accountForm.link.removeAccount']}"
+										update="accountForm statusDialog"
+										rendered="#{(accountItem.leaf) and (not accountItem.firstLevel)}"
+										title="#{accountMsgs['accountView.accountForm.tip.removeAccount']}">
+										<f:setPropertyActionListener
+											target="#{accountController.accountTree.selectedItem}"
+											value="#{accountItem}" />
+									</p:commandLink>
+								</h:panelGroup>
+						</div>
+					</div>
+					<script type="text/javascript">
+							jQuery("#accountTree tbody tr").hover(
+								function(event){
+								  jQuery(".accountItemClass :last-child", this).css('visibility','visible');
+							   	},
+								function(event){
+								  jQuery(".accountItemClass :last-child", this).css('visibility','hidden');
+							   	}
+							  );
+					</script>
+				</p:column>
+			</p:treeTable>
+		</h:form>
+		<!-- All html ignored after here -->
+
+	</ui:composition>
+</body>
+</html>

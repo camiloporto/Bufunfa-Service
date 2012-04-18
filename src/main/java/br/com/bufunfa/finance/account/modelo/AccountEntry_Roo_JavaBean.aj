@@ -4,7 +4,7 @@
 package br.com.bufunfa.finance.account.modelo;
 
 import br.com.bufunfa.finance.account.modelo.Account;
-import java.lang.String;
+import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import java.math.BigDecimal;
 import java.util.Date;
 

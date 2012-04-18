@@ -4,7 +4,7 @@
 package br.com.bufunfa.finance.account.service;
 
 import br.com.bufunfa.finance.account.modelo.Transaction;
-import java.lang.Long;
+import br.com.bufunfa.finance.account.service.TransactionService;
 import java.util.List;
 
 privileged aspect TransactionService_Roo_Service {

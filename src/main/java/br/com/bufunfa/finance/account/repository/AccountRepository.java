@@ -2,11 +2,11 @@ package br.com.bufunfa.finance.account.repository;
 
 import java.util.List;
 
-import org.springframework.roo.addon.layers.repository.jpa.RooRepositoryJpa;
+import org.springframework.roo.addon.layers.repository.jpa.RooJpaRepository;
 
 import br.com.bufunfa.finance.account.modelo.Account;
 
-@RooRepositoryJpa(domainType=Account.class)
+@RooJpaRepository(domainType=Account.class)
 public interface AccountRepository {
 	
 	List<Account> findByFatherId(Long fatherId);

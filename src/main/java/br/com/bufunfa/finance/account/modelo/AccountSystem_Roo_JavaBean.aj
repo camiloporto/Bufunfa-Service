@@ -3,7 +3,7 @@
 
 package br.com.bufunfa.finance.account.modelo;
 
-import java.lang.String;
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
 
 privileged aspect AccountSystem_Roo_JavaBean {
     

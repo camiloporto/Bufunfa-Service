@@ -4,7 +4,7 @@
 package br.com.bufunfa.finance.account.repository;
 
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
-import java.lang.Long;
+import br.com.bufunfa.finance.account.repository.AccountSystemRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.stereotype.Repository;

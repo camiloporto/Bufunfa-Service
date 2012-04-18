@@ -3,10 +3,12 @@ package br.com.bufunfa.finance.account.service;
 import java.util.Arrays;
 import java.util.List;
 
+import org.springframework.roo.addon.serializable.RooSerializable;
+
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
 
-
+@RooSerializable
 public class AccountSystemServiceImpl implements AccountSystemService {
 	
 	public void saveAccountSystem(AccountSystem accountSystem) {
@@ -16,6 +18,10 @@ public class AccountSystemServiceImpl implements AccountSystemService {
 	
 	public List<Account> findAccountByFatherId(Long fatherId) {
 		return accountRepository.findByFatherId(fatherId);
+	}
+	
+	public AccountSystem findAccountSystemByUserId(String userId) {
+		return accountSystemRepository.findAccountSystemByUserId(userId);
 	}
 	
 	private void createInitialAccountHierarchy(AccountSystem as) {
