@@ -5,6 +5,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
@@ -53,6 +54,7 @@ public class TransactionViewTest extends SpringRootTestsConfiguration {
 	}
 	
 	@Test
+	@Ignore
 	public void testAddNewTransaction_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		
 		TransactionViewPage page = goToTransactionPageWithSampleUserLoggedIn();
