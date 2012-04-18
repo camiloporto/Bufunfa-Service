@@ -74,6 +74,7 @@
     		<list>
     			<value>br.com.bufunfa.finance.user.i18n.UserMessageSource</value>
     			<value>br.com.bufunfa.finance.account.i18n.AccountMessageSource</value>
+    			<value>br.com.bufunfa.finance.account.i18n.TransactionMessageSource</value>
     		</list>
     	</property>
     </bean>

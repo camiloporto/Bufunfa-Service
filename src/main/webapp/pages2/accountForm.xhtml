@@ -41,7 +41,7 @@
 										<td></td>
 										<td><p:commandButton value="#{accountMsgs['accountView.accountForm.button.save']}"
 												oncomplete="contaDataDialog.hide()"
-												action="#{accountController.accountTree.saveItem}"
+												action="#{accountController.saveItem}"
 												update="accountTree statusDialog" /></td>
 									</tr>
 								</tbody>
@@ -84,7 +84,7 @@
 										<f:setPropertyActionListener
 											target="#{accountController.accountTree.editing}" value="true" />
 									</p:commandLink>
-									<p:commandLink action="#{accountController.accountTree.deleteItem}"
+									<p:commandLink action="#{accountController.deleteItem}"
 										styleClass="actionLink" 
 										value="#{accountMsgs['accountView.accountForm.link.removeAccount']}"
 										update="accountForm statusDialog"

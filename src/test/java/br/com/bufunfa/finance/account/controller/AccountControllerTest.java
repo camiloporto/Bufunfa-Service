@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.core.ui.jsf.util.TestDataGenerator;
-import br.com.bufunfa.finance.user.controller.UserController;
 import br.com.bufunfa.finance.user.modelo.User;
 
 public class AccountControllerTest extends SpringRootTestsConfiguration {
@@ -20,7 +19,7 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 	private AccountController accountController;
 	
 	@Autowired
-	private UserController userController;
+	private AccountControllerHelper accountControllerHelper;
 	
 	private User sampleUser;
 	
@@ -89,6 +88,28 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 		
 		AccountTreeItemUI savedChildItem = accountController.findLeafItemByName(accountName);
 		Assert.assertNotNull("third level account dit not loaded", savedChildItem);
+	}
+	
+	@Test
+	public void testDeleteAccountAfterEdit_shouldNotThrowsOptimisticLockException() {
+		String newItemName = "NewItemName";
+		
+		AccountTreeItemUI saved = addNewSampleAccount(ASSET_ACCOUNT_NAME, newItemName);
+		
+		String itemUpdatedName = "NewName";
+		accountController.getAccountTree().setSelectedItem(saved);
+		accountController.getAccountTree().setEditing(true);
+		
+		accountController.getAccountTree().getSelectedItem().setAccountName(itemUpdatedName);
+		accountController.updateItem();
+		
+		AccountTreeItemUI updatedItem = accountController.findLeafItemByName(itemUpdatedName);
+		
+		accountController.getAccountTree().setSelectedItem(updatedItem);
+		accountController.deleteItem();
+		
+		AccountTreeItemUI deletedItem = accountController.findLeafItemByName(updatedItem.getAccountName());
+		Assert.assertNull("item not deleted", deletedItem);
 	}
 	
 	@Test
@@ -193,25 +214,15 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 	}
 	
 	User generateAndSaveSampleUser() {
-		String email = TestDataGenerator.generateValidEmail();
-		User u = new User();
-		u.setEmail(email);
-		u.setPassword("secret");
-		
-		userController.getUser().setEmail(u.getEmail());
-		userController.getUser().setPassword(u.getPassword());
-		userController.saveNewUser();
-		return u;
+		return accountControllerHelper.generateAndSaveSampleUser();
 	}
 	
 	void loginSampleUser(User u) {
-		userController.getUser().setEmail(u.getEmail());
-		userController.getUser().setPassword(u.getPassword());
-		userController.loginUser();
+		accountControllerHelper.loginSampleUser(u);
 	}
 	
 	void logoutLoggedUser() {
-		userController.logoutUser();
+		accountControllerHelper.logoutLoggedUser();
 	}
 	
 }

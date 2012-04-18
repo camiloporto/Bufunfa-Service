@@ -1,0 +1,146 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+</head>
+<body>
+	<ui:composition>
+		<!-- All html ignored before here -->
+		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
+		<h:form prependId="false" id="transactionForm">
+		
+			<span>#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}</span>
+			<p:autoComplete id="fromAccount" 
+				value="#{transactionController.currentTransaction.fromAccount.id}"
+				var="accountItem"
+				itemLabel="#{accountItem.accountName}"
+				itemValue="#{accountItem.account.id}"
+				completeMethod="#{accountController.findLeafItemsByNameLike}"
+				minQueryLength="3"
+				forceSelection="true"/>
+			
+			<span>#{transactionMsgs['transactionView.transactionForm.label.toAccount']}</span>
+			<p:autoComplete id="toAccount"
+				value="#{transactionController.currentTransaction.toAccount.id}"
+				var="accountItem"
+				itemLabel="#{accountItem.accountName}"
+				itemValue="#{accountItem.account.id}"
+				completeMethod="#{accountController.findLeafItemsByNameLike}"
+				minQueryLength="3"
+				forceSelection="true"/>
+			<span>#{transactionMsgs['transactionView.transactionForm.label.date']}</span>
+			<p:calendar id="date"
+				value="#{transactionController.currentTransaction.date}"
+				locale="pt_BR" 
+				pattern="dd/MM/yyyy"/>
+			
+			<span>#{transactionMsgs['transactionView.transactionForm.label.value']}</span>
+			<p:inputText id="value"
+				value="#{transactionController.currentTransaction.value}" />
+			
+			<span>#{transactionMsgs['transactionView.transactionForm.label.comment']}</span>
+			<p:inputText id="comment"
+				value="#{transactionController.currentTransaction.comment}" />
+			
+			<p:commandButton id="buttonSaveTransaction"
+				value="#{transactionMsgs['transactionView.transactionForm.button.addNewTransaction']}"
+				action="#{transactionController.saveTransaction}"
+				update="transactionForm, transactionListForm, growl">
+			</p:commandButton>
+				
+		</h:form>
+
+		<h:form id="transactionListForm" prependId="false">
+			<p:dialog header="#{transactionMsgs['transactionView.transactionListForm.dialog.confirmDelete.title']}" 
+				widgetVar="confirmDeleteDialogVar" id="confirmDeleteDialog">
+				<p:commandButton value="#{transactionMsgs['transactionView.transactionListForm.dialog.confirmDelete.button.ok']}" 
+					oncomplete="confirmDeleteDialogVar.hide()" 
+					action="#{transactionController.deleteTransaction}" update="transactionListForm, growl" />
+			</p:dialog>
+			<p:dataTable value="#{transactionController.allTransaction}" var="transactionUI"
+				id="transactionTable"
+				rowIndexVar="index"
+				emptyMessage="#{transactionMsgs['transactionView.transactionListForm.table.emptyMessage']}">
+
+				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.dateHeader']}" 
+					width="100">
+					<h:outputText id="dateOut" value="#{transactionUI.date}" 
+						rendered="#{!transactionUI.editMode}">
+						<f:convertDateTime locale="pt_BR"
+							dateStyle="short" />
+					</h:outputText>
+					<p:calendar id="dateIn" value="#{transactionUI.date}" 
+						size="10"  rendered="#{transactionUI.editMode}"
+						locale="pt_BR" 
+						pattern="dd/MM/yyyy"/>
+				</p:column>
+				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.fromAccountHeader']}">
+					<h:outputText value="#{transactionUI.fromAccount.name}"/>
+				</p:column>
+				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.toAccountHeader']}">
+					<h:outputText value="#{transactionUI.toAccount.name}"/>
+				</p:column>
+				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.commentHeader']}">
+					<h:outputText value="#{transactionUI.comment}"/>
+				</p:column>
+				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.valueHeader']}">
+					<h:outputText value="#{transactionUI.value}">
+						<f:convertNumber locale="pt_BR" type="currency" />
+					</h:outputText>
+				</p:column>
+				
+				<p:column style="width: 100px;">
+
+					<div style="width: 100px; display: none;">
+						<p:commandLink value="#{transactionMsgs['transactionView.transactionListForm.table.actions.deleteLabel']}"
+							onclick="confirmDeleteDialogVar.show()" 
+							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.deleteTitle']}"
+							type="button" styleClass="actionLink">
+							<f:setPropertyActionListener
+								target="#{transactionController.currentTransaction}" value="#{transactionUI}" />
+						</p:commandLink>
+						
+						<p:commandLink value=" #{transactionMsgs['transactionView.transactionListForm.table.actions.editLabel']} " 
+							update="transactionListForm" process="transactionListForm"
+							rendered="#{!transactionUI.editMode}" styleClass="actionLink"
+							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.editTitle']}">
+							<f:setPropertyActionListener target="#{transactionUI.editMode}"
+								value="true" />
+						</p:commandLink>
+						<p:commandLink value=" #{transactionMsgs['transactionView.transactionListForm.table.actions.saveLabel']} " 
+							update="transactionListForm, growl" process="transactionListForm"
+							rendered="#{transactionUI.editMode}"
+							action="#{transactionController.updateTransaction}" styleClass="actionLink"
+							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.saveTitle']}">
+							<f:setPropertyActionListener
+								target="#{transactionController.currentTransaction}" value="#{transactionUI}" />
+						</p:commandLink>
+						
+					</div>
+
+				</p:column>
+			</p:dataTable>
+			<script type="text/javascript">
+					jQuery("#transactionListForm table tbody tr").hover(
+						function(event){
+						  jQuery(":last-child div", this).show();
+					   	},
+						function(event){
+						  jQuery(":last-child div", this).hide();
+					   	}
+					  );
+					function getTransactionRowId(btnClicked) {
+						alert(btnClicked);
+					}
+			</script>
+		</h:form>
+
+		<!-- All html ignored after here -->
+
+	</ui:composition>
+</body>
+</html>
