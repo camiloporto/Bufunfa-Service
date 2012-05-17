@@ -144,4 +144,31 @@ public class AccountController {
 		return result;
 	}
 
+
+	public AccountTreeItemUI findAccountItemById(Long id) {
+		AccountTreeItemUI item = findAccountItemById(id, getAccountTree().getRootNode());
+		return item;
+	}
+	
+	private AccountTreeItemUI findAccountItemById(Long id, TreeNode root) {
+		AccountTreeItemUI item = null;
+		if(root.isLeaf()) {
+			item = (AccountTreeItemUI) root.getData();
+			if (item == null)
+				return null;
+			if (item.getId().equals(id)) {
+				return item;
+			}
+		} else {
+			List<TreeNode> children = root.getChildren();
+			for (TreeNode nextChild : children) {
+				item = findAccountItemById(id, nextChild);
+				if(item != null) {
+					return item;
+				}
+			}
+		}
+		return item;
+	}
+
 }

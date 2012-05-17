@@ -42,7 +42,7 @@
 										<td><p:commandButton value="#{accountMsgs['accountView.accountForm.button.save']}"
 												oncomplete="contaDataDialog.hide()"
 												action="#{accountController.saveItem}"
-												update="accountTree statusDialog" /></td>
+												update="accountTree :statusDialog" /></td>
 									</tr>
 								</tbody>
 							</table>
@@ -62,7 +62,7 @@
 										styleClass="actionLink" 
 										value="#{accountMsgs['accountView.accountForm.link.addAccount']}" 
 										type="button"
-										update="dialogPanel" 
+										update=":accountForm:dialogPanel" 
 										title="#{accountMsgs['accountView.accountForm.tip.addAccount']}"
 										action="#{accountController.accountTree.showNewItemForm}">
 										<f:setPropertyActionListener
