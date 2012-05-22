@@ -27,6 +27,8 @@ public class TransactionUI {
 	private Date date;
 	private String comment;
 	private Long id;
+	private AccountTreeItemUI fromAccountItem;
+	private AccountTreeItemUI toAccountItem;
 	
 	private boolean editMode = false;
 	

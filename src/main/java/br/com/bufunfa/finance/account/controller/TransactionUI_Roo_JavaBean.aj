@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.controller;
 
+import br.com.bufunfa.finance.account.controller.AccountTreeItemUI;
 import br.com.bufunfa.finance.account.controller.TransactionUI;
 import br.com.bufunfa.finance.account.modelo.Account;
 import java.math.BigDecimal;
@@ -56,6 +57,22 @@ privileged aspect TransactionUI_Roo_JavaBean {
     
     public void TransactionUI.setId(Long id) {
         this.id = id;
+    }
+    
+    public AccountTreeItemUI TransactionUI.getFromAccountItem() {
+        return this.fromAccountItem;
+    }
+    
+    public void TransactionUI.setFromAccountItem(AccountTreeItemUI fromAccountItem) {
+        this.fromAccountItem = fromAccountItem;
+    }
+    
+    public AccountTreeItemUI TransactionUI.getToAccountItem() {
+        return this.toAccountItem;
+    }
+    
+    public void TransactionUI.setToAccountItem(AccountTreeItemUI toAccountItem) {
+        this.toAccountItem = toAccountItem;
     }
     
     public boolean TransactionUI.isEditMode() {

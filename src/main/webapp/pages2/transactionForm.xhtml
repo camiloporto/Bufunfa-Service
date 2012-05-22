@@ -14,24 +14,17 @@
 		<h:form prependId="false" id="transactionForm">
 		
 			<span>#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}</span>
-			<p:autoComplete id="fromAccount" 
-				value="#{transactionController.currentTransaction.fromAccount.id}"
-				var="accountItem"
-				itemLabel="#{accountItem.accountName}"
-				itemValue="#{accountItem.account.id}"
-				completeMethod="#{accountController.findLeafItemsByNameLike}"
-				minQueryLength="3"
-				forceSelection="true"/>
+			<p:selectOneMenu id="fromAccount"
+				value="#{transactionController.currentTransaction.fromAccount.id}">
+				<f:selectItems value="#{accountController.leafItems}" />
+			</p:selectOneMenu>
 			
 			<span>#{transactionMsgs['transactionView.transactionForm.label.toAccount']}</span>
-			<p:autoComplete id="toAccount"
-				value="#{transactionController.currentTransaction.toAccount.id}"
-				var="accountItem"
-				itemLabel="#{accountItem.accountName}"
-				itemValue="#{accountItem.account.id}"
-				completeMethod="#{accountController.findLeafItemsByNameLike}"
-				minQueryLength="3"
-				forceSelection="true"/>
+			<p:selectOneMenu id="toAccount"
+				value="#{transactionController.currentTransaction.toAccount.id}">
+				<f:selectItems value="#{accountController.leafItems}" />
+			</p:selectOneMenu>
+			
 			<span>#{transactionMsgs['transactionView.transactionForm.label.date']}</span>
 			<p:calendar id="date"
 				value="#{transactionController.currentTransaction.date}"
@@ -49,7 +42,7 @@
 			<p:commandButton id="buttonSaveTransaction"
 				value="#{transactionMsgs['transactionView.transactionForm.button.addNewTransaction']}"
 				action="#{transactionController.saveTransaction}"
-				update="transactionForm, transactionListForm, growl">
+				update="transactionForm :transactionListForm :statusDialog">
 			</p:commandButton>
 				
 		</h:form>
@@ -59,7 +52,7 @@
 				widgetVar="confirmDeleteDialogVar" id="confirmDeleteDialog">
 				<p:commandButton value="#{transactionMsgs['transactionView.transactionListForm.dialog.confirmDelete.button.ok']}" 
 					oncomplete="confirmDeleteDialogVar.hide()" 
-					action="#{transactionController.deleteTransaction}" update="transactionListForm, growl" />
+					action="#{transactionController.deleteTransaction}" update=":transactionListForm :statusDialog" />
 			</p:dialog>
 			<p:dataTable value="#{transactionController.allTransaction}" var="transactionUI"
 				id="transactionTable"
@@ -79,23 +72,37 @@
 						pattern="dd/MM/yyyy"/>
 				</p:column>
 				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.fromAccountHeader']}">
-					<h:outputText value="#{transactionUI.fromAccount.name}"/>
+					<h:outputText value="#{transactionUI.fromAccount.name}" rendered="#{!transactionUI.editMode}"/>
+					<p:selectOneMenu id="editFromAccount"
+						value="#{transactionUI.fromAccount.id}"
+						rendered="#{transactionUI.editMode}">
+						<f:selectItems value="#{accountController.leafItems}" />
+					</p:selectOneMenu>
 				</p:column>
 				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.toAccountHeader']}">
-					<h:outputText value="#{transactionUI.toAccount.name}"/>
+					<h:outputText value="#{transactionUI.toAccount.name}" rendered="#{!transactionUI.editMode}"/>
+					<p:selectOneMenu id="editToAccount"
+						value="#{transactionUI.toAccount.id}"
+						rendered="#{transactionUI.editMode}">
+						<f:selectItems value="#{accountController.leafItems}" />
+					</p:selectOneMenu>
 				</p:column>
 				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.commentHeader']}">
-					<h:outputText value="#{transactionUI.comment}"/>
+					<h:outputText value="#{transactionUI.comment}" rendered="#{!transactionUI.editMode}"/>
+					<p:inputText rendered="#{transactionUI.editMode}"
+						value="#{transactionUI.comment}" />
 				</p:column>
 				<p:column headerText="#{transactionMsgs['transactionView.transactionListForm.table.valueHeader']}">
-					<h:outputText value="#{transactionUI.value}">
+					<h:outputText value="#{transactionUI.value}" rendered="#{!transactionUI.editMode}">
 						<f:convertNumber locale="pt_BR" type="currency" />
 					</h:outputText>
+					<p:inputText rendered="#{transactionUI.editMode}"
+						value="#{transactionUI.value}" />
 				</p:column>
 				
 				<p:column style="width: 100px;">
-
-					<div style="width: 100px; display: none;">
+				
+					<div style="width: 100px; display: none;" class="actionPanel">
 						<p:commandLink value="#{transactionMsgs['transactionView.transactionListForm.table.actions.deleteLabel']}"
 							onclick="confirmDeleteDialogVar.show()" 
 							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.deleteTitle']}"
@@ -105,14 +112,14 @@
 						</p:commandLink>
 						
 						<p:commandLink value=" #{transactionMsgs['transactionView.transactionListForm.table.actions.editLabel']} " 
-							update="transactionListForm" process="transactionListForm"
+							update=":transactionListForm" process=":transactionListForm"
 							rendered="#{!transactionUI.editMode}" styleClass="actionLink"
 							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.editTitle']}">
 							<f:setPropertyActionListener target="#{transactionUI.editMode}"
 								value="true" />
 						</p:commandLink>
 						<p:commandLink value=" #{transactionMsgs['transactionView.transactionListForm.table.actions.saveLabel']} " 
-							update="transactionListForm, growl" process="transactionListForm"
+							update=":transactionListForm :statusDialog" process=":transactionListForm"
 							rendered="#{transactionUI.editMode}"
 							action="#{transactionController.updateTransaction}" styleClass="actionLink"
 							title="#{transactionMsgs['transactionView.transactionListForm.table.actions.saveTitle']}">
@@ -127,10 +134,12 @@
 			<script type="text/javascript">
 					jQuery("#transactionListForm table tbody tr").hover(
 						function(event){
-						  jQuery(":last-child div", this).show();
+							jQuery(".actionPanel", this).show();
+						  //jQuery(":last-child div", this).show();
 					   	},
 						function(event){
-						  jQuery(":last-child div", this).hide();
+					   		jQuery(".actionPanel", this).hide();
+						  //jQuery(":last-child div", this).hide();
 					   	}
 					  );
 					function getTransactionRowId(btnClicked) {

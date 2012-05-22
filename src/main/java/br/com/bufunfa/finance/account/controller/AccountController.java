@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,6 +125,21 @@ public class AccountController {
 		findItemsByNameLike2(name, getAccountTree().getRootNode(),
 				itemsFound);
 		return itemsFound;
+	}
+	
+	/**
+	 * * Retorna contas folhas por um nome parcial * @param name parte do nome
+	 * da conta * @return
+	 */
+	public List<SelectItem> getLeafItems() {
+		List<AccountTreeItemUI> itemsFound = new ArrayList<AccountTreeItemUI>();
+		findItemsByNameLike2("Con", getAccountTree().getRootNode(),
+				itemsFound);
+		List<SelectItem> result = new ArrayList<SelectItem>();
+		for (AccountTreeItemUI accountTreeItemUI : itemsFound) {
+			result.add(new SelectItem(accountTreeItemUI.getId(), accountTreeItemUI.getAccountName()));
+		}
+		return result;
 	}
 
 	private List<AccountTreeItemUI> findItemsByNameLike2(String name,
