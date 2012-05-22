@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.modelo.Account;
@@ -17,6 +18,8 @@ import br.com.bufunfa.finance.account.service.validation.TransactionQueryParamet
 
 
 public class TransactionServiceImpl implements TransactionService {
+	
+	private static Logger LOGGER = Logger.getLogger(TransactionServiceImpl.class);
 
 	@Autowired
 	private AccountRepository accountRepository;
@@ -34,6 +37,7 @@ public class TransactionServiceImpl implements TransactionService {
 		AccountEntry dest = createAccountEntry(idDestAccount, date, value, comment);
 		
 		Transaction t = createTransaction(origin, dest);
+		LOGGER.debug("saving " + t);
 		transactionRepository.save(t);
 		
 		return t;

@@ -37,8 +37,8 @@ public class TransactionUI {
 	
 	public TransactionUI(Transaction transaction) {
 		if(transaction != null && transaction.getId() != null) {
-			toAccount = transaction.getOriginAccountEntry().getAccount();
-			fromAccount = transaction.getDestAccountEntry().getAccount();
+			toAccount = transaction.getDestAccountEntry().getAccount();
+			fromAccount = transaction.getOriginAccountEntry().getAccount();
 			value = transaction.getDestAccountEntry().getValue();
 			date = transaction.getDestAccountEntry().getDate();
 			comment = transaction.getDestAccountEntry().getComment();
