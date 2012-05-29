@@ -27,16 +27,21 @@ public class TransactionServiceImpl implements TransactionService {
 	public void setAccountRepository(AccountRepository accountRepository) {
 		this.accountRepository = accountRepository;
 	}
+	
+	public List<Transaction> findAllTransactions(Long accountSystemId) {
+		return transactionRepository.findByAccountSystemId(accountSystemId);
+	}
 
-	public Transaction saveNewTransaction(Long idOriginAccount,
+	public Transaction saveNewTransaction(Long idAccountSystem, Long idOriginAccount,
 			Long idDestAccount, Date date, BigDecimal value, String comment) {
 		
-		validateSaveTransaction(createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment));
+		//FIXME validar entrada do id do AccountSystem
+		validateSaveTransaction(createParametersForSaveTransaction(idAccountSystem, idOriginAccount, idDestAccount, date, value, comment));
 		
 		AccountEntry origin = createAccountEntry(idOriginAccount, date, value.negate(), comment);
 		AccountEntry dest = createAccountEntry(idDestAccount, date, value, comment);
 		
-		Transaction t = createTransaction(origin, dest);
+		Transaction t = createTransaction(idAccountSystem, origin, dest);
 		LOGGER.debug("saving " + t);
 		transactionRepository.save(t);
 		
@@ -98,7 +103,7 @@ public class TransactionServiceImpl implements TransactionService {
 	private TransactionParameters createParametersForUpdateTransaction(
 			Long idTransaction, Long idOriginAccount, Long idDestAccount,
 			Date date, BigDecimal value, String comment) {
-		TransactionParameters t = createParametersForSaveTransaction(idOriginAccount, idDestAccount, date, value, comment);
+		TransactionParameters t = createParametersForSaveTransaction(null,idOriginAccount, idDestAccount, date, value, comment);
 		t.setTransactionId(idTransaction);
 		return t;
 	}
@@ -114,10 +119,11 @@ public class TransactionServiceImpl implements TransactionService {
 		return toUpdate;
 	}
 
-	private Transaction createTransaction(AccountEntry origin, AccountEntry dest) {
+	private Transaction createTransaction(Long idAccountSystem, AccountEntry origin, AccountEntry dest) {
 		Transaction t = new Transaction();
 		t.setOriginAccountEntry(origin);
 		t.setDestAccountEntry(dest);
+		t.setAccountSystemId(idAccountSystem);
 		
 		return t;
 	}
@@ -135,14 +141,15 @@ public class TransactionServiceImpl implements TransactionService {
 		return ae;
 	}
 	
-	private TransactionParameters createParametersForSaveTransaction(Long idOriginAccount,
-			Long idDestAccount, Date date, BigDecimal value, String comment) {
+	private TransactionParameters createParametersForSaveTransaction(Long idAccountSystem,
+			Long idOriginAccount, Long idDestAccount, Date date, BigDecimal value, String comment) {
 		
 		TransactionParameters t = new TransactionParameters();
 		t.setOriginAccountId(idOriginAccount);
 		t.setDestAccountId(idDestAccount);
 		t.setValue(value);
 		t.setDate(date);
+		t.setAccountSystemId(idAccountSystem);
 		
 		return t;
 	}
@@ -153,7 +160,6 @@ public class TransactionServiceImpl implements TransactionService {
 	
 	private void validateUpdateTransaction(TransactionParameters tp) {
 		new ServiceValidator().validate(tp, 
-				TransactionConstraintGroups.SaveTransactionValidationRules.class, 
 				TransactionConstraintGroups.UpdateTransactionValidationRules.class);
 	}
 	

@@ -20,4 +20,7 @@ public class Transaction {
 	@OneToOne(cascade=CascadeType.ALL)
 	private AccountEntry destAccountEntry;
 
+	//FIXME nao deve ser nulo
+	private Long accountSystemId;
+
 }

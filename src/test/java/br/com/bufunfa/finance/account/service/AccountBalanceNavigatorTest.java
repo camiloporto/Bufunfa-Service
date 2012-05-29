@@ -130,7 +130,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Account assetNodeChild = accountBalanceNavigatorHelper.saveAccountSample(assetChildName, assetAccount.getId());
 		
 		BigDecimal transactionValue = new BigDecimal("50.00");
-		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityAccount, assetNodeChild, date, transactionValue);
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityAccount, assetNodeChild, date, transactionValue, as);
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
 		BalanceSheetNode rootNode = balanceTree.getRootNode();
@@ -157,7 +157,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Account liabilityNodeChild = accountBalanceNavigatorHelper.saveAccountSample(liabilityChildName, liabilityAccount.getId());
 		
 		BigDecimal transactionValue = new BigDecimal("50.00");
-		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue);
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue, as);
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
 		BalanceSheetNode rootNode = balanceTree.getRootNode();
@@ -184,7 +184,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Account assetNodeChild = accountBalanceNavigatorHelper.saveAccountSample(assetChildName, assetAccount.getId());
 		
 		BigDecimal transactionValue = new BigDecimal("50.00");
-		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityAccount, assetNodeChild, date, transactionValue);
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityAccount, assetNodeChild, date, transactionValue, as);
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
 		BalanceSheetNode rootNode = balanceTree.getRootNode();
@@ -211,7 +211,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Account liabilityNodeChild = accountBalanceNavigatorHelper.saveAccountSample(liabilityChildName, liabilityAccount.getId());
 		
 		BigDecimal transactionValue = new BigDecimal("50.00");
-		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue);
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue, as);
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
 		BalanceSheetNode rootNode = balanceTree.getRootNode();
@@ -238,7 +238,7 @@ public class AccountBalanceNavigatorTest extends SpringRootTestsConfiguration {
 		Account liabilityNodeChild = accountBalanceNavigatorHelper.saveAccountSample(liabilityChildName, liabilityAccount.getId());
 		
 		BigDecimal transactionValue = new BigDecimal("50.00");
-		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue);
+		accountBalanceNavigatorHelper.saveSampleTransaction(liabilityNodeChild, assetAccount, date, transactionValue, as);
 		
 		BalanceSheet balanceTree = accountBalanceNavigator.getBalanceSheetTree(as, date);
 		BalanceSheetNode rootNode = balanceTree.getRootNode();

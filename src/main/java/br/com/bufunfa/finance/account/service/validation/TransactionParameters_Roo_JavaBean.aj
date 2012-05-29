@@ -4,6 +4,7 @@
 package br.com.bufunfa.finance.account.service.validation;
 
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.repository.AccountSystemRepository;
 import br.com.bufunfa.finance.account.repository.TransactionRepository;
 import br.com.bufunfa.finance.account.service.validation.TransactionParameters;
 import java.math.BigDecimal;
@@ -21,6 +22,18 @@ privileged aspect TransactionParameters_Roo_JavaBean {
     
     public void TransactionParameters.setTransactionRepository(TransactionRepository transactionRepository) {
         this.transactionRepository = transactionRepository;
+    }
+    
+    public AccountSystemRepository TransactionParameters.getAccountSystemRepository() {
+        return this.accountSystemRepository;
+    }
+    
+    public Long TransactionParameters.getAccountSystemId() {
+        return this.accountSystemId;
+    }
+    
+    public void TransactionParameters.setAccountSystemId(Long accountSystemId) {
+        this.accountSystemId = accountSystemId;
     }
     
     public Long TransactionParameters.getOriginAccountId() {

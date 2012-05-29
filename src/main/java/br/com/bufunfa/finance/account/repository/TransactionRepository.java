@@ -13,5 +13,7 @@ public interface TransactionRepository {
 	
 	@Query("SELECT t FROM Transaction t WHERE t.originAccountEntry.date between ?1 AND ?2")
 	List<Transaction> findByDateBetween(Date begin, Date end);
+	
+	List<Transaction> findByAccountSystemId(Long accountSystemId);
 
 }

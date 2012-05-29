@@ -12,7 +12,7 @@ import br.com.bufunfa.finance.account.modelo.Transaction;
 @RooService(domainTypes = { br.com.bufunfa.finance.account.modelo.Transaction.class })
 public interface TransactionService {
 
-	Transaction saveNewTransaction(Long idOriginAccount, Long idDestAccount, Date date,
+	Transaction saveNewTransaction(Long idAccountSystem, Long idOriginAccount, Long idDestAccount, Date date,
 			BigDecimal value, String comment);
 
 	Transaction updateTransaction(
@@ -23,5 +23,7 @@ public interface TransactionService {
 
 	@Query("SELECT t FROM Transaction t WHERE t.originAccountEntry.date between 1? AND 2?")
 	List<Transaction> findByDateBetween(Date begin, Date end);
+
+	List<Transaction> findAllTransactions(Long accountSystemId);
 
 }

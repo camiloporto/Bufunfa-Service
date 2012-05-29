@@ -46,6 +46,51 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
 	
+	
+	@Test
+	public void testSaveTransactionsOnDifferentAccountSystems_OneShouldNotViewOtherTransactions() {
+		AccountSystem sample1 = serviceTestHelper.createAndSaveAccountSystemSample();
+		AccountSystem sample2 = serviceTestHelper.createAndSaveAccountSystemSample();
+		
+		Account origin1 = accountService.findIncomeAccount(sample1);
+		Account dest1 = accountService.findOutcomeAccount(sample1);
+		Account origin2 = accountService.findIncomeAccount(sample2);
+		Account dest2 = accountService.findOutcomeAccount(sample2);
+		
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Transaction saved = transactionService.saveNewTransaction(
+				sample1.getId(),
+				origin1.getId(), 
+				dest1.getId(), 
+				date, value, comment);
+		
+		BigDecimal value2 = new BigDecimal("102.00");
+		Date date2 = new GregorianCalendar(2011, Calendar.JANUARY, 2).getTime();
+		String comment2 = "first year money spent - 2";
+		
+		Transaction saved2 = transactionService.saveNewTransaction(
+				sample2.getId(),
+				origin2.getId(), 
+				dest2.getId(), 
+				date2, value2, comment2);
+		
+
+		List<Transaction> accountSystem1Transactions = transactionService.findAllTransactions(sample1.getId());
+		int expectedAccountSystem1TransactionCount = 1;
+		Assert.assertEquals(
+				"accountSystem #1 transaction count different from expected",
+				expectedAccountSystem1TransactionCount, 
+				accountSystem1Transactions.size());
+		Assert.assertEquals(
+				"transaction from AccountSystem #2 should not be retrieved", 
+				saved.getId(), 
+				accountSystem1Transactions.get(0).getId());
+		
+	}
+	
 	@Test
 	public void testSaveNewTransaction_shouldSuccess() {
 		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
@@ -56,6 +101,7 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String comment = "first year money spent";
 		
 		Transaction saved = transactionService.saveNewTransaction(
+				sample.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				date, value, comment);
@@ -64,6 +110,50 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		Assert.assertNotNull("should assign a valid id to transatcion", saved.getId());
 		Assert.assertNotNull("should assign a valid id to origin accountEntry", saved.getOriginAccountEntry().getId());
 		Assert.assertNotNull("should assign a valid id to dest accountEntry", saved.getDestAccountEntry().getId());
+	}
+	
+	@Test
+	public void testSaveTransactionWithNonExistentAccountSystem_ShouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account dest = accountService.findOutcomeAccount(sample);
+		Account origin = accountService.findIncomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Long nonExistentAccountSystemId = 9999L;
+		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ACCOUNT_SYSTEM.notfound}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with non existent accountSystemId", 
+				nonExistentAccountSystemId, 
+				origin.getId(), 
+				dest.getId(), 
+				value, 
+				date, 
+				comment, expectedTemplateErrorMessage);
+	}
+	
+	@Test
+	public void testSaveTransactionWithNullAccountSystemId_ShouldThrowsException() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		Account dest = accountService.findOutcomeAccount(sample);
+		Account origin = accountService.findIncomeAccount(sample);
+		BigDecimal value = new BigDecimal("100.00");
+		Date date = new GregorianCalendar(2011, Calendar.JANUARY, 1).getTime();
+		String comment = "first year money spent";
+		
+		Long nullAccountSystemId = null;
+		
+		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ACCOUNT_SYSTEM_ID.required}";
+		runTestSaveInvalidTransaction_shouldThrowsException(
+				"should not save transaction with null accountSystemId", 
+				nullAccountSystemId, 
+				origin.getId(), 
+				dest.getId(), 
+				value, 
+				date, 
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -78,12 +168,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT_ID.required}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with null accountOrigin Id", 
+				sample.getId(), 
 				idOriginAccount, 
 				dest.getId(), 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -98,12 +188,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT_ID.required}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with null accountDest Id", 
+				sample.getId(), 
 				origin.getId(), 
 				idDestAccount, 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -118,12 +208,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.VALUE.required}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with null value", 
+				sample.getId(), 
 				origin.getId(), 
 				dest.getId(), 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -139,12 +229,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DATE.required}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with null date", 
+				sample.getId(), 
 				origin.getId(), 
 				dest.getId(), 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -159,12 +249,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.ORIGIN_ACCOUNT.notfound}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with nonexistent origin account", 
+				sample.getId(), 
 				nonExistentOriginAccountId, 
 				dest.getId(), 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -179,12 +269,12 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.DEST_ACCOUNT.notfound}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with nonexistent destination account", 
+				sample.getId(),
 				origin.getId(),
-				nonExistentDestAccountId,
+				nonExistentDestAccountId, 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	@Test
@@ -199,24 +289,25 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String expectedTemplateErrorMessage = "{br.com.bufunfa.finance.service.TransactionService.VALUE.negative}";
 		runTestSaveInvalidTransaction_shouldThrowsException(
 				"should not save transaction with negative value", 
+				sample.getId(), 
 				origin.getId(), 
 				dest.getId(), 
 				value, 
 				date, 
-				comment, 
-				expectedTemplateErrorMessage);
+				comment, expectedTemplateErrorMessage);
 	}
 	
 	private void runTestSaveInvalidTransaction_shouldThrowsException(
 			String failMessage, 
+			Long idSample,
 			Long originAccountId,
 			Long destAccountId,
 			BigDecimal value,
 			Date date,
-			String comment,
-			String...expectedTemplateErrorMessages) {
+			String comment, String...expectedTemplateErrorMessages) {
 		try {
 			transactionService.saveNewTransaction(
+					idSample,
 					originAccountId, 
 					destAccountId, 
 					date, value, comment);
@@ -239,6 +330,7 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String comment = "first year money spent";
 		
 		Transaction saved = transactionService.saveNewTransaction(
+				sample.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				date, value, comment);
@@ -584,6 +676,8 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		}
 	}
 	
+	//FIXME implementar consulta de transacoes por accountSystem
+	
 	private void runTestUpdateInvalidTransaction_shouldThrowsException(
 			String failMessage,
 			Long idTransaction,
@@ -616,6 +710,7 @@ public class TransactionServiceTest extends SpringRootTestsConfiguration {
 		String comment = "first year money spent";
 		
 		return transactionService.saveNewTransaction(
+				as.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				date, value, comment);

@@ -24,4 +24,12 @@ privileged aspect Transaction_Roo_JavaBean {
         this.destAccountEntry = destAccountEntry;
     }
     
+    public Long Transaction.getAccountSystemId() {
+        return this.accountSystemId;
+    }
+    
+    public void Transaction.setAccountSystemId(Long accountSystemId) {
+        this.accountSystemId = accountSystemId;
+    }
+    
 }

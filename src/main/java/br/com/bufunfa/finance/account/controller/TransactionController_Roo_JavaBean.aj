@@ -3,6 +3,7 @@
 
 package br.com.bufunfa.finance.account.controller;
 
+import br.com.bufunfa.finance.account.controller.AccountController;
 import br.com.bufunfa.finance.account.controller.TransactionController;
 import br.com.bufunfa.finance.account.controller.TransactionUI;
 import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
@@ -25,6 +26,14 @@ privileged aspect TransactionController_Roo_JavaBean {
     
     public void TransactionController.setMessageSource(AccountMessageSource messageSource) {
         this.messageSource = messageSource;
+    }
+    
+    public AccountController TransactionController.getAccountController() {
+        return this.accountController;
+    }
+    
+    public void TransactionController.setAccountController(AccountController accountController) {
+        this.accountController = accountController;
     }
     
     public TransactionUI TransactionController.getCurrentTransaction() {

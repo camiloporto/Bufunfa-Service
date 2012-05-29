@@ -37,18 +37,24 @@ public class AccountController {
 	
 	@Autowired
 	private AccountMessageSource messageSource;
+	
+	private AccountSystem loggedAccountSystem;
 
 	public AccountController() {
 	}
 	
 	
 	public void loadAccountHierarchy(User u) {
-		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
-		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
-		accountTree = new AccountTreeUI(accountSystem, rootAccount);
+		loggedAccountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
+		Account rootAccount = accountSystemService.findAccount(loggedAccountSystem.getRootAccountId());
+		accountTree = new AccountTreeUI(loggedAccountSystem, rootAccount);
 		accountTree.setAccountSystemService(accountSystemService);
 		accountTree.setMessageSource(messageSource);
 		accountTree.init();
+	}
+	
+	public AccountSystem getLoggedAccountSystem() {
+		return loggedAccountSystem;
 	}
 
 	public AccountTreeUI getAccountTree() {

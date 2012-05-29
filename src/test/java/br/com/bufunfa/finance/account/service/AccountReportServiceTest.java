@@ -360,9 +360,9 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		BigDecimal value2 = new BigDecimal("25.00");
 		BigDecimal value3 = new BigDecimal("100.00");
 		
-		transactionHelper.saveSampleTransaction(salary, outcome, date1, value1);
-		transactionHelper.saveSampleTransaction(rent, outcome, date2, value2);
-		transactionHelper.saveSampleTransaction(rent, outcome, date3, value3);
+		transactionHelper.saveSampleTransaction(accountSystem, salary, outcome, date1, value1);
+		transactionHelper.saveSampleTransaction(accountSystem, rent, outcome, date2, value2);
+		transactionHelper.saveSampleTransaction(accountSystem, rent, outcome, date3, value3);
 		
 		Account account = accountService.findIncomeAccount(accountSystem);
 		BigDecimal accountBalance = reportService.getAccountBalance(account, date3);
