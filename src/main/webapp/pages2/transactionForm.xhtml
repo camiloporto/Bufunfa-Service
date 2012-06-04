@@ -12,39 +12,47 @@
 		<!-- All html ignored before here -->
 		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
 		<h:form prependId="false" id="transactionForm">
-		
-			<span>#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}</span>
+			<fieldset>
+				<legend>Nova Transação</legend>
+			
+			<h:outputLabel for="fromAccount" value="#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}"/>
 			<p:selectOneMenu id="fromAccount"
 				value="#{transactionController.currentTransaction.fromAccount.id}">
 				<f:selectItems value="#{accountController.leafItems}" />
 			</p:selectOneMenu>
+			<br/>
 			
-			<span>#{transactionMsgs['transactionView.transactionForm.label.toAccount']}</span>
+			<h:outputLabel for="toAccount" value="#{transactionMsgs['transactionView.transactionForm.label.toAccount']}" />
 			<p:selectOneMenu id="toAccount"
 				value="#{transactionController.currentTransaction.toAccount.id}">
 				<f:selectItems value="#{accountController.leafItems}" />
 			</p:selectOneMenu>
+			<br/>
 			
-			<span>#{transactionMsgs['transactionView.transactionForm.label.date']}</span>
+			<h:outputLabel for="date" value="#{transactionMsgs['transactionView.transactionForm.label.date']}"/>
 			<p:calendar id="date"
 				value="#{transactionController.currentTransaction.date}"
 				locale="pt_BR" 
 				pattern="dd/MM/yyyy"/>
+			<br/>
 			
-			<span>#{transactionMsgs['transactionView.transactionForm.label.value']}</span>
+			<h:outputLabel for="value" value="#{transactionMsgs['transactionView.transactionForm.label.value']}"/>
 			<p:inputText id="value"
 				value="#{transactionController.currentTransaction.value}" />
+			<br/>
 			
-			<span>#{transactionMsgs['transactionView.transactionForm.label.comment']}</span>
+			<h:outputLabel for="comment" value="#{transactionMsgs['transactionView.transactionForm.label.comment']}"/>
 			<p:inputText id="comment"
 				value="#{transactionController.currentTransaction.comment}" />
+			<br/>
 			
 			<p:commandButton id="buttonSaveTransaction"
 				value="#{transactionMsgs['transactionView.transactionForm.button.addNewTransaction']}"
 				action="#{transactionController.saveTransaction}"
 				update="transactionForm :transactionListForm :statusDialog">
 			</p:commandButton>
-				
+			<br/>
+			</fieldset>
 		</h:form>
 
 		<h:form id="transactionListForm" prependId="false">
