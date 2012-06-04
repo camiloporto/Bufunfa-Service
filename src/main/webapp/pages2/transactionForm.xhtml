@@ -33,16 +33,17 @@
 			<p:calendar id="date"
 				value="#{transactionController.currentTransaction.date}"
 				locale="pt_BR" 
-				pattern="dd/MM/yyyy"/>
+				pattern="dd/MM/yyyy"
+				size="11"/>
 			<br/>
 			
 			<h:outputLabel for="value" value="#{transactionMsgs['transactionView.transactionForm.label.value']}"/>
 			<p:inputText id="value"
-				value="#{transactionController.currentTransaction.value}" />
+				value="#{transactionController.currentTransaction.value}" size="11" />
 			<br/>
 			
 			<h:outputLabel for="comment" value="#{transactionMsgs['transactionView.transactionForm.label.comment']}"/>
-			<p:inputText id="comment"
+			<p:inputText id="comment" size="40"
 				value="#{transactionController.currentTransaction.comment}" />
 			<br/>
 			
@@ -62,6 +63,8 @@
 					oncomplete="confirmDeleteDialogVar.hide()" 
 					action="#{transactionController.deleteTransaction}" update=":transactionListForm :statusDialog" />
 			</p:dialog>
+			<fieldset>
+				<legend>Transações Cadastradas</legend>
 			<p:dataTable value="#{transactionController.allTransaction}" var="transactionUI"
 				id="transactionTable"
 				rowIndexVar="index"
@@ -139,6 +142,7 @@
 
 				</p:column>
 			</p:dataTable>
+			</fieldset>
 			<script type="text/javascript">
 					jQuery("#transactionListForm table tbody tr").hover(
 						function(event){
