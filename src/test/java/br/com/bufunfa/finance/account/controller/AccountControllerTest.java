@@ -200,6 +200,21 @@ public class AccountControllerTest extends SpringRootTestsConfiguration {
 		
 	}
 	
+	@Test
+	public void testFindAccountTreeItemById_shouldFindAccountTreeItem() {
+		String newItemName = TestDataGenerator.generateRandomString();
+		
+		AccountTreeItemUI saved = addNewSampleAccount(ASSET_ACCOUNT_NAME, newItemName);
+		Long id = saved.getId();
+		
+		AccountTreeItemUI retrieved = accountController.findAccountItemById(id);
+		
+		Assert.assertNotNull("accountItem not found", retrieved);
+		Assert.assertEquals("expected id not found", id, retrieved.getId());
+		Assert.assertEquals("expected name not found", newItemName, retrieved.getAccountName());
+		
+	}
+	
 	AccountTreeItemUI addNewSampleAccount(String fatherName, String newItemName) {
 		AccountTreeItemUI selectedItem = accountController.findLeafItemByName(fatherName);
 		accountController.getAccountTree().setSelectedItem(selectedItem);

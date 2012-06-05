@@ -25,4 +25,8 @@
 		</locale-config>
 	</application>
 
+	<converter>
+		<converter-id>accountItemConverter</converter-id>
+		<converter-class>br.com.bufunfa.finance.account.controller.AccountTreeItemUIConverter</converter-class>
+	</converter>
 </faces-config>

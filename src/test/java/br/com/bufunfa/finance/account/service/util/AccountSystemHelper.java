@@ -41,9 +41,19 @@ public class AccountSystemHelper {
 	 * @return
 	 */
 	public AccountSystemHelper createValidSample() {
+		return generateValidAccountSystemSample();
+	}
+	
+	/**
+	 * Create a valid AccountSystem sample with
+	 * name: AccountSystemSample
+	 * userId: sample
+	 * @return
+	 */
+	private AccountSystemHelper generateValidAccountSystemSample() {
 		accountSystem = new AccountSystem();
-		accountSystem.setName("AccountSystemSample");
-		accountSystem.setUserId("sample");
+		accountSystem.setName("AccountSystemSample" + System.currentTimeMillis());
+		accountSystem.setUserId("sample" + System.currentTimeMillis());
 		
 		return this;
 	}

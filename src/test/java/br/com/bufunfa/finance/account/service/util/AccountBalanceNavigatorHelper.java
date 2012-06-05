@@ -60,8 +60,8 @@ public class AccountBalanceNavigatorHelper {
 
 
 	public void saveSampleTransaction(Account from, Account to, Date date,
-			BigDecimal value) {
-		transactionHelper.saveSampleTransaction(from, to, date, value);
+			BigDecimal value, AccountSystem as) {
+		transactionHelper.saveSampleTransaction(as, from, to, date, value);
 	}
 	
 	

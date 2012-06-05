@@ -15,7 +15,7 @@
 			<p:dialog header="#{accountMsgs['accountView.accountForm.title.AccountDialog']}"
 					widgetVar="contaDataDialog" minWidth="420">
 
-					<h:panelGroup id="dialogPanel">
+					<h:panelGroup id="dialogPanel" layout="block">
 						<div class="formContainer">
 
 							<h:panelGroup styleClass="parentLabel"
@@ -42,7 +42,7 @@
 										<td><p:commandButton value="#{accountMsgs['accountView.accountForm.button.save']}"
 												oncomplete="contaDataDialog.hide()"
 												action="#{accountController.saveItem}"
-												update="accountTree statusDialog" /></td>
+												update="accountTree :statusDialog" /></td>
 									</tr>
 								</tbody>
 							</table>
@@ -62,7 +62,7 @@
 										styleClass="actionLink" 
 										value="#{accountMsgs['accountView.accountForm.link.addAccount']}" 
 										type="button"
-										update="dialogPanel" 
+										update=":accountForm:dialogPanel" 
 										title="#{accountMsgs['accountView.accountForm.tip.addAccount']}"
 										action="#{accountController.accountTree.showNewItemForm}">
 										<f:setPropertyActionListener
@@ -75,7 +75,7 @@
 										rendered="#{not accountItem.firstLevel}" 
 										value="#{accountMsgs['accountView.accountForm.link.editAccount']}" 
 										type="button"
-										update="dialogPanel" styleClass="actionLink"
+										update=":accountForm:dialogPanel" styleClass="actionLink"
 										action="#{accountController.accountTree.showEditItemForm}"
 										title="#{accountMsgs['accountView.accountForm.tip.editAccount']}">
 										<f:setPropertyActionListener
@@ -87,7 +87,7 @@
 									<p:commandLink action="#{accountController.deleteItem}"
 										styleClass="actionLink" 
 										value="#{accountMsgs['accountView.accountForm.link.removeAccount']}"
-										update="accountForm statusDialog"
+										update=":accountForm :statusDialog"
 										rendered="#{(accountItem.leaf) and (not accountItem.firstLevel)}"
 										title="#{accountMsgs['accountView.accountForm.tip.removeAccount']}">
 										<f:setPropertyActionListener

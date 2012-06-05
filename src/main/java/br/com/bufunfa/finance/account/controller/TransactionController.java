@@ -7,12 +7,14 @@ import java.util.Locale;
 import javax.faces.application.FacesMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.roo.addon.javabean.RooJavaBean;
 import org.springframework.roo.addon.serializable.RooSerializable;
 import org.springframework.stereotype.Controller;
 
 import br.com.bufunfa.finance.account.i18n.AccountMessageSource;
 import br.com.bufunfa.finance.account.i18n.TransactionMessageSource;
+import br.com.bufunfa.finance.account.modelo.AccountSystem;
 import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.service.TransactionService;
 import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
@@ -20,6 +22,7 @@ import br.com.bufunfa.finance.core.controller.FacesMessageUtil;
 @Controller
 @RooSerializable
 @RooJavaBean
+@Scope("session")
 public class TransactionController {
 	
 	/**
@@ -33,12 +36,20 @@ public class TransactionController {
 	@Autowired
 	private AccountMessageSource messageSource;
 	
+	@Autowired
+	private AccountController accountController;
+	
 	private TransactionUI currentTransaction = new TransactionUI();
 	
-	private List<TransactionUI> transactionList = new ArrayList<TransactionUI>();
+	private List<TransactionUI> transactionList;// = new ArrayList<TransactionUI>();
+	
+	private AccountSystem getLoggedAccountSystem() {
+		return accountController.getLoggedAccountSystem();
+	}
 	
 	public void saveTransaction() {
 		Transaction saved = transactionService.saveNewTransaction(
+				getLoggedAccountSystem().getId(),
 				currentTransaction.getFromAccount().getId(),
 				currentTransaction.getToAccount().getId(), 
 				currentTransaction.getDate(), 
@@ -88,7 +99,7 @@ public class TransactionController {
 	}
 	
 	void updateTransactionList() {
-		List<Transaction> list = transactionService.findAllTransactions();
+		List<Transaction> list = transactionService.findAllTransactions(getLoggedAccountSystem().getId());
 		List<TransactionUI> result = new ArrayList<TransactionUI>(list.size());
 		for (Transaction t : list) {
 			result.add(new TransactionUI(t));
@@ -97,6 +108,9 @@ public class TransactionController {
 	}
 
 	public List<TransactionUI> getAllTransaction() {
+		if(transactionList == null) {
+			updateTransactionList();
+		}
 		return transactionList;
 	}
 

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Locale;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.model.SelectItem;
 
 import org.primefaces.model.TreeNode;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,18 +37,24 @@ public class AccountController {
 	
 	@Autowired
 	private AccountMessageSource messageSource;
+	
+	private AccountSystem loggedAccountSystem;
 
 	public AccountController() {
 	}
 	
 	
 	public void loadAccountHierarchy(User u) {
-		AccountSystem accountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
-		Account rootAccount = accountSystemService.findAccount(accountSystem.getRootAccountId());
-		accountTree = new AccountTreeUI(accountSystem, rootAccount);
+		loggedAccountSystem = accountSystemService.findAccountSystemByUserId(u.getEmail());
+		Account rootAccount = accountSystemService.findAccount(loggedAccountSystem.getRootAccountId());
+		accountTree = new AccountTreeUI(loggedAccountSystem, rootAccount);
 		accountTree.setAccountSystemService(accountSystemService);
 		accountTree.setMessageSource(messageSource);
 		accountTree.init();
+	}
+	
+	public AccountSystem getLoggedAccountSystem() {
+		return loggedAccountSystem;
 	}
 
 	public AccountTreeUI getAccountTree() {
@@ -125,6 +132,21 @@ public class AccountController {
 				itemsFound);
 		return itemsFound;
 	}
+	
+	/**
+	 * * Retorna contas folhas por um nome parcial * @param name parte do nome
+	 * da conta * @return
+	 */
+	public List<SelectItem> getLeafItems() {
+		List<AccountTreeItemUI> itemsFound = new ArrayList<AccountTreeItemUI>();
+		findItemsByNameLike2("Con", getAccountTree().getRootNode(),
+				itemsFound);
+		List<SelectItem> result = new ArrayList<SelectItem>();
+		for (AccountTreeItemUI accountTreeItemUI : itemsFound) {
+			result.add(new SelectItem(accountTreeItemUI.getId(), accountTreeItemUI.getAccountName()));
+		}
+		return result;
+	}
 
 	private List<AccountTreeItemUI> findItemsByNameLike2(String name,
 			TreeNode root, List<AccountTreeItemUI> result) {
@@ -142,6 +164,33 @@ public class AccountController {
 			}
 		}
 		return result;
+	}
+
+
+	public AccountTreeItemUI findAccountItemById(Long id) {
+		AccountTreeItemUI item = findAccountItemById(id, getAccountTree().getRootNode());
+		return item;
+	}
+	
+	private AccountTreeItemUI findAccountItemById(Long id, TreeNode root) {
+		AccountTreeItemUI item = null;
+		if(root.isLeaf()) {
+			item = (AccountTreeItemUI) root.getData();
+			if (item == null)
+				return null;
+			if (item.getId().equals(id)) {
+				return item;
+			}
+		} else {
+			List<TreeNode> children = root.getChildren();
+			for (TreeNode nextChild : children) {
+				item = findAccountItemById(id, nextChild);
+				if(item != null) {
+					return item;
+				}
+			}
+		}
+		return item;
 	}
 
 }

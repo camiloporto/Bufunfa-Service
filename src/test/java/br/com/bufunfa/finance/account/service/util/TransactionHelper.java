@@ -23,8 +23,9 @@ public class TransactionHelper {
 	
 	private List<Transaction> inserted = new ArrayList<Transaction>();
 	
-	public void saveSampleTransaction(Account from, Account to, Date date, BigDecimal value) {
+	public void saveSampleTransaction(AccountSystem accountSystem, Account from, Account to, Date date, BigDecimal value) {
 		Transaction t = transactionService.saveNewTransaction(
+				accountSystem.getId(),
 				from.getId(), 
 				to.getId(), 
 				date, value, null);
@@ -45,6 +46,7 @@ public class TransactionHelper {
 		Account dest = accountService.findOutcomeAccount(as);
 		
 		Transaction t = transactionService.saveNewTransaction(
+				as.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				transactionDate, value, comment);
@@ -59,6 +61,7 @@ public class TransactionHelper {
 		Account dest = accountService.findAssetAccount(as);
 		
 		Transaction t = transactionService.saveNewTransaction(
+				as.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				transactionDate, value, comment);
@@ -73,6 +76,7 @@ public class TransactionHelper {
 		Account dest = accountService.findAssetAccount(as);
 		
 		Transaction t = transactionService.saveNewTransaction(
+				as.getId(),
 				origin.getId(), 
 				dest.getId(), 
 				transactionDate, value, comment);
