@@ -13,7 +13,7 @@
 		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
 		<h:form prependId="false" id="transactionForm">
 			<fieldset>
-				<legend>Nova Transação</legend>
+				<legend>#{transactionMsgs['transactionView.transactionForm.legend']}</legend>
 			
 			<h:outputLabel for="fromAccount" value="#{transactionMsgs['transactionView.transactionForm.label.fromAccount']}"/>
 			<p:selectOneMenu id="fromAccount"
@@ -64,7 +64,7 @@
 					action="#{transactionController.deleteTransaction}" update=":transactionListForm :statusDialog" />
 			</p:dialog>
 			<fieldset>
-				<legend>Transações Cadastradas</legend>
+				<legend>#{transactionMsgs['transactionView.transactionListForm.legend']}</legend>
 			<p:dataTable value="#{transactionController.allTransaction}" var="transactionUI"
 				id="transactionTable"
 				rowIndexVar="index"
