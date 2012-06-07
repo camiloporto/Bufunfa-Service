@@ -1,0 +1,74 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:c="http://java.sun.com/jstl/core"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+</head>
+<body>
+	<ui:composition>
+		<!-- All html ignored before here -->
+		<!-- 
+		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
+		 -->
+		<h:form prependId="false" id="extratoForm">
+			<fieldset>
+				<legend>Dados do Extrato</legend>
+				<h:outputLabel value="Conta:" for="account"/>
+				<p:autoComplete id="account">
+					
+				</p:autoComplete>
+				<br/>
+				
+				<h:outputLabel value="Data inicial:" for="beginDate"/>
+				<p:calendar id="beginDate" 
+					locale="pt_BR"
+					pattern="dd/MM/yyyy"
+					size="11">
+				</p:calendar>
+				<br/>
+				
+				<h:outputLabel value="Data final:" for="finalDate"/>
+				<p:calendar id="finalDate" 
+					locale="pt_BR"
+					pattern="dd/MM/yyyy"
+					size="11">
+				</p:calendar>
+				<br/>
+				
+				<p:commandButton value="Tirar extrato">
+				</p:commandButton>
+			</fieldset>
+		</h:form>
+		
+		<p:dataTable id="extratoTable" emptyMessage="Nenhuma transacao encontrada">
+			<p:column headerText="Data">
+				<h:outputText value="data"/>
+			</p:column>
+			<p:column headerText="Descricao">
+				<h:outputText value="descricao"/>
+			</p:column>
+			<p:column headerText="Origem">
+				<h:outputText value="origem"/>
+			</p:column>
+			<p:column headerText="Destino">
+				<h:outputText value="destino"/>
+			</p:column>
+			<p:column headerText="Valor">
+				<h:outputText value="R$1"/>
+			</p:column>
+			<p:columnGroup type="footer">
+				<p:row>
+					<p:column colspan="4" footerText="Saldo:" style="text-align : right"/>
+					<p:column footerText="R$33"/>
+				</p:row>
+			</p:columnGroup>
+		</p:dataTable>
+
+		<!-- All html ignored after here -->
+
+	</ui:composition>
+</body>
+</html>
