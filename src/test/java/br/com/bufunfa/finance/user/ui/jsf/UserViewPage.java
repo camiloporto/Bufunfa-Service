@@ -55,6 +55,7 @@ public class UserViewPage extends AbstractViewPage {
 	public void clickButtonAddNewUser() {
 		WebElement addNewUserButton = findWebElementById(userViewIds.getButtonSaveNewUser());
 		addNewUserButton.click();
+		wait(5);
 	}
 	
 	
@@ -117,7 +118,7 @@ public class UserViewPage extends AbstractViewPage {
 				viewNames, 
 				AccountViewNames.class.getCanonicalName());
 		
-		//FIXME esperar ate a pagina ser redicerionada
+		wait(5);
 		return new AccountViewPage(driver, viewNames);
 	}
 

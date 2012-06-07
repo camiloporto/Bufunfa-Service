@@ -19,8 +19,24 @@ public abstract class AbstractViewPage {
 	protected WebDriver driver;
 	
 	
-	protected WebDriver getDriver() {
+	public WebDriver getDriver() {
 		return driver;
+	}
+	
+	public void wait(final int seconds) {
+		ExpectedCondition<Boolean> timeElapsed = new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver d) {
+				try {
+					Thread.sleep(seconds * 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} 
+				return true;
+			}
+		};
+		waitAndCheckCondition(seconds, timeElapsed, null);
 	}
 	
 	public void assertThatIsOnThePage() {

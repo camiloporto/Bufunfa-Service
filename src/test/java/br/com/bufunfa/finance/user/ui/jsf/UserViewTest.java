@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
+import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -26,6 +26,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	private UserDataTestCleaner userDataCleaner;
 	
 	private UserViewNames userViewNames;
+	UserViewPage userPage;
 	
 	public UserViewTest() throws IOException, IllegalAccessException, InvocationTargetException {
 		userViewNames = new UserViewNames();
@@ -37,11 +38,16 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	@Before
 	public void cleanUserData() {
 		userDataCleaner.clearAllUsers();
+		userPage = getUserViewPage();
+	}
+	
+	@After
+	public void afterTest() {
+		userPage.getDriver().close();
 	}
 	
 	@Test
 	public void testSaveNewUser_shouldSuccess() {
-		UserViewPage userPage = getUserViewPage();
 		UserViewPage.UserForm userForm = userPage.getUserForm();
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
@@ -56,7 +62,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	}
 	@Test
 	public void testSaveNewUserRequiredFields_shouldShowErrorMessages() {
-		UserViewPage userPage = getUserViewPage();
 		
 		//click save user without filling required fields
 		userPage.clickButtonAddNewUser();
@@ -70,7 +75,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	public void testSaveNewUserWithExistentEmail_shouldShowErrorMessages() {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
-		UserViewPage userPage = getUserViewPage();
 		userPage.addNewUser(newUserEmail, newUserPass);
 		
 		UserViewPage.UserForm userForm = userPage.getUserForm();
@@ -87,7 +91,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	public void testLoginUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
-		UserViewPage userPage = getUserViewPage();
 		userPage.addNewUser(newUserEmail, newUserPass);
 		
 		UserViewPage.UserForm loginForm = userPage.getUserForm();
@@ -106,7 +109,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
 		final String inputPass = "wrongpass";
-		UserViewPage userPage = getUserViewPage();
 		userPage.addNewUser(newUserEmail, newUserPass);
 		
 		UserViewPage.UserForm loginForm = userPage.getUserForm();
@@ -125,7 +127,6 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 	public void testLogoutUser_shouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		final String newUserEmail = TestDataGenerator.generateValidEmail();
 		final String newUserPass = "secret";
-		UserViewPage userPage = getUserViewPage();
 		userPage.addNewUser(newUserEmail, newUserPass);
 		
 		UserViewPage.UserForm loginForm = userPage.getUserForm();
@@ -133,6 +134,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		loginForm.setEmail(newUserEmail);
 		loginForm.setPassword(newUserPass);
 		AccountViewPage accountPage = userPage.clickButtonLoginUser();
+		
 		accountPage.assertThatIsOnThePage();
 		accountPage.assertThatUserInfoIsOnThePage(newUserEmail);
 		accountPage.clickLinkLogoutUser();
@@ -158,7 +160,7 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		if("chrome".equalsIgnoreCase(driverType)) {
 			return new ChromeDriver();
 		}
-		HtmlUnitDriver d = new HtmlUnitDriver();
+		HtmlUnitDriver d = new HtmlUnitDriver(true);
 		d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return d;
 		

@@ -49,6 +49,7 @@ public class AccountViewPage extends AbstractViewPage {
 		System.out.println("AccountViewPage.clickLinkLogoutUser()" + logoutLink.getText());
 		System.out.println("AccountViewPage.clickLinkLogoutUser()" + logoutLink.getTagName());
 		logoutLink.click();
+		wait(10);
 	}
 
 }

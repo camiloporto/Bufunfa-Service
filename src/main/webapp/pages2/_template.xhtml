@@ -244,10 +244,11 @@ body {
 					<div id="topo-userInfo">
 							<h:outputText value="#{userController.user.email}" />
 							<h:outputText value=" | " />
-							<h:commandButton id="linkLogout" 
+							<h:commandLink id="linkLogout" 
 								value="logout" 
 								action="#{userController.logoutUser}"
 								ajax="false" />
+							<h:outputText value=" | " />
 							<h:outputText value="perfil | " />
 					</div>
 				</h:form>
