@@ -77,6 +77,62 @@ public class AccountExtractControllerTest extends SpringRootTestsConfiguration {
 				);
 		
 	}
+	
+	@Test
+	public void testAccountExtractWithNoBeginDate_ShouldSetBeginDateToCurrentMonth1stDay() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		
+		Account source = accountService.findIncomeAccount(sample);
+		
+		Date beginDate = null;
+		Date endDate = DateUtils.getDate(2012, Calendar.JANUARY, 31).getTime();
+		
+		controller.getAccount().setId(source.getId());
+		controller.setBeginDate(beginDate);
+		controller.setEndDate(endDate);
+		controller.updateExtract();
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_MONTH, 1);
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		Date expectedBeginDate = c.getTime();
+		
+		Date actualBeginDate = controller.getBeginDate();
+		Assert.assertEquals("begin date not configured properly", expectedBeginDate, actualBeginDate);
+		
+		
+	}
+	
+	@Test
+	public void testAccountExtractWithNoEndDate_ShouldSetEndDateToCurrentMonthLastDay() {
+		AccountSystem sample = serviceTestHelper.createAndSaveAccountSystemSample();
+		
+		Account source = accountService.findIncomeAccount(sample);
+		
+		Date beginDate = DateUtils.getDate(2012, Calendar.JANUARY, 15).getTime();;
+		Date endDate = null;
+		
+		controller.getAccount().setId(source.getId());
+		controller.setBeginDate(beginDate);
+		controller.setEndDate(endDate);
+		controller.updateExtract();
+		
+		Calendar c = Calendar.getInstance();
+		c.set(Calendar.DAY_OF_MONTH, c.getActualMaximum(Calendar.DAY_OF_MONTH));
+		c.set(Calendar.MINUTE, 0);
+		c.set(Calendar.HOUR, 0);
+		c.set(Calendar.SECOND, 0);
+		c.set(Calendar.MILLISECOND, 0);
+		Date expectedEndDate = c.getTime();
+		
+		Date actualEndDate = controller.getEndDate();
+		Assert.assertEquals("end date not configured properly", expectedEndDate, actualEndDate);
+		
+		
+	}
 
 	private void verifyExtract(String msg, AccountExtract accountExtract,
 			BigDecimal expectedCurrentBalance, int expectedEntryCount,
