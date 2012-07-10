@@ -47,4 +47,36 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.panelMessages = panelMessages;
     }
     
+    public String AccountViewNames.getAssetAccountName() {
+        return this.assetAccountName;
+    }
+    
+    public void AccountViewNames.setAssetAccountName(String assetAccountName) {
+        this.assetAccountName = assetAccountName;
+    }
+    
+    public String AccountViewNames.getInputNewAccountName() {
+        return this.inputNewAccountName;
+    }
+    
+    public void AccountViewNames.setInputNewAccountName(String inputNewAccountName) {
+        this.inputNewAccountName = inputNewAccountName;
+    }
+    
+    public String AccountViewNames.getInputNewAccountDesc() {
+        return this.inputNewAccountDesc;
+    }
+    
+    public void AccountViewNames.setInputNewAccountDesc(String inputNewAccountDesc) {
+        this.inputNewAccountDesc = inputNewAccountDesc;
+    }
+    
+    public String AccountViewNames.getButtonSaveAccount() {
+        return this.buttonSaveAccount;
+    }
+    
+    public void AccountViewNames.setButtonSaveAccount(String buttonSaveAccount) {
+        this.buttonSaveAccount = buttonSaveAccount;
+    }
+    
 }

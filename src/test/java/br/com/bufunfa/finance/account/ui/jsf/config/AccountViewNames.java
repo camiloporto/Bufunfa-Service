@@ -13,5 +13,10 @@ public class AccountViewNames {
 	private String panelUserinfo;
 	
 	private String panelMessages;
+	
+	private String assetAccountName;
+	private String inputNewAccountName;
+	private String inputNewAccountDesc;
+	private String buttonSaveAccount;
 
 }

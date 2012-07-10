@@ -55,10 +55,12 @@ public class AccountExtractController {
 	
 	
 	public void updateExtract() {
+		System.out.println("AccountExtractController.updateExtract() start");
 		configureDefaultBeginDateIfNull();
 		configureDefaultEndDateIfNull();
 		AccountExtract extract = reportService.getAccountExtract(getAccount(), getBeginDate(), getEndDate());
 		setAccountExtract(extract);
+		System.out.println("AccountExtractController.updateExtract() end");
 	}
 
 	private void configureDefaultBeginDateIfNull() {

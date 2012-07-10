@@ -39,7 +39,8 @@
 									</tr>
 									<tr>
 										<td></td>
-										<td><p:commandButton value="#{accountMsgs['accountView.accountForm.button.save']}"
+										<td><p:commandButton id="accountSaveButton" 
+												value="#{accountMsgs['accountView.accountForm.button.save']}"
 												oncomplete="contaDataDialog.hide()"
 												action="#{accountController.saveItem}"
 												update="accountTree :statusDialog" /></td>

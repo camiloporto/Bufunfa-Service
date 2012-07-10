@@ -69,8 +69,12 @@ public abstract class AbstractViewPage {
 		return driver.findElement(By.id(elementId));
 	}
 	
+	public List<WebElement> findWebElementByXPath(String xpath) {
+		return driver.findElements(By.xpath(xpath));
+	}
 	
-	protected void fillInputElement(String elementId, String value) {
+	
+	public void fillInputElement(String elementId, String value) {
 		WebElement inputField = findWebElementById(elementId);
 		if(inputField == null) {
 			throw new NoSuchElementException(elementId);

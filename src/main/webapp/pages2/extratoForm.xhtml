@@ -17,13 +17,15 @@
 			<fieldset>
 				<legend>Dados do Extrato</legend>
 				<h:outputLabel value="Conta:" for="account"/>
-				<p:autoComplete id="account">
-					
-				</p:autoComplete>
+				<p:selectOneMenu id="account"
+					value="#{accountExtractController.account.id}">
+					<f:selectItems value="#{accountController.leafItems}" />
+				</p:selectOneMenu>
 				<br/>
 				
 				<h:outputLabel value="Data inicial:" for="beginDate"/>
 				<p:calendar id="beginDate" 
+					value="#{accountExtractController.beginDate}"
 					locale="pt_BR"
 					pattern="dd/MM/yyyy"
 					size="11">
@@ -31,38 +33,46 @@
 				<br/>
 				
 				<h:outputLabel value="Data final:" for="finalDate"/>
-				<p:calendar id="finalDate" 
+				<p:calendar id="finalDate"
+					value="#{accountExtractController.endDate}" 
 					locale="pt_BR"
 					pattern="dd/MM/yyyy"
 					size="11">
 				</p:calendar>
 				<br/>
 				
-				<p:commandButton value="Tirar extrato">
+				<p:commandButton value="Tirar extrato" action="#{accountExtractController.updateExtract}"
+					update=":extratoTable">
 				</p:commandButton>
 			</fieldset>
 		</h:form>
 		
-		<p:dataTable id="extratoTable" emptyMessage="Nenhuma transacao encontrada">
+		<p:dataTable id="extratoTable" value="#{accountExtractController.accountExtract.accountEntries}" 
+			emptyMessage="Nenhuma transacao encontrada" var="accountEntry">
 			<p:column headerText="Data">
-				<h:outputText value="data"/>
+				<h:outputText value="#{accountEntry.date}">
+					<f:convertDateTime locale="pt_BR"
+							dateStyle="short" />
+				</h:outputText>
 			</p:column>
 			<p:column headerText="Descricao">
-				<h:outputText value="descricao"/>
+				<h:outputText value="#{accountEntry.comment}"/>
 			</p:column>
 			<p:column headerText="Origem">
-				<h:outputText value="origem"/>
+				<h:outputText value="#{accountEntry.account.name}"/>
 			</p:column>
 			<p:column headerText="Destino">
-				<h:outputText value="destino"/>
+				<h:outputText value="#{accountEntry.account.name}"/>
 			</p:column>
 			<p:column headerText="Valor">
-				<h:outputText value="R$1"/>
+				<h:outputText value="#{accountEntry.value}">
+					<f:convertNumber locale="pt_BR" type="currency" />
+				</h:outputText>
 			</p:column>
 			<p:columnGroup type="footer">
 				<p:row>
 					<p:column colspan="4" footerText="Saldo:" style="text-align : right"/>
-					<p:column footerText="R$33"/>
+					<p:column footerText="#{accountExtractController.accountExtract.currentBalance}"/>
 				</p:row>
 			</p:columnGroup>
 		</p:dataTable>
