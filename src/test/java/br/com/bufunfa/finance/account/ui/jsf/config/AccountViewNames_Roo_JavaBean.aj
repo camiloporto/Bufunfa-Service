@@ -31,6 +31,30 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.linkLogout = linkLogout;
     }
     
+    public String AccountViewNames.getLinkAddAccount() {
+        return this.linkAddAccount;
+    }
+    
+    public void AccountViewNames.setLinkAddAccount(String linkAddAccount) {
+        this.linkAddAccount = linkAddAccount;
+    }
+    
+    public String AccountViewNames.getLinkUpdateAccount() {
+        return this.linkUpdateAccount;
+    }
+    
+    public void AccountViewNames.setLinkUpdateAccount(String linkUpdateAccount) {
+        this.linkUpdateAccount = linkUpdateAccount;
+    }
+    
+    public String AccountViewNames.getLinkDeleteAccount() {
+        return this.linkDeleteAccount;
+    }
+    
+    public void AccountViewNames.setLinkDeleteAccount(String linkDeleteAccount) {
+        this.linkDeleteAccount = linkDeleteAccount;
+    }
+    
     public String AccountViewNames.getPanelUserinfo() {
         return this.panelUserinfo;
     }

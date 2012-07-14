@@ -11,6 +11,14 @@ import java.util.Date;
 
 privileged aspect AccountExtractController_Roo_JavaBean {
     
+    public Date AccountExtractController.getFIRST_DAY_OF_MONTH() {
+        return this.FIRST_DAY_OF_MONTH;
+    }
+    
+    public Date AccountExtractController.getLAST_DAY_OF_MONTH() {
+        return this.LAST_DAY_OF_MONTH;
+    }
+    
     public Account AccountExtractController.getAccount() {
         return this.account;
     }

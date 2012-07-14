@@ -65,7 +65,7 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 		
 		WebElement accountDiv = viewPage.getDivOfAccount(accountName);
 		
-		viewPage.getActionLinkOfAccountByName(accountDiv, "editar").click();
+		viewPage.getActionLinkOfAccountByName(accountDiv, accountViewNames.getLinkUpdateAccount()).click();
 		viewPage.wait(1);
 		
 		String newAccountName = TestUtils.generateRandomString(9);
@@ -94,7 +94,7 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 		
 		WebElement accountDiv = viewPage.getDivOfAccount(accountName);
 		
-		viewPage.getActionLinkOfAccountByName(accountDiv, "excluir").click();
+		viewPage.getActionLinkOfAccountByName(accountDiv, accountViewNames.getLinkDeleteAccount()).click();
 		viewPage.wait(1);
 		
 		String expectedInfoMessage = "Conta removida com sucesso";

@@ -9,6 +9,9 @@ public class AccountViewNames {
 	private String titlePage;
 	
 	private String linkLogout;
+	private String linkAddAccount;
+	private String linkUpdateAccount;
+	private String linkDeleteAccount;
 	
 	private String panelUserinfo;
 	
@@ -18,5 +21,6 @@ public class AccountViewNames {
 	private String inputNewAccountName;
 	private String inputNewAccountDesc;
 	private String buttonSaveAccount;
+	
 
 }

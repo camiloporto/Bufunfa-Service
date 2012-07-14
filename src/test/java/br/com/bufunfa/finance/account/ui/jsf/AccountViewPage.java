@@ -86,7 +86,7 @@ public class AccountViewPage extends AbstractViewPage {
 	public WebElement getAddAccountLinkOfAccount(WebElement accountDiv) {
 		List<WebElement> actionLinks = accountDiv.findElements(By.xpath(".//a"));
 		for (WebElement a : actionLinks) {
-			if("adicionar".equalsIgnoreCase(a.getText())){
+			if(accountViewIds.getLinkAddAccount().equalsIgnoreCase(a.getText())){
 				return a;
 			}
 		}
