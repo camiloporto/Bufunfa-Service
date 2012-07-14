@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.util.concurrent.TimeUnit;
 
-import javax.swing.text.View;
-
 import org.junit.After;
 import org.junit.Test;
 import org.openqa.selenium.WebDriver;
@@ -13,7 +11,6 @@ import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-import org.openqa.selenium.interactions.Actions;
 
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.account.ui.jsf.config.AccountViewNames;
@@ -64,10 +61,9 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 		WebElement ativosDiv = viewPage.getDivOfAccount("Ativos");
 		viewPage.expandAccountNode(ativosDiv);
 		
+		viewPage.putMouseOverAccountDiv(accountName);
+		
 		WebElement accountDiv = viewPage.getDivOfAccount(accountName);
-		Actions builder = new Actions(viewPage.getDriver());
-		builder.moveToElement(accountDiv).build().perform();
-		viewPage.wait(1);
 		
 		viewPage.getActionLinkOfAccountByName(accountDiv, "editar").click();
 		viewPage.wait(1);

@@ -133,4 +133,13 @@ public class AccountViewPage extends AbstractViewPage {
 		
 	}
 
+
+	public void putMouseOverAccountDiv(String accountName) {
+		WebElement accountDiv = getDivOfAccount(accountName);
+		Actions builder = new Actions(getDriver());
+		builder.moveToElement(accountDiv).build().perform();
+		wait(1);
+		
+	}
+
 }
