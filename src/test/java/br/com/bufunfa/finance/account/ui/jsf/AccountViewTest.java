@@ -80,6 +80,31 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 				
 	}
 	
+	@Test
+	public void testDeleteAccount_ShouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
+		viewPage = gotoAccountViewPage();
+		String accountName = TestUtils.generateRandomString(10);
+		viewPage.addNewAccount("Ativos", accountName, "Ativos child account");
+		viewPage.wait(1);
+		
+		WebElement ativosDiv = viewPage.getDivOfAccount("Ativos");
+		viewPage.expandAccountNode(ativosDiv);
+		
+		viewPage.putMouseOverAccountDiv(accountName);
+		
+		WebElement accountDiv = viewPage.getDivOfAccount(accountName);
+		
+		viewPage.getActionLinkOfAccountByName(accountDiv, "excluir").click();
+		viewPage.wait(1);
+		
+		String expectedInfoMessage = "Conta removida com sucesso";
+		
+		viewPage.assertThatInfoMessageIsPresent(
+				"expectedMessage " + expectedInfoMessage + " not present", 
+				expectedInfoMessage);
+				
+	}
+	
 	private AccountViewPage gotoAccountViewPage() throws IOException, IllegalAccessException, InvocationTargetException {
 		UserViewPage loginPage = getUserViewPage();
 		loginPage.addNewUser("ca", "ca");
