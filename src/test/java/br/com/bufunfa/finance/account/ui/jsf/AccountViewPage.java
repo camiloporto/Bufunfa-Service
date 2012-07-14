@@ -76,7 +76,7 @@ public class AccountViewPage extends AbstractViewPage {
 	public WebElement getDivOfAccount(String accountName) {
 		List<WebElement> divs = findWebElementByXPath("//div[@class='accountItemClass']");
 		for (WebElement webElement : divs) {
-			if(webElement.getText().equalsIgnoreCase(accountName)) {
+			if(webElement.getText().startsWith(accountName)) {
 				return webElement;
 			}
 		}
@@ -123,6 +123,14 @@ public class AccountViewPage extends AbstractViewPage {
 		System.out.println("AccountViewPage.clickLinkLogoutUser()" + logoutLink.getTagName());
 		logoutLink.click();
 		wait(10);
+	}
+
+
+	public void expandAccountNode(WebElement accountDiv) {
+		WebElement toggleAccountElement = accountDiv.findElement(By.xpath("../span"));
+		toggleAccountElement.click();
+		wait(1);
+		
 	}
 
 }
