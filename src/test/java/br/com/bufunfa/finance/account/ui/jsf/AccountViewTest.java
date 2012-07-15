@@ -42,7 +42,7 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 	public void testAddNewAccountToRootAccount() throws IOException, IllegalAccessException, InvocationTargetException {
 		viewPage = gotoAccountViewPage();
 		String accountName = TestUtils.generateRandomString(10);
-		viewPage.addNewAccount("Ativos", accountName, "Ativos child account");
+		viewPage.addNewAccount(accountViewNames.getAssetAccountName(), accountName, "Ativos child account");
 		
 		String expectedInfoMessage = "Conta adicionada com sucesso";
 		viewPage.wait(1);
@@ -55,10 +55,10 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 	public void testUpdateExistentAccount_ShouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		viewPage = gotoAccountViewPage();
 		String accountName = TestUtils.generateRandomString(10);
-		viewPage.addNewAccount("Ativos", accountName, "Ativos child account");
+		viewPage.addNewAccount(accountViewNames.getAssetAccountName(), accountName, "Ativos child account");
 		viewPage.wait(1);
 		
-		WebElement ativosDiv = viewPage.getDivOfAccount("Ativos");
+		WebElement ativosDiv = viewPage.getDivOfAccount(accountViewNames.getAssetAccountName());
 		viewPage.expandAccountNode(ativosDiv);
 		
 		viewPage.putMouseOverAccountDiv(accountName);
@@ -84,10 +84,10 @@ public class AccountViewTest extends SpringRootTestsConfiguration {
 	public void testDeleteAccount_ShouldSuccess() throws IOException, IllegalAccessException, InvocationTargetException {
 		viewPage = gotoAccountViewPage();
 		String accountName = TestUtils.generateRandomString(10);
-		viewPage.addNewAccount("Ativos", accountName, "Ativos child account");
+		viewPage.addNewAccount(accountViewNames.getAssetAccountName(), accountName, "Ativos child account");
 		viewPage.wait(1);
 		
-		WebElement ativosDiv = viewPage.getDivOfAccount("Ativos");
+		WebElement ativosDiv = viewPage.getDivOfAccount(accountViewNames.getAssetAccountName());
 		viewPage.expandAccountNode(ativosDiv);
 		
 		viewPage.putMouseOverAccountDiv(accountName);
