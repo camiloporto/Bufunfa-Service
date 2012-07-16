@@ -154,9 +154,11 @@ public class AccountController {
 			AccountTreeItemUI item = (AccountTreeItemUI) root.getData();
 			if (item == null)
 				return result;
-			if (item.getAccountName().toLowerCase().contains(name.toLowerCase())) {
-				result.add(item);
-			}
+			result.add(item);
+			
+//			if (item.getAccountName().toLowerCase().contains(name.toLowerCase())) {
+//				result.add(item);
+//			}
 		} else {
 			List<TreeNode> children = root.getChildren();
 			for (TreeNode nextChild : children) {

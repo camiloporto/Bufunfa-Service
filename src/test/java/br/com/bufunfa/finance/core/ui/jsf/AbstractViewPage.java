@@ -39,6 +39,25 @@ public abstract class AbstractViewPage {
 		waitAndCheckCondition(seconds, timeElapsed, null);
 	}
 	
+	public void clickMenuLink(String menuItemName) {
+		WebElement menuItem = findWebElementById("transactionMenuItem");
+		menuItem.click();
+		wait(2);
+		
+	}
+	
+	public void assertThatInfoMessageIsPresent(String testMsg, String expectedInfoMessage) {
+		WebElement growlContainer = findWebElementById("growl_container");
+		List<WebElement> messages = growlContainer.findElements(By.xpath(".//span"));
+		boolean found = false;
+		for (WebElement webElement : messages) {
+			if(expectedInfoMessage.equalsIgnoreCase(webElement.getText())) {
+				found = true;
+			}
+		}
+		Assert.assertTrue(testMsg, found);
+	}
+	
 	public void assertThatIsOnThePage() {
 		WebElement title = findWebElementById(getPageTitleElementId());
 		String actualTitle = title.getText();

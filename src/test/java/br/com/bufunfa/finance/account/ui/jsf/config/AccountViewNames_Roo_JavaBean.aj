@@ -79,6 +79,14 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.assetAccountName = assetAccountName;
     }
     
+    public String AccountViewNames.getLiabilityAccountName() {
+        return this.liabilityAccountName;
+    }
+    
+    public void AccountViewNames.setLiabilityAccountName(String liabilityAccountName) {
+        this.liabilityAccountName = liabilityAccountName;
+    }
+    
     public String AccountViewNames.getInputNewAccountName() {
         return this.inputNewAccountName;
     }

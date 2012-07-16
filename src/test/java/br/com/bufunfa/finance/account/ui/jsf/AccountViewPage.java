@@ -57,17 +57,7 @@ public class AccountViewPage extends AbstractViewPage {
 		return accountViewIds.getTitleId();
 	}
 	
-	public void assertThatInfoMessageIsPresent(String testMsg, String expectedInfoMessage) {
-		WebElement growlContainer = findWebElementById("growl_container");
-		List<WebElement> messages = growlContainer.findElements(By.xpath(".//span"));
-		boolean found = false;
-		for (WebElement webElement : messages) {
-			if(expectedInfoMessage.equalsIgnoreCase(webElement.getText())) {
-				found = true;
-			}
-		}
-		Assert.assertTrue(testMsg, found);
-	}
+	
 
 	public AccountDialogPanel getAccountDialogPanel() {
 		return new AccountDialogPanel();
