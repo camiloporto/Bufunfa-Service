@@ -428,7 +428,7 @@
                 		<configuration>
 	                		<skip>false</skip>
 	                		<includes>
-	                			<include>**/ui/**</include>
+	                			<include>**/ui/**/*Test.java</include>
 	                		</includes>
                 		</configuration>
                 	</execution>
