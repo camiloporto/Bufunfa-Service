@@ -145,7 +145,7 @@ public class AccountExtractControllerTest extends SpringRootTestsConfiguration {
 		Assert.assertEquals(
 				msg,
 				expectedEntryCount, 
-				accountExtract.getAccountEntries().size());
+				accountExtract.getTransactionList().size());
 		
 	}
 

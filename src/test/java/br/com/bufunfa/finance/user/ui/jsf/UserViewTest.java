@@ -13,6 +13,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.gargoylesoftware.htmlunit.BrowserVersion;
+import com.gargoylesoftware.htmlunit.BrowserVersionFeatures;
+
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
 import br.com.bufunfa.finance.account.ui.jsf.AccountViewPage;
 import br.com.bufunfa.finance.core.ui.jsf.util.Property2BeanUtil;
@@ -160,7 +163,8 @@ public class UserViewTest extends SpringRootTestsConfiguration {
 		if("chrome".equalsIgnoreCase(driverType)) {
 			return new ChromeDriver();
 		}
-		HtmlUnitDriver d = new HtmlUnitDriver(true);
+		HtmlUnitDriver d = new HtmlUnitDriver(BrowserVersion.FIREFOX_3_6);
+		d.setJavascriptEnabled(true);
 		d.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
 		return d;
 		

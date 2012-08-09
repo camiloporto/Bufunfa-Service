@@ -8,7 +8,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.support.ui.Select;
 
 import br.com.bufunfa.finance.account.ui.jsf.config.TransactionViewNames;
 import br.com.bufunfa.finance.core.ui.jsf.AbstractViewPage;

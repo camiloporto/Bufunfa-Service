@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.bufunfa.finance.account.modelo.Account;
-import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.repository.AccountEntryRepository;
 import br.com.bufunfa.finance.account.repository.AccountRepository;
+import br.com.bufunfa.finance.account.repository.TransactionRepository;
 import br.com.bufunfa.finance.account.service.validation.AccountReportConstraintGroups;
 import br.com.bufunfa.finance.account.service.validation.AccountReportParameters;
 import br.com.bufunfa.finance.account.service.validation.ServiceValidator;
@@ -30,14 +31,17 @@ public class AccountReportServiceImpl implements AccountReportService {
 	@Autowired
 	private AccountSystemService accountSystemService;
 	
+	@Autowired
+	private TransactionRepository transactionRepository;
+	
 	@Override
 	public AccountExtract getAccountExtract(Account account, Date begin,
 			Date end) {
 		
 		validateExtractParameters(createReportParameters(account, begin, end));
 		
-		List<AccountEntry> entries = accountEntryRepository.findByAccountIdAndDateBetween(account.getId(), begin, end);
-		AccountExtract extract = new AccountExtract(entries);
+		List<Transaction> transactions = transactionRepository.findByAccountIdAndDateBetween(account.getId(), begin, end);
+		AccountExtract extract = new AccountExtract(account, transactions);
 		
 		return extract;
 	}

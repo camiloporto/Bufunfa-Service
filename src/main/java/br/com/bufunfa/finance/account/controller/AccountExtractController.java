@@ -29,7 +29,7 @@ public class AccountExtractController {
 	private Account account = new Account();
 	private Date beginDate;
 	private Date endDate;
-	private AccountExtract accountExtract = new AccountExtract();
+	private AccountExtract accountExtract /*= new AccountExtract()*/;
 	
 	public AccountExtractController() {
 		Calendar c = Calendar.getInstance();
