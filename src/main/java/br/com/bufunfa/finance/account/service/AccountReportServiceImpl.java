@@ -46,6 +46,7 @@ public class AccountReportServiceImpl implements AccountReportService {
 		return extract;
 	}
 	
+	//XXX colocar calculos em consulta de banco?
 	public BigDecimal getAccountBalance(Account account, Date date) {
 	
 		validateAccountBalanceParameters(createReportParameters(account, date));

@@ -29,7 +29,7 @@ public class AccountExtractController {
 	private Account account = new Account();
 	private Date beginDate;
 	private Date endDate;
-	private AccountExtract accountExtract /*= new AccountExtract()*/;
+	private AccountExtract accountExtract = null;
 	
 	public AccountExtractController() {
 		Calendar c = Calendar.getInstance();
@@ -55,12 +55,10 @@ public class AccountExtractController {
 	
 	
 	public void updateExtract() {
-		System.out.println("AccountExtractController.updateExtract() start");
 		configureDefaultBeginDateIfNull();
 		configureDefaultEndDateIfNull();
 		AccountExtract extract = reportService.getAccountExtract(getAccount(), getBeginDate(), getEndDate());
 		setAccountExtract(extract);
-		System.out.println("AccountExtractController.updateExtract() end");
 	}
 
 	private void configureDefaultBeginDateIfNull() {

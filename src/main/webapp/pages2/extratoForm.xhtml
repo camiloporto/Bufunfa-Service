@@ -42,40 +42,43 @@
 				<br/>
 				
 				<p:commandButton value="Tirar extrato" action="#{accountExtractController.updateExtract}"
-					update=":extratoTable">
+					update=":extractTableForm">
 				</p:commandButton>
 			</fieldset>
 		</h:form>
 		
-		<p:dataTable id="extratoTable" value="#{accountExtractController.accountExtract.accountEntries}" 
-			emptyMessage="Nenhuma transacao encontrada" var="accountEntry">
-			<p:column headerText="Data">
-				<h:outputText value="#{accountEntry.date}">
-					<f:convertDateTime locale="pt_BR"
-							dateStyle="short" />
-				</h:outputText>
-			</p:column>
-			<p:column headerText="Descricao">
-				<h:outputText value="#{accountEntry.comment}"/>
-			</p:column>
-			<p:column headerText="Origem">
-				<h:outputText value="#{accountEntry.account.name}"/>
-			</p:column>
-			<p:column headerText="Destino">
-				<h:outputText value="#{accountEntry.account.name}"/>
-			</p:column>
-			<p:column headerText="Valor">
-				<h:outputText value="#{accountEntry.value}">
-					<f:convertNumber locale="pt_BR" type="currency" />
-				</h:outputText>
-			</p:column>
-			<p:columnGroup type="footer">
-				<p:row>
-					<p:column colspan="4" footerText="Saldo:" style="text-align : right"/>
-					<p:column footerText="#{accountExtractController.accountExtract.currentBalance}"/>
-				</p:row>
-			</p:columnGroup>
-		</p:dataTable>
+		<h:form id="extractTableForm">
+			<p:dataTable id="extratoTable" value="#{accountExtractController.accountExtract.transactionList}"
+				rendered="#{accountExtractController.accountExtract != null}"
+				emptyMessage="Nenhuma transacao encontrada" var="transaction">
+				<p:column headerText="Data">
+					<h:outputText value="#{transaction.originAccountEntry.date}">
+						<f:convertDateTime locale="pt_BR"
+								dateStyle="short" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Descricao">
+					<h:outputText value="#{transaction.originAccountEntry.comment}"/>
+				</p:column>
+				<p:column headerText="Origem">
+					<h:outputText value="#{transaction.originAccountEntry.account.name}"/>
+				</p:column>
+				<p:column headerText="Destino">
+					<h:outputText value="#{transaction.destAccountEntry.account.name}"/>
+				</p:column>
+				<p:column headerText="Valor">
+					<h:outputText value="#{transaction.originAccountEntry.value}">
+						<f:convertNumber locale="pt_BR" type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="4" footerText="Saldo:" style="text-align : right"/>
+						<p:column footerText="#{accountExtractController.accountExtract.currentBalance}"/>
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
 
 		<!-- All html ignored after here -->
 
