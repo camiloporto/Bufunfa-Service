@@ -31,6 +31,12 @@ public class AccountExtractController {
 	private Date endDate;
 	private AccountExtract accountExtract = null;
 	
+	private UIExtractTable uiExtractTable = null;
+	
+
+	@Autowired
+	private AccountReportService reportService;
+	
 	public AccountExtractController() {
 		Calendar c = Calendar.getInstance();
 		c.set(Calendar.DAY_OF_MONTH, 1);
@@ -50,14 +56,12 @@ public class AccountExtractController {
 		
 	}
 	
-	@Autowired
-	private AccountReportService reportService;
-	
 	
 	public void updateExtract() {
 		configureDefaultBeginDateIfNull();
 		configureDefaultEndDateIfNull();
 		AccountExtract extract = reportService.getAccountExtract(getAccount(), getBeginDate(), getEndDate());
+		setUiExtractTable(new UIExtractTable(extract));
 		setAccountExtract(extract);
 	}
 

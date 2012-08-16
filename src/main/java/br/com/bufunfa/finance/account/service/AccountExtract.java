@@ -56,5 +56,9 @@ public class AccountExtract {
 	public List<Transaction> getTransactionList() {
 		return this.transactionList;
 	}
+	
+	public Account getAccount() {
+		return account;
+	}
 
 }

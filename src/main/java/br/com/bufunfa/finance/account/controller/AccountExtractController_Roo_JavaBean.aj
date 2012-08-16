@@ -4,6 +4,7 @@
 package br.com.bufunfa.finance.account.controller;
 
 import br.com.bufunfa.finance.account.controller.AccountExtractController;
+import br.com.bufunfa.finance.account.controller.UIExtractTable;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.service.AccountExtract;
 import br.com.bufunfa.finance.account.service.AccountReportService;
@@ -49,6 +50,14 @@ privileged aspect AccountExtractController_Roo_JavaBean {
     
     public void AccountExtractController.setAccountExtract(AccountExtract accountExtract) {
         this.accountExtract = accountExtract;
+    }
+    
+    public UIExtractTable AccountExtractController.getUiExtractTable() {
+        return this.uiExtractTable;
+    }
+    
+    public void AccountExtractController.setUiExtractTable(UIExtractTable uiExtractTable) {
+        this.uiExtractTable = uiExtractTable;
     }
     
     public AccountReportService AccountExtractController.getReportService() {
