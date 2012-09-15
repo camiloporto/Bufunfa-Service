@@ -1,5 +1,6 @@
 package br.com.bufunfa.finance.account.controller;
 
+import java.math.BigDecimal;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -62,7 +63,17 @@ public class AccountExtractController {
 		configureDefaultEndDateIfNull();
 		AccountExtract extract = reportService.getAccountExtract(getAccount(), getBeginDate(), getEndDate());
 		setUiExtractTable(new UIExtractTable(extract));
+		configureBeforeAccountBalance();
 		setAccountExtract(extract);
+	}
+	
+	private void configureBeforeAccountBalance() {
+		Calendar before = Calendar.getInstance();
+		before.setTime(getBeginDate());
+		before.add(Calendar.DAY_OF_MONTH, -1);
+		BigDecimal beforeBalance = reportService.getAccountBalance(getAccount(), before.getTime());
+		
+		getUiExtractTable().setBeforeBalance(beforeBalance);
 	}
 
 	private void configureDefaultBeginDateIfNull() {

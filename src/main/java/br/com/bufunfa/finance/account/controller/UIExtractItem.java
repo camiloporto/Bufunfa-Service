@@ -23,5 +23,9 @@ public class UIExtractItem {
 		this.destAccountName = destAccountName;
 		this.value = value;
 	}
+	
+	public boolean isNegativeValue() {
+		return value.compareTo(BigDecimal.ZERO) < 0;
+	}
 
 }

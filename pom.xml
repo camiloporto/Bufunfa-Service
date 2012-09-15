@@ -12,8 +12,14 @@
         <aspectj.version>1.6.12.M2</aspectj.version>
         <slf4j.version>1.6.1</slf4j.version>
         <primefaces.version>3.2</primefaces.version>
-	<jsf.version>2.1.2</jsf.version>
+		<jsf.version>2.1.2</jsf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- CloudFoundry Project Properties -->
+        <cloudfoundry.deploy.environment>dev</cloudfoundry.deploy.environment>
+        <cloudfoundry.targetUrl>http://api.cloudfoundry.com</cloudfoundry.targetUrl>
+        <cloudfoundry.username>camiloporto@gmail.com</cloudfoundry.username>
+        <cloudfoundry.app.url>bufunfa-${cloudfoundry.deploy.environment}.cloudfoundry.com</cloudfoundry.app.url>
     </properties>
     <repositories>
         <repository>
@@ -338,8 +344,32 @@
             <version>2.1</version>
         </dependency>
     </dependencies>
+    <profiles>
+    	<profile>
+    		<id>local</id>
+    		<activation>
+    			<activeByDefault>true</activeByDefault>
+    		</activation>
+    		<build>
+    			<plugins>
+    				<plugin>
+					    <groupId>org.cloudfoundry</groupId>
+					    <artifactId>cf-maven-plugin</artifactId>
+					    <version>1.0.0.M2</version>
+					    <configuration>
+					    	<target>${cloudfoundry.targetUrl}</target>
+					    	<url>${cloudfoundry.app.url}</url>
+					    	<memory>256</memory>
+					    	<username>${cloudfoundry.username}</username>
+					    </configuration>
+					</plugin>
+    			</plugins>
+    		</build>
+    	</profile>
+    </profiles>
     <build>
         <plugins>
+        	
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>

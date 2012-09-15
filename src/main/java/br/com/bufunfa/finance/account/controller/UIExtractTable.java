@@ -10,7 +10,8 @@ import br.com.bufunfa.finance.account.service.AccountExtract;
 
 public class UIExtractTable {
 	
-	//FIXME calcular o Saldo Anterior a data de inicio do extrato. para informar: Saldo Antes ... Saldo Depois
+	private BigDecimal beforeBalance;
+	
 	private BigDecimal extractBalance;
 	
 	private List<UIExtractItem> extractItems = new ArrayList<UIExtractItem>();
@@ -22,6 +23,10 @@ public class UIExtractTable {
 	
 	public BigDecimal getExtractBalance() {
 		return extractBalance;
+	}
+	
+	public BigDecimal getFinalBalance() {
+		return beforeBalance.add(extractBalance).setScale(2, BigDecimal.ROUND_HALF_EVEN);
 	}
 	
 	public List<UIExtractItem> getExtractItems() {
@@ -56,6 +61,14 @@ public class UIExtractTable {
 		} else {
 			return t.getDestAccountEntry().getValue();
 		}
+	}
+
+	public void setBeforeBalance(BigDecimal beforeBalance) {
+		this.beforeBalance = beforeBalance;
+	}
+	
+	public BigDecimal getBeforeBalance() {
+		return beforeBalance;
 	}
 	
 }

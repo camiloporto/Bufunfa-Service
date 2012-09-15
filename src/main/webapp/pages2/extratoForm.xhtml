@@ -1,6 +1,5 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:c="http://java.sun.com/jstl/core"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
@@ -47,34 +46,76 @@
 			</fieldset>
 		</h:form>
 		
-		<h:form id="extractTableForm">
+		<h:form id="extractTableForm" prependId="false">
 			<p:dataTable id="extratoTable" value="#{accountExtractController.uiExtractTable.extractItems}"
 				rendered="#{accountExtractController.uiExtractTable != null}"
 				emptyMessage="Nenhuma transacao encontrada" var="item">
-				<p:column headerText="Data">
+				
+				<f:facet name="header">
+					Extrato da Conta
+				</f:facet>
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column headerText="Saldo Anterior:" colspan="4" style="text-align : right"/>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{accountExtractController.uiExtractTable.beforeBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column headerText="Data"/>
+						<p:column headerText="Descrição"/>
+						<p:column headerText="Origem"/>
+						<p:column headerText="Destino"/>
+						<p:column headerText="Valor"/>
+					</p:row>
+				</p:columnGroup>
+				<p:column>
 					<h:outputText value="#{item.date}">
 						<f:convertDateTime locale="pt_BR"
 								dateStyle="short" />
 					</h:outputText>
 				</p:column>
-				<p:column headerText="Descricao">
+				<p:column>
 					<h:outputText value="#{item.description}"/>
 				</p:column>
-				<p:column headerText="Origem">
+				<p:column>
 					<h:outputText value="#{item.originAccountName}"/>
 				</p:column>
-				<p:column headerText="Destino">
+				<p:column>
 					<h:outputText value="#{item.destAccountName}"/>
 				</p:column>
-				<p:column headerText="Valor">
-					<h:outputText value="#{item.value}">
+				<p:column id="valor">
+					
+					<h:outputText value="#{item.value}" style="#{item.negativeValue ? 'color:red' : 'color:darkblue'}">
 						<f:convertNumber locale="pt_BR" type="currency" />
 					</h:outputText>
+					
 				</p:column>
 				<p:columnGroup type="footer">
 					<p:row>
-						<p:column colspan="4" footerText="Balanço" style="text-align : right"/>
-						<p:column footerText="#{accountExtractController.uiExtractTable.extractBalance}"/>
+						<p:column colspan="4"/>
+						<p:column 
+							style="text-align : left; #{accountExtractController.uiExtractTable.extractBalance lt 0 ? 'color : red' : 'color : darkblue'}">
+							<f:facet name="footer">
+								<h:outputText value="#{accountExtractController.uiExtractTable.extractBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="4" footerText="Saldo Posterior:" style="text-align : right"/>
+						<p:column>
+							<f:facet name="footer">
+								<h:outputText value="#{accountExtractController.uiExtractTable.finalBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
 					</p:row>
 				</p:columnGroup>
 			</p:dataTable>
