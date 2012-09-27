@@ -7,7 +7,7 @@
         then be used within application context files in the form of
         ${propertyKey}.
     -->
-    <context:property-placeholder location="classpath*:META-INF/spring/tests/*.properties"/>
+    <context:property-placeholder location="classpath*:META-INF/spring/dev/*.properties"/>
     <!--
         Turn on AspectJ @Configurable support. As a result, any time you
         instantiate an object, Spring will attempt to perform dependency
@@ -65,7 +65,7 @@
     <bean class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean" id="entityManagerFactory">
         <property name="persistenceUnitName" value="accountUnit"/>
         <property name="dataSource" ref="dataSource"/>
-        <property name="persistenceXmlLocation" value="META-INF/spring/tests/persistence-test.xml"/>
+        <property name="persistenceXmlLocation" value="META-INF/spring/dev/persistence-dev.xml"/>
     </bean>
     
     <bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">

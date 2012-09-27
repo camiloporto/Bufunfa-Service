@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
-import java.util.SortedSet;
 
 import javax.annotation.Resource;
 
@@ -17,9 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
-import br.com.bufunfa.finance.account.service.AccountExtract;
-import br.com.bufunfa.finance.account.service.AccountReportService;
-import br.com.bufunfa.finance.account.service.AccountReportServiceImpl;
 import br.com.bufunfa.finance.account.service.AccountSystemService;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.SpringRootTestsConfiguration;
@@ -33,7 +29,6 @@ public class AccountEntryRepositoryTest extends SpringRootTestsConfiguration {
 	@Resource(name="transactionHelper")
 	private TransactionHelper transactionHelper;
 	
-//	@Resource(name="accountService")
 	@Autowired
 	private AccountSystemService accountService;
 	
