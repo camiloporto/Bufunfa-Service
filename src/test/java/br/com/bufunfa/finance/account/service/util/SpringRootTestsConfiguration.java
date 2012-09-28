@@ -22,4 +22,5 @@ public class SpringRootTestsConfiguration {
 	 * - no web.xml usar alguma propriedade maven para alterar. e usar filtering. deixar o default como 'local' para rodar testes unitarios
 	 * - colocar, a principio, apenas as conexoes de banco (dataSource) em profiles diferentes
 	 */
+	//TODO Adicionar configuracoes dos ambientes de tests (um localmente com persistencia; um no cloud-homologacao; e um no cloud-producao).
 }
