@@ -17,7 +17,7 @@
     </context-param>
     <context-param>
 		<param-name>spring.profiles.active</param-name>
-		<param-value>local</param-value>
+		<param-value>${spring.active.profile}</param-value>
 	</context-param>
     <filter>
         <filter-name>PrimeFaces FileUpload Filter</filter-name>

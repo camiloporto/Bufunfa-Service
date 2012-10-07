@@ -15,6 +15,8 @@
 		<jsf.version>2.1.2</jsf.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         
+        <spring.active.profile>local</spring.active.profile>
+        <deploy.environment>local</deploy.environment>
         <!-- CloudFoundry Project Properties -->
         <cloudfoundry.deploy.environment>dev</cloudfoundry.deploy.environment>
         <cloudfoundry.targetUrl>http://api.cloudfoundry.com</cloudfoundry.targetUrl>
@@ -378,19 +380,37 @@
     			</plugins>
     		</build>
     	</profile>
+    	<profile>
+    		<id>test</id>
+    		<activation>
+    			<property>
+    				<name>deploy.environment</name>
+    				<value>test</value>
+    			</property>
+    		</activation>
+    		<properties>
+    			<spring.active.profile>test</spring.active.profile>
+    		</properties>
+    	</profile>
     </profiles>
     <build>
         <plugins>
-        	
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.1.1</version>
-                <!-- 
                 <configuration>
-                	<webXml>src/main/resources/META-INF/spring/tst/web.xml</webXml> 
+                	<filteringDeploymentDescriptors>true</filteringDeploymentDescriptors>
+                	<webResources>
+			    		<resource>
+			    			<directory>src/main/webapp/WEB-INF</directory>
+			    			<filtering>true</filtering>
+			    			<includes>
+			    				<include>web.xml</include>
+			    			</includes>
+			    		</resource>
+                	</webResources>
                 </configuration>
-                 -->
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -548,7 +568,7 @@
                 		<id>start-container-for-integration-test</id>
                 		<phase>pre-integration-test</phase>
                 		<goals>
-                			<goal>run</goal>
+                			<goal>run-war</goal>
                 		</goals>
                 		<configuration>
                 			<fork>true</fork>

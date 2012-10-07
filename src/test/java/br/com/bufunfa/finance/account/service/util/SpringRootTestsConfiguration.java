@@ -23,4 +23,7 @@ public class SpringRootTestsConfiguration {
 	 * - colocar, a principio, apenas as conexoes de banco (dataSource) em profiles diferentes
 	 */
 	//TODO Adicionar configuracoes dos ambientes de tests (um localmente com persistencia; um no cloud-homologacao; e um no cloud-producao).
+	// Criar DataSource de teste (acessado via JNDI no Tomcat local)
+	// Criar dataSource de homologacao (acessado no cloud de hmg)
+	// Criar dataSource de producao (acessado no cloud de prd)
 }

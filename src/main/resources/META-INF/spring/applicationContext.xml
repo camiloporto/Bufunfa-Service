@@ -84,36 +84,9 @@
 	<bean id="transactionService"
 		class="br.com.bufunfa.finance.account.service.TransactionServiceImpl" />
 
-
 	<!-- DataSource configuration according to environment the application is 
 		running on... -->
 	<!-- Local profile for Unit/Integration Test on developer machine -->
-	<beans profile="local">
-		
-		<bean class="org.apache.commons.dbcp.BasicDataSource"
-			destroy-method="close" id="dataSource">
-			<property name="driverClassName" value="${database.driverClassName}" />
-			<property name="url" value="${database.url}" />
-			<property name="username" value="${database.username}" />
-			<property name="password" value="${database.password}" />
-			<property name="testOnBorrow" value="true" />
-			<property name="testOnReturn" value="true" />
-			<property name="testWhileIdle" value="true" />
-			<property name="timeBetweenEvictionRunsMillis" value="1800000" />
-			<property name="numTestsPerEvictionRun" value="3" />
-			<property name="minEvictableIdleTimeMillis" value="1800000" />
-		</bean>
-		<bean
-			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
-			id="entityManagerFactory">
-			<property name="persistenceUnitName" value="accountUnit" />
-			<property name="dataSource" ref="dataSource" />
-			<property name="persistenceXmlLocation" value="classpath*:META-INF/spring/dev/persistence-dev.xml" />
-		</bean>
-		
-		<context:property-placeholder location="classpath*:META-INF/spring/dev/*.properties" />
-		
-	</beans>
 	<beans profile="unit-test">
 		<!-- This will automatically locate any and all property files you have 
 		within your classpath, provided they fall under the META-INF/spring directory. 
@@ -142,6 +115,52 @@
 		            </entry>
 		        </map>
 		    </property>
+		</bean>
+	</beans>
+	
+	<beans profile="local">
+		<bean class="org.apache.commons.dbcp.BasicDataSource"
+			destroy-method="close" id="dataSource">
+			<property name="driverClassName" value="${database.driverClassName}" />
+			<property name="url" value="${database.url}" />
+			<property name="username" value="${database.username}" />
+			<property name="password" value="${database.password}" />
+			<property name="testOnBorrow" value="true" />
+			<property name="testOnReturn" value="true" />
+			<property name="testWhileIdle" value="true" />
+			<property name="timeBetweenEvictionRunsMillis" value="1800000" />
+			<property name="numTestsPerEvictionRun" value="3" />
+			<property name="minEvictableIdleTimeMillis" value="1800000" />
+		</bean>
+		<bean
+			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+			id="entityManagerFactory">
+			<property name="persistenceUnitName" value="accountUnit" />
+			<property name="dataSource" ref="dataSource" />
+			<property name="persistenceXmlLocation" value="classpath*:META-INF/spring/dev/persistence-dev.xml" />
+		</bean>
+		
+		<context:property-placeholder location="classpath*:META-INF/spring/dev/*.properties" />
+		
+	</beans>
+	
+	
+	<beans profile="test">
+		<bean
+			class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+			id="entityManagerFactory">
+			<property name="persistenceUnitName" value="accountUnit" />
+			<property name="dataSource" ref="dataSource" />
+			<property name="persistenceXmlLocation" value="classpath*:META-INF/spring/tst/persistence-tst.xml" />
+		</bean>
+		
+		<context:property-placeholder location="classpath*:META-INF/spring/tst/*.properties" />
+		<bean id="dataSource" 
+		      class="org.springframework.jndi.JndiObjectFactoryBean">
+		      <property name="jndiName" 
+		                  value="java:comp/env/jdbc/Bufunfa"/>    
+		      <property name="resourceRef" 
+		                  value="true" /> 
 		</bean>
 	</beans>
 
