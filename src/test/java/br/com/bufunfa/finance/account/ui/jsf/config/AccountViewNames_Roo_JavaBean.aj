@@ -31,6 +31,30 @@ privileged aspect AccountViewNames_Roo_JavaBean {
         this.linkLogout = linkLogout;
     }
     
+    public String AccountViewNames.getLinkAddAccount() {
+        return this.linkAddAccount;
+    }
+    
+    public void AccountViewNames.setLinkAddAccount(String linkAddAccount) {
+        this.linkAddAccount = linkAddAccount;
+    }
+    
+    public String AccountViewNames.getLinkUpdateAccount() {
+        return this.linkUpdateAccount;
+    }
+    
+    public void AccountViewNames.setLinkUpdateAccount(String linkUpdateAccount) {
+        this.linkUpdateAccount = linkUpdateAccount;
+    }
+    
+    public String AccountViewNames.getLinkDeleteAccount() {
+        return this.linkDeleteAccount;
+    }
+    
+    public void AccountViewNames.setLinkDeleteAccount(String linkDeleteAccount) {
+        this.linkDeleteAccount = linkDeleteAccount;
+    }
+    
     public String AccountViewNames.getPanelUserinfo() {
         return this.panelUserinfo;
     }
@@ -45,6 +69,46 @@ privileged aspect AccountViewNames_Roo_JavaBean {
     
     public void AccountViewNames.setPanelMessages(String panelMessages) {
         this.panelMessages = panelMessages;
+    }
+    
+    public String AccountViewNames.getAssetAccountName() {
+        return this.assetAccountName;
+    }
+    
+    public void AccountViewNames.setAssetAccountName(String assetAccountName) {
+        this.assetAccountName = assetAccountName;
+    }
+    
+    public String AccountViewNames.getLiabilityAccountName() {
+        return this.liabilityAccountName;
+    }
+    
+    public void AccountViewNames.setLiabilityAccountName(String liabilityAccountName) {
+        this.liabilityAccountName = liabilityAccountName;
+    }
+    
+    public String AccountViewNames.getInputNewAccountName() {
+        return this.inputNewAccountName;
+    }
+    
+    public void AccountViewNames.setInputNewAccountName(String inputNewAccountName) {
+        this.inputNewAccountName = inputNewAccountName;
+    }
+    
+    public String AccountViewNames.getInputNewAccountDesc() {
+        return this.inputNewAccountDesc;
+    }
+    
+    public void AccountViewNames.setInputNewAccountDesc(String inputNewAccountDesc) {
+        this.inputNewAccountDesc = inputNewAccountDesc;
+    }
+    
+    public String AccountViewNames.getButtonSaveAccount() {
+        return this.buttonSaveAccount;
+    }
+    
+    public void AccountViewNames.setButtonSaveAccount(String buttonSaveAccount) {
+        this.buttonSaveAccount = buttonSaveAccount;
     }
     
 }

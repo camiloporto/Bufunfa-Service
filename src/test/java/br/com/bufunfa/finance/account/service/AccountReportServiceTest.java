@@ -15,8 +15,8 @@ import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import br.com.bufunfa.finance.account.modelo.Account;
-import br.com.bufunfa.finance.account.modelo.AccountEntry;
 import br.com.bufunfa.finance.account.modelo.AccountSystem;
+import br.com.bufunfa.finance.account.modelo.Transaction;
 import br.com.bufunfa.finance.account.service.util.AccountHelper;
 import br.com.bufunfa.finance.account.service.util.AccountSystemHelper;
 import br.com.bufunfa.finance.account.service.util.ExceptionHelper;
@@ -41,6 +41,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 	private AccountReportService reportService;
 	
 	private ExceptionHelper exceptionHelper = new ExceptionHelper();
+	
 	
 	@Test
 	public void testGetAccountExtract_shouldSuccess() {
@@ -74,25 +75,27 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		int expectedEntryCount = 2;
 		
 		BigDecimal currentBalance = extract.getCurrentBalance();
-		List<AccountEntry> entries = extract.getAccountEntries();
-		Iterator<AccountEntry> it = entries.iterator();
-		AccountEntry firstEntry = it.next();
-		AccountEntry secondEntry = it.next();
+		
+		List<Transaction> entries = extract.getTransactionList();
+		Iterator<Transaction> it = entries.iterator();
+		Transaction firstEntry = it.next();
+		Transaction secondEntry = it.next();
 		
 		Assert.assertEquals(
 				"expected entry count did not match", 
 				expectedEntryCount, entries.size());
 		
+		
 		Assert.assertEquals(
 				"current balance dit not match", 
 				expectedCurrentBalance, currentBalance);
-		Assert.assertEquals(
-				"first entry did not match ", 
-				expectedFirstEntryComment, firstEntry.getComment());
 		
 		Assert.assertEquals(
+				"first entry did not match ", 
+				expectedFirstEntryComment, firstEntry.getOriginAccountEntry().getComment());
+		Assert.assertEquals(
 				"second entry did not match ", 
-				expectedSecondEntryComment, secondEntry.getComment());
+				expectedSecondEntryComment, secondEntry.getOriginAccountEntry().getComment());
 	}
 	
 	@Test
@@ -114,7 +117,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		int expectedEntryCount = 0;
 		
 		BigDecimal currentBalance = extract.getCurrentBalance();
-		List<AccountEntry> entries = extract.getAccountEntries();
+		List<Transaction> entries = extract.getTransactionList();
 		Assert.assertEquals(
 				"expected entry count did not match", 
 				expectedEntryCount, entries.size());
@@ -154,7 +157,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		int expectedEntryCount = 0;
 		
 		BigDecimal currentBalance = extract.getCurrentBalance();
-		List<AccountEntry> entries = extract.getAccountEntries();
+		List<Transaction> entries = extract.getTransactionList();
 		Assert.assertEquals(
 				"expected entry count did not match", 
 				expectedEntryCount, entries.size());
@@ -195,7 +198,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		int expectedEntryCount = 0;
 		
 		BigDecimal currentBalance = extract.getCurrentBalance();
-		List<AccountEntry> entries = extract.getAccountEntries();
+		List<Transaction> entries = extract.getTransactionList();
 		Assert.assertEquals(
 				"expected entry count did not match", 
 				expectedEntryCount, entries.size());
@@ -236,7 +239,7 @@ public class AccountReportServiceTest extends SpringRootTestsConfiguration {
 		int expectedEntryCount = 0;
 		
 		BigDecimal currentBalance = extract.getCurrentBalance();
-		List<AccountEntry> entries = extract.getAccountEntries();
+		List<Transaction> entries = extract.getTransactionList();
 		Assert.assertEquals(
 				"expected entry count did not match", 
 				expectedEntryCount, entries.size());

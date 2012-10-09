@@ -19,8 +19,43 @@ public abstract class AbstractViewPage {
 	protected WebDriver driver;
 	
 	
-	protected WebDriver getDriver() {
+	public WebDriver getDriver() {
 		return driver;
+	}
+	
+	public void wait(final int seconds) {
+		ExpectedCondition<Boolean> timeElapsed = new ExpectedCondition<Boolean>() {
+
+			@Override
+			public Boolean apply(WebDriver d) {
+				try {
+					Thread.sleep(seconds * 1000);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				} 
+				return true;
+			}
+		};
+		waitAndCheckCondition(seconds, timeElapsed, null);
+	}
+	
+	public void clickMenuLink(String menuItemName) {
+		WebElement menuItem = findWebElementById("transactionMenuItem");
+		menuItem.click();
+		wait(2);
+		
+	}
+	
+	public void assertThatInfoMessageIsPresent(String testMsg, String expectedInfoMessage) {
+		WebElement growlContainer = findWebElementById("growl_container");
+		List<WebElement> messages = growlContainer.findElements(By.xpath(".//span"));
+		boolean found = false;
+		for (WebElement webElement : messages) {
+			if(expectedInfoMessage.equalsIgnoreCase(webElement.getText())) {
+				found = true;
+			}
+		}
+		Assert.assertTrue(testMsg, found);
 	}
 	
 	public void assertThatIsOnThePage() {
@@ -53,8 +88,12 @@ public abstract class AbstractViewPage {
 		return driver.findElement(By.id(elementId));
 	}
 	
+	public List<WebElement> findWebElementByXPath(String xpath) {
+		return driver.findElements(By.xpath(xpath));
+	}
 	
-	protected void fillInputElement(String elementId, String value) {
+	
+	public void fillInputElement(String elementId, String value) {
 		WebElement inputField = findWebElementById(elementId);
 		if(inputField == null) {
 			throw new NoSuchElementException(elementId);

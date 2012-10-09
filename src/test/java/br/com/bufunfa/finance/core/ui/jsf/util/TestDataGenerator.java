@@ -10,7 +10,7 @@ public class TestDataGenerator {
 	public static String generateRandomString() {
 		Long random = System.currentTimeMillis();
 		double r = Math.random();
-		return "string" + r * random;
+		return "string" + (long)(r * random);
 	}
 
 }

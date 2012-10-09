@@ -1,0 +1,128 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+<head>
+</head>
+<body>
+	<ui:composition>
+		<!-- All html ignored before here -->
+		<!-- 
+		<f:loadBundle var="transactionMsgs" basename="br.com.bufunfa.finance.account.i18n.TransactionMessageSource"/>
+		 -->
+		<h:form prependId="false" id="extratoForm">
+			<fieldset>
+				<legend>Dados do Extrato</legend>
+				<h:outputLabel value="Conta:" for="account"/>
+				<p:selectOneMenu id="account"
+					value="#{accountExtractController.account.id}">
+					<f:selectItems value="#{accountController.leafItems}" />
+				</p:selectOneMenu>
+				<br/>
+				
+				<h:outputLabel value="Data inicial:" for="beginDate"/>
+				<p:calendar id="beginDate" 
+					value="#{accountExtractController.beginDate}"
+					locale="pt_BR"
+					pattern="dd/MM/yyyy"
+					size="11">
+				</p:calendar>
+				<br/>
+				
+				<h:outputLabel value="Data final:" for="finalDate"/>
+				<p:calendar id="finalDate"
+					value="#{accountExtractController.endDate}" 
+					locale="pt_BR"
+					pattern="dd/MM/yyyy"
+					size="11">
+				</p:calendar>
+				<br/>
+				
+				<p:commandButton value="Tirar extrato" action="#{accountExtractController.updateExtract}"
+					update=":extractTableForm">
+				</p:commandButton>
+			</fieldset>
+		</h:form>
+		
+		<h:form id="extractTableForm" prependId="false">
+			<p:dataTable id="extratoTable" value="#{accountExtractController.uiExtractTable.extractItems}"
+				rendered="#{accountExtractController.uiExtractTable != null}"
+				emptyMessage="Nenhuma transacao encontrada" var="item">
+				
+				<f:facet name="header">
+					Extrato da Conta
+				</f:facet>
+				<p:columnGroup type="header">
+					<p:row>
+						<p:column headerText="Saldo Anterior:" colspan="4" style="text-align : right"/>
+						<p:column>
+							<f:facet name="header">
+								<h:outputText value="#{accountExtractController.uiExtractTable.beforeBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column headerText="Data"/>
+						<p:column headerText="Descrição"/>
+						<p:column headerText="Origem"/>
+						<p:column headerText="Destino"/>
+						<p:column headerText="Valor"/>
+					</p:row>
+				</p:columnGroup>
+				<p:column>
+					<h:outputText value="#{item.date}">
+						<f:convertDateTime locale="pt_BR"
+								dateStyle="short" />
+					</h:outputText>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.description}"/>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.originAccountName}"/>
+				</p:column>
+				<p:column>
+					<h:outputText value="#{item.destAccountName}"/>
+				</p:column>
+				<p:column id="valor">
+					
+					<h:outputText value="#{item.value}" style="#{item.negativeValue ? 'color:red' : 'color:darkblue'}">
+						<f:convertNumber locale="pt_BR" type="currency" />
+					</h:outputText>
+					
+				</p:column>
+				<p:columnGroup type="footer">
+					<p:row>
+						<p:column colspan="4"/>
+						<p:column 
+							style="text-align : left; #{accountExtractController.uiExtractTable.extractBalance lt 0 ? 'color : red' : 'color : darkblue'}">
+							<f:facet name="footer">
+								<h:outputText value="#{accountExtractController.uiExtractTable.extractBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+					<p:row>
+						<p:column colspan="4" footerText="Saldo Posterior:" style="text-align : right"/>
+						<p:column>
+							<f:facet name="footer">
+								<h:outputText value="#{accountExtractController.uiExtractTable.finalBalance}">
+									<f:convertNumber locale="pt_BR" type="currency" />
+								</h:outputText>
+							</f:facet>
+						</p:column>
+					</p:row>
+				</p:columnGroup>
+			</p:dataTable>
+		</h:form>
+
+		<!-- All html ignored after here -->
+
+	</ui:composition>
+</body>
+</html>

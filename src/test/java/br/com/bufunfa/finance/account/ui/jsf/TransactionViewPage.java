@@ -1,10 +1,13 @@
 package br.com.bufunfa.finance.account.ui.jsf;
 
+import java.util.List;
+
 import junit.framework.Assert;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 
 import br.com.bufunfa.finance.account.ui.jsf.config.TransactionViewNames;
 import br.com.bufunfa.finance.core.ui.jsf.AbstractViewPage;
@@ -41,19 +44,32 @@ public class TransactionViewPage extends AbstractViewPage {
 	public class TransactionForm {
 		
 		public void fillFromAccount(String value) {
-			fillInputElement(
-					transactionViewNames.getInputFromAccount(),
-					value);
-			WebElement uiItem = getDriver().findElement(By.xpath("//ui[@class='ui-autocomplete-item']"));
-			uiItem.click();
+			final String fromAccountElementId = "fromAccount";
+			fillPrimefacesSelectOneMenu(value, fromAccountElementId);
 		}
 		
 		public void fillToAccount(String value) {
-			fillInputElement(
-					transactionViewNames.getInputToAccount(),
-					value);
-			WebElement uiItem = getDriver().findElement(By.className("ui-autocomplete-item"));
-			uiItem.click();
+			final String toAccountElementId = "toAccount";
+			fillPrimefacesSelectOneMenu(value, toAccountElementId);
+		}
+		
+		private void fillPrimefacesSelectOneMenu(String optionTextToSelect, String selectElementId) {
+			WebElement fromAccountDiv = findWebElementById(selectElementId);
+			List<WebElement> divs = fromAccountDiv.findElements(By.tagName("div"));
+			WebElement selectArrow = divs.get(1);
+			selectArrow.click();
+			
+			WebElement fromAccountPanelOptions = findWebElementById(selectElementId + "_panel");
+			List<WebElement> options = fromAccountPanelOptions.findElements(By.tagName("li"));
+			
+			for (WebElement op : options) {
+				if(optionTextToSelect.equalsIgnoreCase(op.getText())) {
+					Actions builder = new Actions(getDriver());
+					builder.moveToElement(op).build().perform();
+					op.click();
+					return;
+				}
+			}
 		}
 		
 		public void fillDate(String value) {
@@ -76,8 +92,17 @@ public class TransactionViewPage extends AbstractViewPage {
 		
 	}
 
-	public void assertThatTransactionIsPage(String comment) {
-		Assert.fail("IMPLEMENT THIS OPERATION");		
+	public void assertThatTransactionIsOnPage(String transactionComment) {
+		WebElement transactionDiv = findWebElementById("transactionTable");
+		List<WebElement> commentColumns = transactionDiv.findElements(By.xpath(".//tr/td[4]"));
+		boolean found = false;
+		for (WebElement webElement : commentColumns) {
+			if(transactionComment.equals(webElement.getText())) {
+				found = true;
+				break;
+			}
+		}
+		Assert.assertTrue("Transaction with comment " + transactionComment + " not found", found);
 	}
 
 }

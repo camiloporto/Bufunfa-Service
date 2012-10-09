@@ -6,7 +6,9 @@ import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
 
+import br.com.bufunfa.finance.account.modelo.Account;
 import br.com.bufunfa.finance.account.modelo.AccountEntry;
+import br.com.bufunfa.finance.account.modelo.Transaction;
 
 public class AccountExtract {
 	
@@ -18,27 +20,45 @@ public class AccountExtract {
 		}
 	};
 	
-	private List<AccountEntry> entries;
+	private Account account;
 	
-	public AccountExtract() {
-		entries = new ArrayList<AccountEntry>();
+	private List<Transaction> transactionList;
+	
+	public AccountExtract(Account account, Collection<Transaction> transactions) {
+		this.transactionList = new ArrayList<Transaction>();
+		this.transactionList.addAll(transactions);
+		this.account = account;
 	}
 	
-	public AccountExtract(Collection<AccountEntry> entries) {
-		this.entries = new ArrayList<AccountEntry>();
-		this.entries.addAll(entries);
+	
+	private AccountEntry getAccountEntryOfExtractAccount(Transaction t) {
+		AccountEntry originEntry = t.getOriginAccountEntry();
+		if(this.account.getId().equals(originEntry.getAccount().getId())) {
+			return originEntry;
+		}
+		
+		AccountEntry destEntry = t.getDestAccountEntry();
+		if(this.account.getId().equals(destEntry.getAccount().getId())) {
+			return destEntry;
+		}
+		return null;
 	}
 
 	public BigDecimal getCurrentBalance() {
 		BigDecimal sum = new BigDecimal("0.00");
-		for (AccountEntry ae : this.entries) {
-			sum = sum.add(ae.getValue());
+		for (Transaction t : this.transactionList) {
+			AccountEntry accountEntry = getAccountEntryOfExtractAccount(t);
+			sum = sum.add(accountEntry.getValue());
 		}
 		return sum;
 	}
 
-	public List<AccountEntry> getAccountEntries() {
-		return entries;
+	public List<Transaction> getTransactionList() {
+		return this.transactionList;
+	}
+	
+	public Account getAccount() {
+		return account;
 	}
 
 }
