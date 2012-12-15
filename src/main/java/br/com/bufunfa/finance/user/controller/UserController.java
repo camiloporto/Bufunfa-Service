@@ -16,8 +16,8 @@ import br.com.bufunfa.finance.user.i18n.UserMessageSource;
 import br.com.bufunfa.finance.user.modelo.User;
 import br.com.bufunfa.finance.user.service.UserService;
 
-@Controller
-@Scope("session")
+//@Controller
+//@Scope("session")
 public class UserController {
 	
 	private User user = new User();
