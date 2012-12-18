@@ -426,6 +426,15 @@
     	</profile>
     </profiles>
     <build>
+    	<resources>
+    		<resource>
+    			<directory>src/main/webapp/WEB-INF</directory>
+    			<includes>
+    				<include>web.xml</include>
+    			</includes>
+    			<filtering>true</filtering>
+    		</resource>
+    	</resources>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -498,6 +507,15 @@
                 <configuration>
                     <encoding>UTF-8</encoding>
                 </configuration>
+                <executions>
+                	<execution>
+                		<id>runWar</id>
+                		<phase>compile</phase>
+                		<goals>
+                			<goal>resources</goal>
+                		</goals>
+                	</execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -595,6 +613,9 @@
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>tomcat-maven-plugin</artifactId>
                 <version>1.1</version>
+                <configuration>
+<!--                 	<tomcatWebXml>target/classes/web.xml</tomcatWebXml> -->
+                </configuration>
                 <executions>
                 	<execution>
                 		<id>start-container-for-integration-test</id>
@@ -615,6 +636,7 @@
                 <configuration>
                     <webAppConfig>
                         <contextPath>/${project.name}</contextPath>
+                        <overrideDescriptor>target/classes/web.xml</overrideDescriptor>
                     </webAppConfig>
                 </configuration>
             </plugin>

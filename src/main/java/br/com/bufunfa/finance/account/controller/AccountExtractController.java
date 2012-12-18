@@ -15,7 +15,7 @@ import br.com.bufunfa.finance.account.service.AccountReportService;
 
 @RooSerializable
 @RooJavaBean
-@Controller
+//@Controller
 public class AccountExtractController {
 	
 	/**
